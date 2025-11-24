@@ -1,15 +1,77 @@
-.listBox {
-
+.listModal {
+  padding: 40px 48px 32px;
 }
 
-.h1 {
-  
+.listModal-title {
+  text-align: center;
+  width: 400px;
 }
 
-.list {
-
+.listModal-list {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.button {
+.listModal-item {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  text-decoration: underline;
+}
 
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  padding: 14px 24px;
+  border-radius: 999px;
+  background-color: #f3f3f3;
+  box-sizing: border-box;
+}
+
+.habitChip {
+  width: 400px;               
+}
+
+.deleteButton {
+  margin-left: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffe6ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.deleteIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.addHabitButton {
+  width: 400px;               
+  margin: 8px auto 24px;    
+  padding: 14px 0;
+  border-radius: 999px;
+  border: 2px solid #222;   
+  background-color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  cursor: pointer;
+}
+
+.buttonBox {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
 }

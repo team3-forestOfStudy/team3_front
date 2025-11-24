@@ -43,9 +43,9 @@ export default function PasswordModal({ onClose }) {
   return (
     <>
       {/* 모달열기 버튼 */}
-      {/* <button type="button" onClick={() => setOpen(true)}>
+      <button type="button" onClick={() => setOpen(true)}>
         모달 열기
-      </button> */}
+      </button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)}>
         <h1 className="g_sub_text01 title">{Title}</h1>
