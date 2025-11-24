@@ -1,0 +1,31 @@
+.boxModal {
+  width: 648px;
+  height: 255px;
+}
+
+.okayMessage {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 48px;
+}
+.okayMessage {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 48px;  
+}
+
+.buttonBox {
+  display: flex;
+  width: 100%;
+  gap: 24px; 
+}
+
+.okayButton,
+.cancelButton {
+  flex: 1; 
+  height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

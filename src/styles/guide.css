@@ -1,0 +1,8 @@
+ .g_box {margin-bottom:40px;padding:40px; background-color: #fff; border-radius: 20px;}
+        .g_tit {font-size:20px;font-weight:900}
+        .g_sub_tit {margin:15px 0}
+        .g_box .bx_inp + .bx_inp {margin-top:10px}
+        .g_box .bx_chk {display:inline-block}
+        .g_box .bx_chk + .bx_chk {margin-left:20px}
+        .g_box .btn_wrap + .btn_wrap {margin-top:10px}
+        .g_boxs{padding: 12px;}
