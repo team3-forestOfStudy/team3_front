@@ -1,0 +1,14 @@
+.chip {
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip:hover {
+  background-color: #ebebeb;
+}

@@ -43,15 +43,12 @@ export default function PasswordModal({ onClose }) {
   return (
     <>
       {/* 모달열기 버튼 */}
-      {/* <button type="button" onClick={() => setOpen(true)}>
+      <button type="button" onClick={() => setOpen(true)}>
         모달 열기
-      </button> */}
+      </button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)}>
         <h1 className="g_sub_text01 title">{Title}</h1>
-        <button className="green_700 exit" onClick={handleClose}>
-          나가기
-        </button>
         <h3 className="g_sub_text03 gray_600 fw_l h3"> 권한이 필요해요!</h3>
 
         <div>
@@ -89,6 +86,9 @@ export default function PasswordModal({ onClose }) {
 
         <button className="Button01 w100" type="button" onClick={handleSubmit}>
           <p className="bg_green_300 g_sub_text03 p">수정하러가기</p>
+        </button>
+        <button className="green_700 exit" onClick={handleClose}>
+          나가기
         </button>
       </Modal>
     </>

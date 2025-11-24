@@ -1,6 +1,7 @@
+/* ⭐ 기본(PC 기준 가능) */
 .message {
   display: inline-flex;
-  padding: 14px 18px;
+  padding: 16px 22px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -10,4 +11,25 @@
 .message-number {
   font-size: 20px;
   font-weight: bold;
+}
+
+/* 🔵 Desktop */
+@media (min-width: 1201px) and (max-width: 1920px) {
+  .message-number {
+    font-size: 20px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .message-number {
+    font-size: 18px;
+  }
+}
+
+/*  Mobile */
+@media (min-width: 375px) and (max-width: 600px) {
+  .message-number {
+    font-size: 14px;
+  }
 }
