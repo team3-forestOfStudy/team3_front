@@ -1,6 +1,6 @@
 import "../styles/ButtonType.css";
 
-function ButtonType01({ children, buttonClass, onClick }) {
+function ButtonType({ children, buttonClass, onClick }) {
   return (
     <>
       <button className={`Button01 ${buttonClass}`} onClick={onClick}>
@@ -10,4 +10,4 @@ function ButtonType01({ children, buttonClass, onClick }) {
   );
 }
 
-export default ButtonType01;
+export default ButtonType;

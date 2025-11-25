@@ -1,0 +1,41 @@
+/* 최근 조회한 스터디 모바일 */
+.recent_box {
+  width: 344px;
+  height: 247px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+/* 스터디 둘러보기 */
+.studybrowse_box {
+  width: 344px;
+  height: 405px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+/* 태블릿: 높이값 (601px 이상) */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .recent_box {
+    width: 697px;
+    height: 338px;
+  }
+
+  .studybrowse_box {
+    width: 697px;
+    height: 627px;
+  }
+}
+
+/* 데스크탑: 높이값 (1201px 이상) */
+@media (min-width: 1201px) {
+  .recent_box {
+    width: 1200px;
+    height: 382px;
+  }
+
+  .studybrowse_box {
+    width: 1200px;
+    height: 822px;
+  }
+}

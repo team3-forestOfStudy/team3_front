@@ -1,7 +1,7 @@
-const FocusPage = () => {
+export default function StudyDetailsPage() {
   return (
     <>
-      <div>Hi</div>
+      <div className="container" id="container"></div>
     </>
-  )
+  );
 }

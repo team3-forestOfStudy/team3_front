@@ -1,0 +1,28 @@
+/* 카드 기본 스타일 */
+.study-card {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* 카드 리스트 기본값 - 모바일 1열 */
+.study-card-list {
+  display: grid;
+  grid-template-columns: 1fr; /* 1열 */
+  gap: 16px; /* 카드 사이 간격 */
+}
+
+/* 태블릿: 2열 (601px ~ 1200px) */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .study-card-list {
+    grid-template-columns: repeat(2, 1fr); /* 2열 */
+    gap: 20px;
+  }
+}
+
+/* 데스크탑: 3열 (1201px 이상) */
+@media (min-width: 1201px) {
+  .study-card-list {
+    grid-template-columns: repeat(3, 1fr); /* 3열 */
+    gap: 24px;
+  }
+}

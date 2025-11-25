@@ -1,6 +1,6 @@
 import "../styles/PasswordModal.css";
 import React, { useState } from "react";
-import Modal from "./Atoms/Modal";
+import Modal from "./Atoms/Modal.jsx";
 import { Title } from "../mock/Title.js";
 import eyeInvisible from "../assets/icons/Eyes.svg";
 import eyeVisible from "../assets/icons/Visible.svg";
@@ -81,7 +81,6 @@ export default function PasswordModal({ onClose }) {
               />
             </button>
           </div>
-          
         </div>
 
         <button className="Button01 w100" type="button" onClick={handleSubmit}>

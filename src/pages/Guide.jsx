@@ -1,5 +1,6 @@
 import "../styles/Guide.css";
-import ButtonType01 from "../components/ButtonType";
+import ButtonType from "../components/ButtonType.jsx";
+
 
 function Guide() {
   return (
@@ -8,7 +9,7 @@ function Guide() {
         <div className="contents">
           <div className="g_box">
             <h2 className="g_tit">Font</h2>
-            <h2 className="mt10"></h2>
+            <h2 className="mt10">|</h2>
             <h3 className="g_sub_text01">
               [g_sub_text01] Pretendard / Bold / 32pt / 0%
             </h3>
@@ -182,17 +183,17 @@ function Guide() {
           <div className="g_box">
             <h2 className="g_tit">Button</h2>
             <h3 className="g_sub_tit">[Button]</h3>
-            <ButtonType01 buttonClass="w100" onClick="">
+            <ButtonType buttonClass="w100" onClick="">
               습관으로가기
-            </ButtonType01>
+            </ButtonType>
 
             <div className="g_button_group mt15">
-              <ButtonType01 buttonClass="w50 bg_gray_300" onClick="">
+              <ButtonType buttonClass="w50 bg_gray_300 shadowGray" onClick="">
                 취소
-              </ButtonType01>
-              <ButtonType01 buttonClass="w50" onClick="">
+              </ButtonType>
+              <ButtonType buttonClass="w50" onClick="">
                 만들기
-              </ButtonType01>
+              </ButtonType>
             </div>
           </div>
         </div>

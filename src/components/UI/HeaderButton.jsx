@@ -1,6 +1,6 @@
 // src/components/HeaderButton.js
 import React from "react";
-import "../styles/Header.css";
+import "../../styles/Header.css";
 
 export default function HeaderButton({ children, buttonClass = "", onClick }) {
   return (
