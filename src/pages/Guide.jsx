@@ -1,7 +1,6 @@
 import "../styles/guide.css";
 import ButtonType from "../components/ButtonType.jsx";
 
-
 function Guide() {
   return (
     <>
@@ -82,6 +81,7 @@ function Guide() {
           <div className="g_box">
             <h2 className="g_tit">FONT COLOR</h2>
             <h3 className="g_sub_tit">[Font Color]</h3>
+            <div className="bg_white gray_900 g_boxs">[white] #ffffff </div>
             <div className="bg_gray_900 gray_50 g_boxs">
               [gray_900] #414141{" "}
             </div>
@@ -109,6 +109,7 @@ function Guide() {
 
             <h2 className="g_tit mt40">BACKGROUND COLOR</h2>
             <h3 className="g_sub_tit">[BackGround Color]</h3>
+            <div className="bg_white gray_900 g_boxs">[bg_white] #ffffff</div>
             <div className="bg_gray_900 gray_50 g_boxs">
               [bg_gray_900] #414141
             </div>
