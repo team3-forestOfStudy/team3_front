@@ -1,6 +1,6 @@
 import "../src/styles/global.css";
 import { Route, Routes } from "react-router-dom";
-import Header from "./components/Ui_/Header.jsx";
+import Header from "./components/Ui/Header.jsx";
 import Home from "./pages/Home.jsx";
 import StudyMake from "./pages/StudyMake.jsx";
 import Guide from "./pages/Guide.jsx";

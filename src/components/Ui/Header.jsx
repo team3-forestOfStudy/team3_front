@@ -1,7 +1,7 @@
 import logo from "../../assets/logo.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
-import HeaderButton from "./HeaderButton.jsx";
+import HeaderButton from "./HeaderButton.js";
 
 // 버튼이 숨겨질 페이지 관리용. 주소를 추가/삭제하세요
 const HIDE_CREATE_BUTTON_PATHS = [
