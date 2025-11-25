@@ -1,0 +1,23 @@
+/* 스터디 만들기 전체 박스 */
+.studymake-box {
+  padding: 16px;
+  width: 344px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+/* 태블릿: 2열 (601px ~ 1200px) */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .studymake-box {
+    width: 696px;
+    padding: 24px;
+  }
+}
+
+/* 데스크탑: 3열 (1201px 이상) */
+@media (min-width: 1201px) {
+  .studymake-box {
+    width: 696px;
+    padding: 24px;
+  }
+}
