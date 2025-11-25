@@ -1,0 +1,39 @@
+.Button01 {
+  padding: 14px 0;
+  box-sizing: border-box;
+  transition: all ease-in 0.1s;
+  position: relative;
+  background-color: var(--green-300);
+  border-radius: 16px;
+  color: #fff;
+  font-family: "JejuStoneWall";
+}
+.Button01:hover {
+  scale: 1.01;
+  opacity: 0.95;
+}
+.Button01 .Button01_text.after {
+  color: #fff;
+  font-family: "JejuStoneWall";
+  z-index: 1;
+  position: absolute;
+  top: 43%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  color: var(--green-700);
+}
+.Button01 .Button01_text {
+  color: #fff;
+  font-family: "JejuStoneWall";
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  color: #fff;
+}
+.Button01 .Button01_text_default {
+  color: #fff;
+  font-family: "JejuStoneWall";
+  color: #fff;
+}
