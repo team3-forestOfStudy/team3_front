@@ -9,7 +9,7 @@ import {
   validateIntro,
   validatePassword,
   validatePasswordCheck,
-} from "../utils/Validation";
+} from "../utils/validation";
 
 export default function StudyMake() {
   // === 1. 상태 선언 (컴포넌트 함수 안쪽!) ===
