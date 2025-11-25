@@ -1,24 +1,13 @@
 import Modal from "./Atoms/Modal";
 import { Chip } from "./Atoms/Chip";
 import { useState } from "react";
-import "../styles/listModal.css";
+import "../styles/listmodal.css";
 import Trash from "../assets/icons/trash.svg";
-
-
-const INITIAL_CONTENT = [
-  { id: 1, title: "미라클모닝 6시 기상" },
-  { id: 2, title: "아침 챙겨 먹기" },
-  { id: 3, title: "React 스터디 책 1챕터 읽기" },
-  { id: 4, title: "스트레칭" },
-  { id: 5, title: "영양제 챙겨먹기" },
-  { id: 6, title: "사이드 프로젝트" },
-  { id: 7, title: "물 2L 먹기" },
-  { id: 8, title: "___________" },
-];
+import data from "../mock/inital-content.json"
 
 const ListModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [habits, setHabits] = useState(INITIAL_CONTENT);
+  const [habits, setHabits] = useState(data);
 
   const handleDelete = (id) => {
     setHabits((prev) => prev.filter((habit) => habit.id !== id));
