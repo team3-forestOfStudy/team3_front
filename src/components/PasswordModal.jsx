@@ -2,8 +2,8 @@ import "../styles/PasswordModal.css";
 import React, { useState } from "react";
 import Modal from "./Atoms/Modal.jsx";
 import { Title } from "../mock/Title.js";
-import eyeInvisible from "../assets/icons/eyes.svg";
-import eyeVisible from "../assets/icons/visible.svg";
+import eyeInvisible from "../assets/icons/Eyes.svg";
+import eyeVisible from "../assets/icons/Visible.svg";
 
 const PASSWORD_MIN_LENGTH = 8;
 

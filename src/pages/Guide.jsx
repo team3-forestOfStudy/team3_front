@@ -1,6 +1,7 @@
 import "../styles/Guide.css";
 import ButtonType from "../components/ButtonType.jsx";
 
+
 function Guide() {
   return (
     <>

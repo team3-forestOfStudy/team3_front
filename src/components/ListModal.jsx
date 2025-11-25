@@ -2,7 +2,7 @@ import Modal from "./Atoms/Modal";
 import { Chip } from "./Atoms/Chip";
 import { useState } from "react";
 import "../styles/ListModal.css";
-import Trash from "../assets/icons/trash.svg";
+import Trash from "../assets/icons/Trash.svg";
 
 const INITIAL_CONTENT = [
   { id: 1, title: "미라클모닝 6시 기상" },
