@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "./Atoms/Modal";
-import "../styles/exitModal.css";
+import "../styles/exitmodal.css";
+
 
 export default function ExitModal() {
   const [open, setOpen] = useState(false);
