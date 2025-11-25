@@ -1,4 +1,4 @@
-import "../styles/PasswordModal.css";
+import "../styles/passwordmodal.css";
 import React, { useState } from "react";
 import Modal from "./Atoms/Modal.jsx";
 import { Title } from "../mock/Title.js";

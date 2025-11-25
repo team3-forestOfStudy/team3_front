@@ -1,7 +1,7 @@
 import Modal from "./Atoms/Modal";
 import { Chip } from "./Atoms/Chip";
 import { useState } from "react";
-import "../styles/ListModal.css";
+import "../styles/listModal.css";
 import Trash from "../assets/icons/trash.svg";
 
 const INITIAL_CONTENT = [
