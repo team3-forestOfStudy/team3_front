@@ -1,10 +1,14 @@
+// src/utils/Validation.js
+
 // 닉네임 최소, 최대 글자수
-export const NiCKNAME_MIN = 2;
-export const NiCKNAME_MAX = 10;
+export const NICKNAME_MIN = 2;
+export const NICKNAME_MAX = 10;
+
 // 스터디 이름 최소, 최대 글자수
 export const STUDY_NAME_MIN = 2;
 export const STUDY_NAME_MAX = 20;
-// 소개 최소,최대
+
+// 소개 최소, 최대 글자수
 export const INTRO_MIN = 2;
 export const INTRO_MAX = 200;
 
@@ -12,7 +16,7 @@ export const INTRO_MAX = 200;
 export const PASSWORD_MIN = 6;
 
 // 공통 길이 체크
-export function validateLengh(value, min, max) {
+export function validateLength(value, min, max) {
   if (!value || value.trim().length === 0) return "empty";
   const len = value.trim().length;
   if (len < min || len > max) return "invalid";
@@ -21,21 +25,21 @@ export function validateLengh(value, min, max) {
 
 // 닉네임
 export function validateNickname(value) {
-  return validateLengh(value, NiCKNAME_MIN, NiCKNAME_MAX);
+  return validateLength(value, NICKNAME_MIN, NICKNAME_MAX);
 }
 
 // 스터디 이름
-export function validateStudyname(value) {
-  return validateLengh(value, STUDY_NAME_MIN, STUDY_NAME_MAX);
+export function validateStudyName(value) {
+  return validateLength(value, STUDY_NAME_MIN, STUDY_NAME_MAX);
 }
 
 // 소개
 export function validateIntro(value) {
-  return validateLengh(value, INTRO_MIN, INTRO_MAX);
+  return validateLength(value, INTRO_MIN, INTRO_MAX);
 }
 
-// 비밀번호: 길이+숫자+특수문자
-export function validatePasswork(value) {
+// 비밀번호: 길이 + 숫자 + 특수문자
+export function validatePassword(value) {
   if (!value || value.trim().length === 0) return "empty";
   if (value.length < PASSWORD_MIN) return "invalid";
 
@@ -49,7 +53,7 @@ export function validatePasswork(value) {
 }
 
 // 비밀번호 확인: 원본과 일치 여부
-export function validatePassworkCheck(value, originalPassword) {
+export function validatePasswordCheck(value, originalPassword) {
   if (!value || value.trim().length === 0) return "empty";
   if (value !== originalPassword) return "notMatch";
   return "";

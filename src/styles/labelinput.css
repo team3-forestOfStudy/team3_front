@@ -1,0 +1,73 @@
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* 기본 인풋 패딩은 양쪽 16px */
+.input-basic {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+/* 검색 아이콘이 있을 때는 왼쪽 패딩만 늘려준다 */
+.input-wrapper--search .input-basic {
+  padding-left: 44px; /* 아이콘 오른쪽에 여유 공간 */
+}
+
+/* 비밀번호 눈 아이콘이 있을 때는 오른쪽 패딩만 늘려준다 */
+.input-wrapper--password .input-basic {
+  padding-right: 44px;
+}
+
+/* 검색 아이콘 (왼쪽) */
+.input-icon--left {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* RIGHT 비밀번호 아이콘 */
+.eye-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.eye-btn img {
+  width: 20px;
+  height: 20px;
+  opacity: 50%;
+}
+
+.browse-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.browse-header .input-group {
+  flex: 1;
+}
+
+.sort-btn-group {
+  display: flex;
+  gap: 8px;
+}

@@ -1,5 +1,9 @@
 // src/components/LabelInput.js
 import { useState } from "react";
+import icSearch from "../assets/icons/search.svg";
+import icVisibleOn from "../assets/icons/visible.svg";
+import icVisibleOff from "../assets/icons/eyes.svg";
+import "../styles/labelinput.css";
 
 export default function LabelInput({
   label,
@@ -9,6 +13,7 @@ export default function LabelInput({
   value,
   onChange,
   errorType, // "", "empty", "invalid", "noNumber", "noSpecial", "notMatch"
+  icon, // "search" | undefined
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -21,16 +26,24 @@ export default function LabelInput({
   }[errorType];
 
   const isPassword = type === "password";
+  const showSearchIcon = icon === "search" && !isPassword; // 검색 input만
 
   return (
     <div className="input-group">
       {label && <h3 className="g_sub_tit">{label}</h3>}
 
-      <div
-        className={`input-wrapper ${
-          isPassword ? "input-wrapper--password" : ""
-        }`}
-      >
+      {/* ❗여기가 유일한 input-wrapper */}
+      <div className="input-wrapper">
+        {/* 검색 아이콘 (왼쪽) */}
+        {showSearchIcon && (
+          <img
+            src={icSearch}
+            alt="검색"
+            className="input-icon input-icon--left"
+          />
+        )}
+
+        {/* input / textarea */}
         {as === "textarea" ? (
           <textarea
             className={`input-basic ${errorType ? "input-basic--error" : ""}`}
@@ -48,13 +61,17 @@ export default function LabelInput({
           />
         )}
 
+        {/* 비밀번호 아이콘 (오른쪽) */}
         {isPassword && (
           <button
             type="button"
             className="eye-btn"
             onClick={() => setVisible((v) => !v)}
           >
-            {visible ? "👁‍🗨" : "👁"}
+            <img
+              src={visible ? icVisibleOn : icVisibleOff}
+              alt={visible ? "비밀번호 숨기기" : "비밀번호 보이기"}
+            />
           </button>
         )}
       </div>

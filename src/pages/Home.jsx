@@ -6,8 +6,10 @@ export default function Home() {
   return (
     <>
       <div className="container" id="container">
-        <RecentViewdList />
-        <StudyBrowse />
+        <div className="content">
+          <RecentViewdList />
+          <StudyBrowse />
+        </div>
       </div>
     </>
   );
