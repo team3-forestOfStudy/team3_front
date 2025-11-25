@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getDateTime} from "./getDateTime"
 
-const Clock = () => {
+const Date = () => {
   const [now, setNow] = useState(getDateTime());
 
   useEffect(() => {
@@ -13,4 +13,4 @@ const Clock = () => {
 
   return <div>{now.full}</div>;
 }
-export default Clock;
+export default Date;

@@ -4,6 +4,7 @@ import { useState } from "react";
 import "../styles/listModal.css";
 import Trash from "../assets/icons/trash.svg";
 
+
 const INITIAL_CONTENT = [
   { id: 1, title: "미라클모닝 6시 기상" },
   { id: 2, title: "아침 챙겨 먹기" },
@@ -12,7 +13,7 @@ const INITIAL_CONTENT = [
   { id: 5, title: "영양제 챙겨먹기" },
   { id: 6, title: "사이드 프로젝트" },
   { id: 7, title: "물 2L 먹기" },
-  { id: 8, title: "___________" }, 
+  { id: 8, title: "___________" },
 ];
 
 const ListModal = () => {
@@ -24,10 +25,7 @@ const ListModal = () => {
   };
 
   const handleAddHabit = () => {
-    setHabits((prev) => [
-      ...prev,
-      { id: Date.now(), title: "______" },
-    ]);
+    setHabits((prev) => [...prev, { id: Date.now(), title: "______" }]);
   };
 
   const handleClose = () => {
@@ -46,9 +44,7 @@ const ListModal = () => {
         <ul className="listModal-list">
           {habits.map((habit) => (
             <li key={habit.id} className="listModal-item gray_600">
-              <Chip className="habitChip">
-                {habit.title}
-              </Chip>
+              <Chip className="habitChip">{habit.title}</Chip>
 
               <button
                 type="button"

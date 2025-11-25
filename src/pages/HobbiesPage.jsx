@@ -1,6 +1,6 @@
-import Header from "../components/Header";
+import Header from "../components/Ui/Header";
 import { Title } from "../mock/Title";
-import { Date } from "../utils/Date";
+import  Date  from "../utils/Date";
 import { Chip } from "../components/Atoms/Chip";
 
 const HobbiesPasge = () => {
