@@ -1,4 +1,4 @@
-import "../styles/guide.css";
+import "../styles/Guide.css";
 import ButtonType from "../components/ButtonType.jsx";
 
 function Guide() {
