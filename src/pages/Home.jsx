@@ -1,4 +1,4 @@
-import "../styles/Home.css";
+import "../styles/home.css";
 import RecentViewdList from "../components/RecentViewedList.jsx";
 import StudyBrowse from "../components/StudyBrowse.jsx";
 

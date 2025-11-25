@@ -1,5 +1,5 @@
-import "../styles/Global.css";
-import "../styles/Home.css";
+import "../styles/global.css";
+import "../styles/home.css";
 
 export default function StudyBrowse() {
   return (

@@ -1,6 +1,6 @@
-import "../styles/Global.css";
-import "../styles/StudyCard.css";
-import "../styles/Home.css";
+import "../styles/global.css";
+import "../styles/studycard.css";
+import "../styles/home.css";
 
 export default function RecentViewdList() {
   return (

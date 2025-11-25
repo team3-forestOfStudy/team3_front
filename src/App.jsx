@@ -1,4 +1,4 @@
-import "../src/styles/Global.css";
+import "../src/styles/global.css";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/UI/Header.jsx";
 import Home from "./pages/Home.jsx";
