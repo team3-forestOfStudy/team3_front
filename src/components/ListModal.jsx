@@ -4,6 +4,7 @@ import { useState } from "react";
 import "../styles/listModal.css";
 import Trash from "../assets/icons/trash.svg";
 
+
 const INITIAL_CONTENT = [
   { id: 1, title: "미라클모닝 6시 기상" },
   { id: 2, title: "아침 챙겨 먹기" },
