@@ -1,4 +1,4 @@
-import "../styles/StudyMake.css";
+import "../styles/studymake.css";
 import ButtonType01 from "../components/ButtonType";
 
 export default function StudyMake() {

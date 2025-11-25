@@ -1,4 +1,4 @@
-import "../styles/ButtonType.css";
+import "../styles/buttontype.css";
 
 function ButtonType({ children, buttonClass, onClick }) {
   return (

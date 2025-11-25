@@ -1,8 +1,4 @@
-import "../src/styles/Global.css";
-// import Ex from "./components/PasswordModal.jsx";
-// import Me from "./components/ToastMessagePrint.jsx";
-// import ExitModal from "./components/ExitModal.jsx";
-// import ListModal from "./components/ListModal.jsx";
+import "../src/styles/global.css";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/UI/Header.jsx";
 import Home from "./pages/Home.jsx";
