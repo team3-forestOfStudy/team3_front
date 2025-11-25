@@ -1,5 +1,5 @@
-import "../styles/guide.css";
-import ButtonType01 from "../components/ButtonType01";
+import "../styles/Guide.css";
+import ButtonType01 from "../components/ButtonType";
 
 function Guide() {
   return (

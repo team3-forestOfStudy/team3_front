@@ -1,4 +1,4 @@
-import logo from "../assets/logo.svg";
+import logo from "../assets/Logo.svg";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/header.css";

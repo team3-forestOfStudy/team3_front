@@ -1,18 +1,20 @@
 import Guide from "./pages/Guide";
-import "../src/styles/global.css";
+import "../src/styles/Global.css";
 import Ex from "./components/PasswordModal"
-import Me from "./components/ToastMessagePrint"
-import ExitModal from "./components/ExitModal";
-import ListModal from "./components/ListModal"
+import Me from "./components/ToastMessagePrint.jsx"
+import ExitModal from "./components/ExitModal.jsx";
+import ListModal from "./components/ListModal.jsx"
+import Hobbies from "./pages/HobbiesPage.jsx"
 
 function App() {
   return (
     <div>
-      <Guide />
+      {/* <Guide />
       <Ex />
       <Me />
       <ExitModal />
-      <ListModal />
+      <ListModal /> */}
+      <Hobbies />
     </div>
   );
 }
