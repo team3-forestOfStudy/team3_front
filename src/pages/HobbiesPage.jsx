@@ -1,21 +1,22 @@
 import { Title } from "../mock/Title";
 import Date from "../utils/Date";
 import { Chip } from "../components/Atoms/Chip";
-import { Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import data from "../mock/inital-content.json";
 import arrow from "../assets/icons/arrow.svg";
 import "../styles/hobbiespage.css";
 import { useState } from "react";
 import Modal from "../components/ListModal"
+import ListModal from "../components/ListModal";
 
-const HobbiesPage = ( onClick ) => {
+const HobbiesPage = ( ) => {
   const compledIds = new Set();
-  const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   /*모달 열기 */
-  const openModal = () => setShowModal(true);
+  const handleOpen = () => setIsModalOpen(true);
   /*모달 닫기 */
-  const closeModal = () => setShowModal(false);
+  const handleClose = () => setIsModalOpen(false);
 
   return (
     <>
@@ -46,7 +47,7 @@ const HobbiesPage = ( onClick ) => {
             <article className="hobbies-list-box">
               <div className="list-header">
                 <h3>오늘의 습관</h3>
-                <button className="edit-btn" onClick={openModal}>목록 수정</button>
+                <button className="edit-btn" onClick={handleOpen}>목록 수정</button>
               </div>
               <div className="chip-list">
                 {data.map((item) => {
@@ -70,6 +71,7 @@ const HobbiesPage = ( onClick ) => {
           </div>
         </div>
       </div>
+      <ListModal isOpen={isModalOpen} onClose={handleClose} />
     </>
   );
 };
