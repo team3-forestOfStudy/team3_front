@@ -1,4 +1,3 @@
-import Header from "../components/Ui/Header";
 import { Title } from "../mock/Title";
 import  Date  from "../utils/Date";
 import { Chip } from "../components/Atoms/Chip";
@@ -6,7 +5,6 @@ import { Chip } from "../components/Atoms/Chip";
 const HobbiesPasge = () => {
   return (
     <>
-      <Header />
       <div className="g_box">
         <h3>{Title}</h3>
         <button>오늘의 집중</button>
