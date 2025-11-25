@@ -1,9 +1,9 @@
 import Guide from "./pages/Guide";
 import "../src/styles/global.css";
-import Ex from "./components/PasswordModal"
-import Me from "./components/ToastMessagePrint"
-import ExitModal from "./components/ExitModal";
-import ListModal from "./components/ListModal"
+import Ex from "./components/PasswordModal.jsx";
+import Me from "./components/ToastMessagePrint.jsx";
+import ExitModal from "./components/ExitModal.jsx";
+import ListModal from "./components/ListModal.jsx";
 
 function App() {
   return (
