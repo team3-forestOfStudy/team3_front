@@ -1,5 +1,6 @@
 // src/components/LabelInput.jsx
 import { useState } from 'react';
+import icSearch from '../assets/icons/search.svg';
 import icVisibleOn from '../assets/icons/visible.svg';
 import icVisibleOff from '../assets/icons/eyes.svg';
 import '../styles/labelinput.css';
@@ -7,14 +8,14 @@ import '../styles/labelinput.css';
 export default function LabelInput({
   label,
   placeholder,
-  type = 'text',
-  as = 'input',
+  type = 'text', // "text" | "password" ...
+  as = 'input', // "input" | "textarea"
   value,
   onChange,
-  errorType,
+  errorType, // "", "empty", "invalid", "noNumber", "noSpecial", "notMatch"
+  icon, // "search" | undefined
 }) {
   const [visible, setVisible] = useState(false);
-  const isPassword = type === 'password';
 
   const errorMessage = {
     empty: '* 필수 입력사항입니다.',
@@ -24,13 +25,33 @@ export default function LabelInput({
     notMatch: '비밀번호가 일치하지 않습니다.',
   }[errorType];
 
+  const isPassword = type === 'password';
+  const showSearchIcon = icon === 'search' && !isPassword;
+
+  // 🔹 여기서 wrapper 클래스 한 번에 구성
+  const wrapperClassName = [
+    'input-wrapper',
+    showSearchIcon ? 'input-wrapper--search' : '',
+    isPassword ? 'input-wrapper--password' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div className="input-group">
       {label && <h3 className="g_sub_tit">{label}</h3>}
 
-      <div
-        className={`input-wrapper ${isPassword ? 'input-wrapper--password' : ''}`}
-      >
+      <div className={wrapperClassName}>
+        {/* 검색 아이콘 (왼쪽) */}
+        {showSearchIcon && (
+          <img
+            src={icSearch}
+            alt="검색"
+            className="input-icon input-icon--left"
+          />
+        )}
+
+        {/* input / textarea */}
         {as === 'textarea' ? (
           <textarea
             className={`input-basic ${errorType ? 'input-basic--error' : ''}`}
@@ -48,6 +69,7 @@ export default function LabelInput({
           />
         )}
 
+        {/* 비밀번호 아이콘 (오른쪽) */}
         {isPassword && (
           <button
             type="button"
@@ -56,7 +78,7 @@ export default function LabelInput({
           >
             <img
               src={visible ? icVisibleOn : icVisibleOff}
-              alt="비밀번호 보기 토글"
+              alt={visible ? '비밀번호 숨기기' : '비밀번호 보이기'}
             />
           </button>
         )}

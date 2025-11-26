@@ -154,7 +154,9 @@ export default function StudyMake({
 
           <ButtonType
             buttonText={buttonText}
-            buttonClass={isFormValid ? 'w100 mt40' : 'w100 mt40 bg_gray_300'}
+            buttonClass={
+              isFormValid ? 'w100 mt40' : 'w100 mt40 bg_gray_300 shadowGray'
+            }
             disabled={!isFormValid}
           >
             {buttonText}

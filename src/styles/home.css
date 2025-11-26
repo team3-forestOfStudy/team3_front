@@ -39,3 +39,43 @@
     height: 822px;
   }
 }
+
+/* 섹션 흰 배경 박스 */
+.home-section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 24px 40px;
+  margin-bottom: 40px;
+}
+
+/* 검색 + 정렬 한 줄 */
+.study-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px 0; /* 위아래 24px */
+  gap: 16px; /* 좁은 화면에서 살짝 여유 */
+}
+
+/* 검색창 폭 고정 (최대 335px) */
+.study-filter-bar .search-input {
+  flex: 1;
+  max-width: 335px;
+}
+
+/* 더보기 버튼 가운데 정렬 */
+.more-button-wrapper {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 섹션 비어 있을 때 중앙 정렬용 박스 */
+.home-section-empty {
+  min-height: 220px; /* 박스 높이 (필요하면 숫자만 조절) */
+  display: flex;
+  align-items: center; /* 세로 가운데 */
+  justify-content: center; /* 가로 가운데 */
+  color: var(--gray-500);
+  font-size: 14px;
+}

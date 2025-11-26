@@ -1,0 +1,28 @@
+/* 더보기 버튼을 감싸는 래퍼 - 가운데 정렬 */
+.more-button-wrapper {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 실제 버튼 */
+.MoreButton {
+  min-width: 200px;
+  padding: 14px 32px;
+  box-sizing: border-box;
+  transition: all ease-in 0.1s;
+  border-radius: 16px;
+  border: 1px solid var(--gray-300);
+  background-color: #fff;
+}
+
+.MoreButton:hover {
+  scale: 1.01;
+  opacity: 0.95;
+}
+
+.MoreButton .MoreButton_text {
+  font-family: 'Pretendard';
+  color: var(--green-700);
+  z-index: 1;
+}

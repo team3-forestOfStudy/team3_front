@@ -1,14 +1,15 @@
 /* 드롭다운 전체 컨테이너 */
 .sort-dropdown {
   position: relative;
-  width: 140px; /* 필요 시 조정 */
+  width: 140px;
   font-size: 14px;
 }
 
 /* 토글 버튼 (닫힌 상태 박스) */
 .sort-dropdown__toggle {
   width: 100%;
-  padding: 8px 12px;
+  height: 48px; /* ✅ 검색창 높이와 동일하게 고정 */
+  padding: 0 16px; /* 세로 패딩 제거, 좌우만 */
   border-radius: 12px;
   border: 1px solid #ddd;
   background-color: #fff;

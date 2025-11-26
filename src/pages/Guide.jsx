@@ -1,5 +1,5 @@
-import "../styles/guide.css";
-import ButtonType from "../components/ButtonType.jsx";
+import '../styles/guide.css';
+import ButtonType from '../components/ButtonType.jsx';
 
 function Guide() {
   return (
@@ -83,7 +83,7 @@ function Guide() {
             <h3 className="g_sub_tit">[Font Color]</h3>
             <div className="bg_white gray_900 g_boxs">[white] #ffffff </div>
             <div className="bg_gray_900 gray_50 g_boxs">
-              [gray_900] #414141{" "}
+              [gray_900] #414141{' '}
             </div>
             <div className="bg_gray_600 g_boxs">[gray_600] #818181</div>
             <div className="bg_gray_300 g_boxs">[gray_300] #dddddd</div>
@@ -189,7 +189,7 @@ function Guide() {
             </ButtonType>
 
             <div className="g_button_group mt15">
-              <ButtonType buttonClass="w50 bg_gray_300 shadowGray" onClick="">
+              <ButtonType buttonClass="w30 bg_gray_300 shadowGray" onClick="">
                 취소
               </ButtonType>
               <ButtonType buttonClass="w50" onClick="">

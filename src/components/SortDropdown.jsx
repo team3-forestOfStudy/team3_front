@@ -1,22 +1,29 @@
-import { useState } from "react";
-import "../styles/dropdown.css";
+// src/components/SortDropdown.jsx
+import { useState, useEffect } from 'react';
+import '../styles/sortdropdown.css';
 
-const SORT_OPTIONS = [
-  { id: "recent", label: "최근 순" },
-  { id: "oldest", label: "오래된 순" },
-  { id: "pointDesc", label: "많은 포인트 순" },
-  { id: "pointAsc", label: "적은 포인트 순" },
+const OPTIONS = [
+  { value: 'recent', label: '최근 순' },
+  { value: 'oldest', label: '오래된 순' },
+  { value: 'points_desc', label: '많은 포인트 순' },
+  { value: 'points_asc', label: '적은 포인트 순' },
 ];
 
-export default function SortDropdown({ selected, onChange }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SortDropdown({ value = 'recent', onChange }) {
+  const [open, setOpen] = useState(false);
+  const [current, setCurrent] = useState(
+    OPTIONS.find(o => o.value === value) || OPTIONS[0],
+  );
 
-  const selectedOption =
-    SORT_OPTIONS.find((opt) => opt.id === selected) || SORT_OPTIONS[0];
+  useEffect(() => {
+    const found = OPTIONS.find(o => o.value === value);
+    if (found) setCurrent(found);
+  }, [value]);
 
-  const handleSelect = (id) => {
-    onChange(id);
-    setIsOpen(false);
+  const handleSelect = option => {
+    setCurrent(option);
+    onChange?.(option.value);
+    setOpen(false);
   };
 
   return (
@@ -24,22 +31,25 @@ export default function SortDropdown({ selected, onChange }) {
       <button
         type="button"
         className="sort-dropdown__toggle"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={() => setOpen(o => !o)}
       >
-        <span>{selectedOption.label}</span>
+        <span>{current.label}</span>
         <span className="sort-dropdown__chevron">▾</span>
       </button>
 
-      {isOpen && (
+      {open && (
         <ul className="sort-dropdown__menu">
-          {SORT_OPTIONS.map((opt) => (
-            <li key={opt.id}>
+          {OPTIONS.map(opt => (
+            <li key={opt.value}>
               <button
                 type="button"
-                className={`sort-dropdown__item ${
-                  opt.id === selected ? "sort-dropdown__item--active" : ""
-                }`}
-                onClick={() => handleSelect(opt.id)}
+                className={
+                  'sort-dropdown__item' +
+                  (opt.value === current.value
+                    ? ' sort-dropdown__item--active'
+                    : '')
+                }
+                onClick={() => handleSelect(opt)}
               >
                 {opt.label}
               </button>

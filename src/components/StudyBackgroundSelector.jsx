@@ -7,10 +7,14 @@ import leafImg from '../assets/studyCard/leaf.svg';
 
 const BG_ITEMS = [
   // 색상 BG
-  { id: 'green', type: 'color', className: 'bg_green_300 gray_50 g_boxs' },
-  { id: 'yellow', type: 'color', className: 'bg_yellow_100 g_boxs' },
-  { id: 'blue', type: 'color', className: 'bg_blue_100 g_boxs' },
-  { id: 'pink', type: 'color', className: 'bg_pink_100 g_boxs' },
+  {
+    id: 'green',
+    type: 'color',
+    className: 'bg_green_300 gray_50 bg-item__image',
+  },
+  { id: 'yellow', type: 'color', className: 'bg_yellow_100 bg-item__image' },
+  { id: 'blue', type: 'color', className: 'bg_blue_100 bg-item__image' },
+  { id: 'pink', type: 'color', className: 'bg_pink_100 bg-item__image' },
 
   // 이미지 BG
   { id: 'workspace_1', type: 'image', src: workspace1 },
