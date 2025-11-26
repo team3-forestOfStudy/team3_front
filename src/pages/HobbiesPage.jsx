@@ -9,7 +9,8 @@ import { useState } from "react";
 import Modal from "../components/ListModal"
 import ListModal from "../components/ListModal";
 
-const HobbiesPage = ( ) => {
+
+const HobbiesPage = () => {
   const compledIds = new Set();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
