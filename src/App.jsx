@@ -2,7 +2,6 @@ import '../src/styles/global.css';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Ui/Header.jsx';
 import Home from './pages/Home.jsx';
-import StudyMake from './pages/StudyMake.jsx';
 import Guide from './pages/Guide.jsx';
 import HobbiesPage from './pages/HobbiesPage.jsx';
 import FocusPage from './pages/FocusPage.jsx';

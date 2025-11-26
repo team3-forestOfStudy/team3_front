@@ -33,7 +33,7 @@ export default function StudyMake({
   const [passwordCheckError, setPasswordCheckError] = useState('');
 
   // 2. 핸들러
-  const hadleNicknameChange = e => {
+  const handleNicknameChange = e => {
     const v = e.target.value;
     setNickname(v);
     setNicknameError(validateNickname(v));
