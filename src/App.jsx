@@ -1,12 +1,14 @@
-import "../src/styles/global.css";
-import { Route, Routes } from "react-router-dom";
-import Header from "./components/Ui/Header.jsx";
-import Home from "./pages/Home.jsx";
-import StudyMake from "./pages/StudyMake.jsx";
-import Guide from "./pages/Guide.jsx";
-import HobbiesPage from "./pages/HobbiesPage.jsx";
-import FocusPage from "./pages/FocusPage.jsx";
-import StudyDetailsPage from "./pages/StudyDetailsPage.jsx";
+import '../src/styles/global.css';
+import { Route, Routes } from 'react-router-dom';
+import Header from './components/Ui/Header.jsx';
+import Home from './pages/Home.jsx';
+import StudyMake from './pages/StudyMake.jsx';
+import Guide from './pages/Guide.jsx';
+import HobbiesPage from './pages/HobbiesPage.jsx';
+import FocusPage from './pages/FocusPage.jsx';
+import StudyDetailsPage from './pages/StudyDetailsPage.jsx';
+import CreateStudyPage from './pages/CreateStudyPage.jsx';
+import EditStudyPage from './pages/EditStudyPage.jsx';
 
 function App() {
   return (
@@ -14,7 +16,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="study/make" element={<StudyMake />} />
+        <Route path="study/make" element={<CreateStudyPage />} />
+        <Route path="study/edit/:ide" element={<EditStudyPage />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/Hobbies" element={<HobbiesPage />} />
         <Route path="/Focus" element={<FocusPage />} />
