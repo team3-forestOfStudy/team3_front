@@ -1,8 +1,70 @@
-.movu-btn {
+.hobbies-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.title {
+  white-space: nowrap;
+}
+.hobbies-moveButtons {
+  display: flex;
+  gap: 16px;
+}
+
+.move-btn-focus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   width: 144px;
   height: 48px;
+  border: 2px solid #DDDD; 
+  border-radius: 15px; 
 }
-.img {
-  width: 5px;
-  height: 11px;
+.move-btn-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 82px;
+  height: 48px;
+  border: 2px solid #DDDD; 
+  border-radius: 15px; 
 }
+
+.arrow-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.hobbies-list-box {
+  display: block;
+  border: 1px solid #DDDD;
+
+
+}
+.TodayTime {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50px;
+  width: 184px;
+  height: 31px;
+}
+
+.list-header {
+  display: flex;
+  gap: 92px;
+  text-align: center;
+  align-items: center;
+}
+/* .chip-list {
+  
+} */
