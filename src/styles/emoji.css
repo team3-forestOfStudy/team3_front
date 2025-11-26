@@ -1,0 +1,102 @@
+.emoji_wrap {
+    display: flex;
+    gap: 8px;
+
+}
+
+.emoji_list {
+    position: relative;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+
+.emoji_more {
+    border-radius: 100px;
+    padding: 6px 8px;
+    background-color: #00000030;
+    cursor: pointer;
+    color: var(--gray--900);
+}
+
+.emoji_more_dom {
+    position: fixed;
+    inset: 0;
+    background-color: #00000067;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 999;
+}
+
+.emoji_more_warp {
+    position: absolute;
+    top: 40px;
+    right: 0px;
+    max-height: 340px;
+    overflow: auto;
+    width: 230px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid var(--gray-300);
+
+}
+
+.emoji_more_list {
+    padding: 0;
+    max-height: 300px;
+    overflow: auto;
+    flex-wrap: wrap;
+    gap: 4px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 한 줄에 4개 */
+
+
+}
+
+.emoji_more_li {
+    border-radius: 100px;
+    padding: 6px 8px;
+    background-color: #00000050;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.emoji_more_list .emoji_li:nth-child(1),
+.emoji_more_list .emoji_li:nth-child(2),
+.emoji_more_list .emoji_li:nth-child(3) {
+    display: none;
+}
+
+
+.emoji_modal_dom {
+    position: fixed;
+    inset: 0;
+    background-color: #00000067;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 999;
+}
+
+.emoji_modal_warp {
+    top: 40px;
+    position: absolute;
+}
+
+.emoji_modal_add {}
+
+.emoji_add_wrap {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
