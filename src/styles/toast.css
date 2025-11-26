@@ -1,0 +1,25 @@
+.toast-base {
+  width: 223px;
+  height: 47px;
+  border-radius: 12px;  
+  padding: 10px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Toastify__toast-body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .toast-base {
+    width: 202px;
+    height: 45px;
+  }
+}
