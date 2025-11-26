@@ -6,5 +6,5 @@
 
 ## 반응형
 ### desktop = 1920px~ 1201px, 
-###tabelt 1200px~601px 
-###mobile 600px~375px
+### tabelt 1200px~601px 
+### mobile 600px~375px
