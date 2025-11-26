@@ -1,17 +1,18 @@
-.hobbies-header {
+.focus-title {
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
 }
+
 .title {
   white-space: nowrap;
 }
-.hobbies-moveButtons {
+.focus-move-btns {
   display: flex;
   gap: 16px;
 }
 
-.move-btn-focus {
+.move-btn-hobbies {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,29 +22,14 @@
   border: 2px solid #DDDD; 
   border-radius: 15px; 
 }
-.move-btn-home {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: 82px;
-  height: 48px;
-  border: 2px solid #DDDD; 
-  border-radius: 15px; 
-}
 
-.arrow-icon {
-  width: 24px;
-  height: 24px;
-}
-
-.TodayTime {
+.point-find {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.date-box {
+.reward-point {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,17 +39,15 @@
   height: 31px;
 }
 
-.hobbies-list-box {
+.focus-watch {
   display: block;
   border: 1px solid #DDDD;
-}
-
-.hobbies-list-box {
-  margin-top: 24px;
+  border-radius: 20px;
   padding: 40px 24px;
+  margin-top: 24px;
 }
 
-.list-header {
+.focus-header {
   display: flex;
   gap: 92px;
   text-align: center;
@@ -72,19 +56,28 @@
   margin-left: 485px;
 }
 
-.chip-list {
+.stopwatch {
+  text-align: center;
+  align-items: center;
+}
+.button-wrap {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center; 
+  justify-content: center;
+  
+}
+.start-button {
+  width: 333px;
+  height: 60px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 94px;
 }
 
-.habbit-chip {
-  width: 400px;
-  height: 54px;
-  padding: 12px 24px;
-  border-radius: 999px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+.start-button-icon {
+  width: 44px;
+  height: 44px;
+  
 }

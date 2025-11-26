@@ -31,7 +31,7 @@ const HobbiesPage = () => {
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
 
-                <Link to="/" className="move-btn-home gray_600 home">
+                <Link to="/" className="move-btn-home gray_600">
                   홈
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
@@ -46,7 +46,7 @@ const HobbiesPage = () => {
             <div className="hobbies-list-box">
               <div className="list-header">
                 <h3 className="g_sub_text02 fw_eb">오늘의 습관</h3>
-                <button className="edit-btn" onClick={handleOpen}>
+                <button className="edit-btn gray_600" onClick={handleOpen}>
                   목록 수정
                 </button>
               </div>
