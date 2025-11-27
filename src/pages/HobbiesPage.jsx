@@ -5,12 +5,56 @@ import { Link } from 'react-router-dom';
 import data from '../mock/inital-content.json';
 import arrow from '../assets/icons/arrow.svg';
 import '../styles/hobbiespage.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ListModal from '../components/ListModal';
+import MOCK_HABITS from '../mock/inital-content.json';
 
 const HobbiesPage = () => {
-  const compledIds = new Set();
+  // const compledIds = new Set();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [habits, setHabits] = useState([])
+
+  //선택된 habbit의 id 저장
+  const [selectedHabitIds, setSelectedHabitIds] = useState([]);
+
+  useEffect(() => {
+    // setHabits(MOCK_HABITS);
+
+    // fetch("/api/habits")
+    //   .then((res) => res.json())
+    //   .then((data) => setHabits(data))
+    //   .catch((error) => {
+    //     console.error("습관 목록 불러오기 실패", error);
+    //   });
+  }, [])
+
+
+  const handleClickHabit = async habit => {
+    setSelectedHabitIds(prev => {
+      if (prev.includes(habit.id)) {
+        return prev.filter(id => id !== habit.id);
+      }
+      return [...prev, habit.id];
+    });
+
+    try {
+      const response = await fetch(`/api/habits/${habit.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          done: true,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error('습관 업데이트 실패');
+      }
+    } catch (error) {
+      console.error('네트워크 오류', error);
+    }
+  };
 
   /*모달 열기 */
   const handleOpen = () => setIsModalOpen(true);
@@ -51,22 +95,28 @@ const HobbiesPage = () => {
                 </button>
               </div>
               <div className="chip-list">
-                {data.map(item => {
-                  const isComplted = compledIds.has(item.id);
-                  return (
-                    /*여기서 이제 여러개의 chip이 들어감 */
+                {habits.length === 0 ? (
+                  <p className="no-habit-message g_sub_text04 fw_m gray_600">
+                    아직 습관이 없어요. <br />
+                    <span>
+                      목록 수정을 눌러 습관을 생성해보세요!
+                    </span>
+                  </p>
+                ) : (
+                  habits.map(habit => (
                     <Chip
-                      key={item.id}
-                      className={`habbit-chip ${
-                        isComplted
-                          ? 'habbit-chip--active'
-                          : 'habbit-chip-inactive'
+                      key={habit.id}
+                      onClick={() => handleClickHabit(habit)}
+                      className={`fw_b gray_600 habbit-chip ${
+                        selectedHabitIds.includes(habit.id)
+                          ? 'habbit-chip--selected'
+                          : ''
                       }`}
                     >
-                      {item.title}
+                      {habit.title}
                     </Chip>
-                  );
-                })}
+                  ))
+                )}
               </div>
             </div>
           </div>

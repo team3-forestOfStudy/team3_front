@@ -33,9 +33,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="study/make" element={<StudyMake />} />
         <Route path="/guide" element={<Guide />} />
+        <Route path="/Studydetails" element={<StudyDetailsPage />} />
         <Route path="/Hobbies" element={<HobbiesPage />} />
         <Route path="/Focus" element={<FocusPage />} />
-        <Route path="/Studydetails" element={<StudyDetailsPage />} />
       </Routes>
     </>
   );
