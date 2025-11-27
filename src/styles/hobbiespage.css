@@ -61,8 +61,8 @@
 }
 
 .list-header {
-  position: relative;       
   display: flex;
+  position: relative;
   justify-content: center;  
   align-items: center;
   margin-bottom: 24px;
@@ -70,9 +70,7 @@
 
 .edit-btn {
   position: absolute;
-  right: 24px;              
-  top: 50%;
-  transform: translateY(-50%);
+  right: 350px;
 }
 .chip-list {
   display: flex;
@@ -135,10 +133,14 @@
 
   .list-header {
     margin-left: 0;
-    gap: 48px;
     justify-content: center;
+    position: relative;
   }
 
+  .edit-btn {
+    position: absolute;
+    right: 100px;
+  }
   .chip-list {
     align-items: center;
     max-height: 400px; 
@@ -172,13 +174,16 @@
     border-radius: 16px;
     height: 100%;
   }
-
-  .edit-btn {
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+   .list-header {
+    margin-left: 0;
+    justify-content: center;
+    position: relative;
   }
 
+  .edit-btn {
+    position: absolute;
+    right: 10px;
+  }
   .chip-list {
     align-items: stretch;
   }

@@ -2,7 +2,6 @@ import { Title } from '../mock/Title';
 import Date from '../utils/Date';
 import { Chip } from '../components/Atoms/Chip';
 import { Link } from 'react-router-dom';
-import data from '../mock/inital-content.json';
 import arrow from '../assets/icons/arrow.svg';
 import '../styles/hobbiespage.css';
 import { useEffect, useState } from 'react';
@@ -26,16 +25,15 @@ const HobbiesPage = () => {
     //   .catch((error) => {
     //     console.error("습관 목록 불러오기 실패", error);
     //   });
-  }, [])
+  }, []);
 
 
   const handleClickHabit = async habit => {
-    setSelectedHabitIds(prev => {
-      if (prev.includes(habit.id)) {
-        return prev.filter(id => id !== habit.id);
-      }
-      return [...prev, habit.id];
-    });
+    setSelectedHabitIds(prev => 
+      prev.includes(habit.id)
+        ? prev.filter(id => id !== habit.id)
+        : [...prev, habit.id]
+    );
 
     try {
       const response = await fetch(`/api/habits/${habit.id}`, {
@@ -60,6 +58,10 @@ const HobbiesPage = () => {
   const handleOpen = () => setIsModalOpen(true);
   /*모달 닫기 */
   const handleClose = () => setIsModalOpen(false);
+
+  const handleSaveHabits = updatedHabits => {
+    setHabits(updatedHabits)
+  }
 
   return (
     <>
@@ -122,7 +124,12 @@ const HobbiesPage = () => {
           </div>
         </div>
       </div>
-      <ListModal isOpen={isModalOpen} onClose={handleClose} />
+      <ListModal 
+      isOpen={isModalOpen} 
+      onClose={handleClose}
+      habits={habits}
+      onSave={handleSaveHabits}
+      />
     </>
   );
 };
