@@ -72,7 +72,7 @@ export default function EmojiCounterWithImage() {
           {visibleItems.map((item, idx) => (
             <EmojiTag
               unified={item.data.unified}
-              idx={idx}
+              key={idx}
               count={item.count}
             />
           ))}
@@ -89,7 +89,7 @@ export default function EmojiCounterWithImage() {
                 {emojiList.map((item, idx) => (
                   <EmojiTag
                     unified={item.data.unified}
-                    idx={idx}
+                    key={idx}
                     count={item.count}
                   />
                 ))}
