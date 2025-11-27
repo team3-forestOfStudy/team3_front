@@ -1,6 +1,9 @@
 .detail_top {
+    z-index: 999;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 
 .detail_top_right {
@@ -8,4 +11,41 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
+}
+
+.detail_mid {
+    margin-top: 24px;
+}
+
+.detail_mid_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail_mid_title_right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.detail_mid_content {
+    margin-top: 16px;
+}
+
+.detail_mid_content_text {
+    margin-top: 8px;
+}
+
+.detail_mid_point_wrap {
+    margin-top: 24px;
+}
+
+.detail_mid_point_wrap h2 {
+    margin-bottom: 8px;
+}
+
+.detail_bottom {
+    margin-top: 24px;
 }

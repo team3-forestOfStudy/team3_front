@@ -1,0 +1,15 @@
+.detail_arrow_button {
+    position: relative;
+    border-radius: 15px;
+    border: 1px solid var(--gray-300);
+    padding: 16px 24px;
+    padding-right: 48px;
+}
+
+.detail_arrow_button img {
+    position: absolute;
+    top: 49%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: auto;
+}

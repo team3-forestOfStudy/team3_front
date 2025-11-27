@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import EmojiPicker, { Emoji } from "emoji-picker-react";
-import SmileButton from "../components/SmileButton.jsx";
-import EmojiTag from "../components/EmojiTag.jsx";
-import "../styles/emoji.css";
+import React, { useState, useRef, useEffect } from 'react';
+import EmojiPicker from 'emoji-picker-react';
+import SmileButton from '../components/SmileButton.jsx';
+import EmojiTag from '../components/EmojiTag.jsx';
+import '../styles/emoji.css';
 
 export default function EmojiCounterWithImage() {
   const [emojiCounts, setEmojiCounts] = useState({});
@@ -12,9 +12,11 @@ export default function EmojiCounterWithImage() {
   const warpRef = useRef(null); // ⭐ warp를 잡을 ref
   const emojiwarpRef = useRef(null); // ⭐ warp를 잡을 ref
 
-  const onEmojiClick = (emojiData) => {
+  const onEmojiClick = emojiData => {
     const key = emojiData.unified;
-    setEmojiCounts((prev) => ({
+    console.log(emojiData.unified);
+
+    setEmojiCounts(prev => ({
       ...prev,
       [key]: {
         data: emojiData,
@@ -33,16 +35,16 @@ export default function EmojiCounterWithImage() {
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleClickOutside = (e) => {
+    const handleClickOutside = e => {
       if (warpRef.current && !warpRef.current.contains(e.target)) {
         setIsOpen(false); // warp 외부 클릭 시 닫기
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -50,16 +52,16 @@ export default function EmojiCounterWithImage() {
   useEffect(() => {
     if (!EojiOpen) return;
 
-    const emojihandleClickOutside = (e) => {
+    const emojihandleClickOutside = e => {
       if (emojiwarpRef.current && !emojiwarpRef.current.contains(e.target)) {
         setEojiOpen(false); // warp 외부 클릭 시 닫기
       }
     };
 
-    document.addEventListener("mousedown", emojihandleClickOutside);
+    document.addEventListener('mousedown', emojihandleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", emojihandleClickOutside);
+      document.removeEventListener('mousedown', emojihandleClickOutside);
     };
   }, [EojiOpen]);
 
@@ -101,7 +103,7 @@ export default function EmojiCounterWithImage() {
           {EojiOpen && (
             <div
               className="emoji_modal_warp"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
               ref={emojiwarpRef}
             >
               <div className="emoji_modal_add">
