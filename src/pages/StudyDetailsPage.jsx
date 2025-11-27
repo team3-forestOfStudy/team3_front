@@ -1,12 +1,25 @@
+import React, { useState, useEffect } from 'react';
 import EmojiCounterWithImage from '../components/EmojiAdd';
 import TextButton from '../components/Atoms/TextButton.jsx';
 import PointButton from '../components/Atoms/PointButton.jsx';
 import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
 import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
+import getStudyList from '../utils/testapi.js';
 import '../styles/studydetail.css';
-const point = '10' + 'P';
 
 export default function StudyDetailsPage() {
+  const [data, setData] = useState(null);
+  const StudyDetailLoad = async () => {
+    const { data } = await getStudyList(3);
+    setData(data);
+  };
+  useEffect(() => {
+    StudyDetailLoad();
+  }, []);
+  if (!data) return <div>로딩중...</div>;
+
+  const point = '10' + 'P';
+
   return (
     <>
       <div className="container" id="container">
@@ -32,7 +45,7 @@ export default function StudyDetailsPage() {
             {/* 스터디 제목 */}
             <div className="detail_mid">
               <div className="detail_mid_title">
-                <h2 className="g_sub_text01">인창씨의 개발공장</h2>
+                <h2 className="g_sub_text01">{data.title}</h2>
                 <div className="detail_mid_title_right">
                   <ArrowButton>오늘의 집중</ArrowButton>
                   <ArrowButton>오늘의 습관</ArrowButton>
@@ -42,7 +55,7 @@ export default function StudyDetailsPage() {
               <div className="detail_mid_content">
                 <h3 className="g_sub_text07 fw_l gray_600">소개</h3>
                 <p className="detail_mid_content_text g_sub_text06">
-                  Slow And Steady Wins The Race! 다들 오늘 하루도 화이팅 :)
+                  {data.description}
                 </p>
               </div>
               {/* 포인트영역 */}
