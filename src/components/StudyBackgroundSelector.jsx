@@ -39,14 +39,14 @@ export default function StudyBackgroundSelector({ selectedBg, onSelect }) {
             {bg.type === 'color' ? (
               <div className={bg.className} />
             ) : (
-              <img src={bg.src} alt={bg.id} className="bg-item_image" />
+              <img src={bg.src} alt={bg.id} className="bg-item__image" />
             )}
 
             {isSelected && (
               <img
                 src={icBgSelected}
                 alt="선택됨"
-                className="bg-item_selected-icon"
+                className="bg-item__selected-icon"
               />
             )}
           </button>
