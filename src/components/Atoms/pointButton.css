@@ -5,6 +5,7 @@
     padding: 8px 12px;
     padding-left: 35px;
     z-index: 1;
+    cursor: unset;
 }
 
 .detail_point_button img {
