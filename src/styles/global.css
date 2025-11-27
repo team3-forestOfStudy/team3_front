@@ -792,12 +792,12 @@
 .container {
   position: relative;
   padding: 0 24px;
-  padding-top: 100px;
+  padding-top: 40px;
 }
 
 .contents {
   margin: 0 auto;
-  padding: 20px 0 100px;
+  padding: 0px 0 100px;
   max-width: 1200px;
   min-height: calc(100vh - 187px);
   width: 100%;
@@ -926,7 +926,7 @@ textarea {
 
   .container {
     padding: 0 16px;
-    padding-top: 100px;
+    padding-top: 40px;
   }
 
   .g_box {
