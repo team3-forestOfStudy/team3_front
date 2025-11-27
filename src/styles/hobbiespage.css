@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  width: 4.27vw;
+  width: 82px;
   height: 48px;
   border: 2px solid #dddd;
   border-radius: 15px;
@@ -55,62 +55,104 @@
 
 .hobbies-list-box {
   display: block;
-  width: 1120px;
-  height: 498px;
   border: 1px solid #dddd;
-  margin: 24px auto 0;
+  margin: 24px auto 0;      
   padding: 40px 24px;
 }
 
 .list-header {
-  position: relative;
+  position: relative;       
   display: flex;
-  justify-content: center;
+  justify-content: center;  
   align-items: center;
   margin-bottom: 24px;
 }
+
 .edit-btn {
+  position: absolute;
+  right: 24px;              
+  top: 50%;
+  transform: translateY(-50%);
 }
 .chip-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: center;
-  overflow-y: auto;
 }
 
 .habbit-chip {
   width: 400px;
   height: 54px;
-  max-height: 400px;
   padding: 12px 24px;
   border-radius: 999px;
   text-align: center;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-  background-color: #f5f5f5;
-  color: #333;
-  gap: 20px;
+    color 0.2s ease;
 }
-
-/* chip “선택된” 상태 */
+/* 선택된 칩 상태 */
 .habbit-chip--selected {
   background-color: #99c08e !important;
-  color: #fff !important;
+  color: #FFF !important;
 }
 
+/* 습관 없을 때 안내 문구 */
 .no-habit-message {
   text-align: center;
   padding: 40px 0;
   line-height: 1.5;
-  justify-content: center;
-  align-items: center;
 }
 
-/* 반응형*/
+/* 태블릿 */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .hobbies-header {
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+
+  .hobbies-moveButtons {
+    gap: 12px;
+  }
+
+  .move-btn-focus {
+    width: 140px;
+    height: 44px;
+  }
+
+  .move-btn-home {
+    width: 90px;
+    height: 44px;
+  }
+
+  .hobbies-list-box {
+    max-width: 700px;
+    margin: 24px auto 0;
+    padding: 32px 24px;
+    border-radius: 12px;
+  }
+
+  .list-header {
+    margin-left: 0;
+    gap: 48px;
+    justify-content: center;
+  }
+
+  .chip-list {
+    align-items: center;
+    max-height: 400px; 
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .habbit-chip {
+    width: 100%;
+    max-width: 480px;
+  }
+}
+
+/* 모바일 */
 @media screen and (max-width: 600px) {
   .hobbies-header {
     flex-direction: column;
@@ -123,21 +165,18 @@
     white-space: normal;
   }
 
-  .hobbies-moveButtons {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .move-btn-home {
-    width: 82px;
-  }
-
   .hobbies-list-box {
     max-width: 360px;
     margin: 16px auto 0;
     padding: 24px 16px;
     border-radius: 16px;
+    height: 100%;
+  }
+
+  .edit-btn {
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .chip-list {

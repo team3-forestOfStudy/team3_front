@@ -18,7 +18,7 @@ const HobbiesPage = () => {
   const [selectedHabitIds, setSelectedHabitIds] = useState([]);
 
   useEffect(() => {
-    // setHabits(MOCK_HABITS);
+    setHabits(MOCK_HABITS);
 
     // fetch("/api/habits")
     //   .then((res) => res.json())
@@ -89,7 +89,7 @@ const HobbiesPage = () => {
             {/* 오늘의 습관 */}
             <div className="hobbies-list-box">
               <div className="list-header">
-                <h3 className="g_sub_text02 fw_eb">오늘의 습관</h3>
+                <h3 className="list-title g_sub_text02 fw_eb">오늘의 습관</h3>
                 <button className="edit-btn gray_600" onClick={handleOpen}>
                   목록 수정
                 </button>

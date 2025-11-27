@@ -5,8 +5,7 @@ import "../styles/listmodal.css";
 import Trash from "../assets/icons/trash.svg";
 import data from "../mock/inital-content.json"
 
-const ListModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ListModal = ({ isOpen, onClose }) => {
   const [habits, setHabits] = useState(data);
 
   const handleDelete = (id) => {
@@ -18,14 +17,13 @@ const ListModal = () => {
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <>
-      <button type="button" onClick={() => setIsOpen(true)}>
-        리스트 모달 열기
-      </button>
 
       <Modal className="listModal" isOpen={isOpen} onClose={handleClose}>
         <h1 className="listModal-title g_sub_text02 fw_eb">습관 목록</h1>
