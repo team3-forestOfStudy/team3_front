@@ -1,7 +1,7 @@
 /* 드롭다운 전체 컨테이너 */
 .sort-dropdown {
   position: relative;
-  width: 140px;
+  width: 180px;
   font-size: 14px;
 }
 
@@ -23,9 +23,17 @@
   color: #818181;
 }
 
+/* 정렬 토글 아이콘 */
 .sort-dropdown__chevron {
-  font-size: 10px;
-  margin-left: 6px;
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+/* 드롭다운이 열린 상태일 때 아이콘 180도 회전 */
+.sort-dropdown__chevron.is-open {
+  transform: rotate(180deg);
 }
 
 /* 드롭다운 메뉴 */

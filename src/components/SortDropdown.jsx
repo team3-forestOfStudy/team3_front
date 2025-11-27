@@ -1,5 +1,6 @@
 // src/components/SortDropdown.jsx
 import { useState, useEffect } from 'react';
+import ToggleIcon from '../assets/icons/ic_toggle.svg';
 import '../styles/sortdropdown.css';
 
 const OPTIONS = [
@@ -34,7 +35,11 @@ export default function SortDropdown({ value = 'recent', onChange }) {
         onClick={() => setOpen(o => !o)}
       >
         <span>{current.label}</span>
-        <span className="sort-dropdown__chevron">▾</span>
+        <img
+          src={ToggleIcon}
+          alt=""
+          className={`sort-dropdown__chevron ${open ? 'is-open' : ''}`}
+        />
       </button>
 
       {open && (
