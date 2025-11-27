@@ -1,28 +1,110 @@
-/* 카드 기본 스타일 */
+/* 카드 컨테이너 */
 .study-card {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 12px;
+  padding: 20px;
+  color: #333;
+  box-sizing: border-box;
+  position: relative;
 }
 
-/* 카드 리스트 기본값 - 모바일 1열 */
+/* 배경별 CSS – 실제 색을 팀 디자인에 맞게 커스텀 */
+.bg-green {
+  background-color: #e8f5e9;
+}
+
+.bg-yellow {
+  background-color: #fff8e1;
+}
+
+.bg-blue {
+  background-color: #e3f2fd;
+}
+
+.bg-pink {
+  background-color: #fce4ec;
+}
+
+/* 이미지형 배경 */
+.bg-workspace_1 {
+  background-image: url('../assets/studyCard/workspace_1.svg');
+  background-size: cover;
+}
+.bg-workspace_2 {
+  background-image: url('../assets/studyCard/workspace_2.svg');
+  background-size: cover;
+}
+.bg-pattern {
+  background-image: url('../assets/studyCard/pattern.svg');
+  background-size: cover;
+}
+.bg-leaf {
+  background-image: url('../assets/studyCard/leaf.svg');
+  background-size: cover;
+}
+
+/* 포인트 뱃지 */
+.study-card__point-badge {
+  font-size: 12px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+/* 제목 */
+.study-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 6px;
+}
+
+/* 진행 기간 */
+.study-card__days {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+/* 설명 */
+.study-card__description {
+  font-size: 14px;
+  margin-bottom: 16px;
+  height: 40px; /* 2줄 고정 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 하단 아이콘 */
+.study-card__icons {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* 반응형 그리드 (StudyBrowse에서 사용됨) */
 .study-card-list {
   display: grid;
-  grid-template-columns: 1fr; /* 1열 */
-  gap: 16px; /* 카드 사이 간격 */
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
-/* 태블릿: 2열 (601px ~ 1200px) */
-@media (min-width: 601px) and (max-width: 1200px) {
+/* 태블릿 */
+@media (min-width: 601px) {
   .study-card-list {
-    grid-template-columns: repeat(2, 1fr); /* 2열 */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
 
-/* 데스크탑: 3열 (1201px 이상) */
+/* 데스크탑 */
 @media (min-width: 1201px) {
   .study-card-list {
-    grid-template-columns: repeat(3, 1fr); /* 3열 */
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
 }

@@ -1,0 +1,80 @@
+/* 드롭다운 전체 컨테이너 */
+.sort-dropdown {
+  position: relative;
+  width: 140px;
+  font-size: 14px;
+}
+
+/* 토글 버튼 (닫힌 상태 박스) */
+.sort-dropdown__toggle {
+  width: 100%;
+  height: 48px; /* ✅ 검색창 높이와 동일하게 고정 */
+  padding: 0 16px; /* 세로 패딩 제거, 좌우만 */
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  font-size: 14px;
+  color: #818181;
+}
+
+.sort-dropdown__chevron {
+  font-size: 10px;
+  margin-left: 6px;
+}
+
+/* 드롭다운 메뉴 */
+.sort-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e1e1e1;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  overflow: hidden; /* 라운드 유지 */
+  z-index: 10;
+}
+
+/* 메뉴 항목 버튼 */
+.sort-dropdown__item {
+  width: 100%;
+  padding: 10px 0;
+
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  display: block; /* flex 말고 block */
+  text-align: center; /* 글자 중앙 정렬 */
+  font-size: 14px;
+  color: #818181;
+}
+
+/* 항목 사이 구분선 (li끼리) */
+.sort-dropdown__menu li + li {
+  border-top: 1px solid #eee;
+}
+
+/* hover */
+.sort-dropdown__item:hover {
+  background-color: #f8f8f8;
+}
+
+/* 선택된 항목 */
+.sort-dropdown__item--active {
+  font-weight: 600;
+}
