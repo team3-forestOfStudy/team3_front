@@ -1,35 +1,111 @@
+// src/components/StudyCard.jsx
+import { useNavigate } from 'react-router-dom';
 import '../styles/studycard.css';
+import pointIcon from '../assets/icons/ic_point.svg';
+
+// emojiCode("1f431") → 실제 이모지로 변환
+function convertEmoji(code) {
+  try {
+    return String.fromCodePoint(parseInt(code, 16));
+  } catch {
+    return code; // 혹시 오류나면 원래 문자 표시
+  }
+}
+
+// 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
+const SOLID_BG_KEYS = ['green', 'yellow', 'blue', 'pink'];
 
 export default function StudyCard({ study }) {
+  // 백엔드 / 부모 컴포넌트에서 내려주는 스터디 데이터 형태 예시
   const {
-    studyId,
-    nickname,
-    title,
-    description,
-    backgroundImage,
-    totalPoints,
+    studyId, // 숫자 ID (상세 페이지로 이동할 때 사용)
+    nickname, // 닉네임
+    title, // 스터디 이름
+    description, // 스터디 소개
+    daysInProgress, // "OO일째 진행 중" 쪽 숫자 (예: 62)
+    backgroundImage, // 'green' | 'yellow' | 'blue' | 'pink' | 'workspace_1' ...
+    totalPoints, // 현재까지 획득한 포인트 (예: 310)
+    topEmojis = [], // 나중에 API에서 내려줄 상위 3개 이모지 [{ emojiId, emojiCode, count }, ...]
   } = study;
 
+  const navigate = useNavigate();
+
+  /* 사진 배경 스터디 카드 */
+  const isPhotoBg = backgroundImage && !SOLID_BG_KEYS.includes(backgroundImage);
+  const photoClass = isPhotoBg ? 'bg-photo' : '';
+
+  // 단색 / 사진 배경 구분
+  const isSolidBg = SOLID_BG_KEYS.includes(backgroundImage);
+  const variantClass = isSolidBg ? 'study-card--solid' : 'study-card--photo';
+
+  // backgroundImage 값에 맞춰 CSS 클래스 결정 (bg-green, bg-yellow ...)
+  const bgClass = backgroundImage ? `bg-${backgroundImage}` : '';
+
+  const handleCardClick = () => {
+    if (!studyId) return;
+    navigate(`/Studydetails?studyId=${studyId}`);
+  };
+
+  // 이모지는 최대 3개까지만 표시 (지금은 topEmojis가 없으니 안 나옴)
+  const visibleEmojis =
+    Array.isArray(topEmojis) && topEmojis.length > 0
+      ? topEmojis.slice(0, 3)
+      : [];
+
   return (
-    <div className={`study-card bg-${backgroundImage}`}>
+    <article
+      className={`study-card ${variantClass} ${photoClass} ${bgClass}`}
+      onClick={handleCardClick}
+    >
       {/* 상단 포인트 뱃지 */}
-      <div className="study-card__point-badge">{totalPoints} P 획득</div>
+      <button
+        type="button"
+        className="study-card__point-badge"
+        onClick={e => e.stopPropagation()} // 카드 클릭과 분리
+      >
+        <img src={pointIcon} alt="" className="study-card__point-badge-icon" />
+        <span className="study-card__point-badge-text">
+          {totalPoints}P 획득
+        </span>
+      </button>
 
-      {/* 제목 */}
-      <h3 className="study-card__title">{title}</h3>
+      {/* 상단 텍스트 영역 */}
+      <header className="study-card__header">
+        <h3 className="study-card__title">
+          <span className="study-card__nickname">{nickname}</span>
+          {' 의 '}
+          {title}
+        </h3>
 
-      {/* 진행기간 (예: 10일째 진행 중) */}
-      <p className="study-card__days">{nickname}</p>
+        <p className="study-card__days">
+          {daysInProgress != null ? `${daysInProgress}일째 진행 중` : ''}
+        </p>
+      </header>
 
-      {/* 소개 */}
+      {/* 소개 텍스트 */}
       <p className="study-card__description">{description}</p>
 
-      {/* 하단 아이콘 버튼들 */}
-      <div className="study-card__icons">
-        <span>🔥 37</span>
-        <span>💬 26</span>
-        <span>❤️ 14</span>
-      </div>
-    </div>
+      {/* 하단 이모지 영역 (나중에 API 붙으면 자동으로 표시됨) */}
+      {visibleEmojis.length > 0 && (
+        <footer className="study-card__footer">
+          <div className="study-card__emojis">
+            {visibleEmojis.map(emoji => (
+              <button
+                key={emoji.emojiId}
+                type="button"
+                className="study-card__emoji"
+                onClick={e => e.stopPropagation()} // 카드 클릭 막기
+              >
+                <span className="study-card__emoji-icon">
+                  {/* emojiCode → 실제 이모지 변환 로직 */}
+                  {convertEmoji(emoji.emojiCode)}
+                </span>
+                <span className="study-card__emoji-count">{emoji.count}</span>
+              </button>
+            ))}
+          </div>
+        </footer>
+      )}
+    </article>
   );
 }
