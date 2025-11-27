@@ -1,16 +1,16 @@
-// src/pages/EditStudyPage.jsx
-import { useParams } from 'react-router-dom';
+// EditStudyPage.jsx (updated: 수정 성공 후 상세 페이지 이동)
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import StudyMake from '../components/StudyMake.jsx';
 
 const API_BASE_URL = 'http://localhost:4000';
 
 export default function EditStudyPage() {
-  const { id } = useParams(); // /study/edit/:id
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 1) 스터디 상세 조회 -> 폼 초기값으로 셋팅
   useEffect(() => {
     const loadStudy = async () => {
       try {
@@ -41,19 +41,13 @@ export default function EditStudyPage() {
     loadStudy();
   }, [id]);
 
-  // 2) 수정 요청 (PATCH /api/studies/:studyId)
   const handleUpdate = async formData => {
-    // 비밀번호 필수 (문서 2번 케이스)
     if (!formData.password) {
       alert('수정을 위해 비밀번호를 입력해주세요.');
       return;
     }
 
-    // 변경된 필드만 PATCH body에 넣기
-    const body = {
-      password: formData.password,
-    };
-
+    const body = { password: formData.password };
     let hasChange = false;
 
     if (formData.nickname !== initialData.nickname) {
@@ -76,7 +70,6 @@ export default function EditStudyPage() {
       hasChange = true;
     }
 
-    // 변경할 값이 하나도 없는 경우(문서 3번 케이스)
     if (!hasChange) {
       alert('수정할 값이 최소 1개 이상이어야 합니다.');
       return;
@@ -85,7 +78,7 @@ export default function EditStudyPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/studies/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' }, // ✅ 오타 수정
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
 
@@ -97,8 +90,9 @@ export default function EditStudyPage() {
       }
 
       alert(data.message || '스터디가 수정되었습니다.');
-      // TODO: 상세 페이지로 이동
-      // navigate(`/Studydetails?studyId=${id}`);
+
+      // ⭐ 수정 후 상세 페이지로 이동
+      navigate(`/Studydetails?studyId=${id}`);
     } catch (error) {
       console.error(error);
       alert('서버 오류가 발생했습니다.');
