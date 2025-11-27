@@ -5,7 +5,6 @@ import SearchInput from './SearchInput';
 import SortDropdown from './SortDropdown';
 import MoreButton from './MoreButton';
 import '../styles/studycard.css';
-import '../styles/home.css';
 
 const API_BASE_URL = 'http://localhost:4000';
 const PAGE_SIZE = 6;
@@ -79,7 +78,7 @@ export default function StudyBrowse() {
 
       {/* 카드 리스트 / 비어 있을 때 처리 */}
       {!loading && studies.length === 0 ? (
-        <div className="home-section-empty">
+        <div className="home-section-empty home-section-empty--browse">
           <p>아직 둘러 볼 스터디가 없어요</p>
         </div>
       ) : (

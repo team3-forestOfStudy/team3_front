@@ -72,10 +72,42 @@
 
 /* 섹션 비어 있을 때 중앙 정렬용 박스 */
 .home-section-empty {
-  min-height: 220px; /* 박스 높이 (필요하면 숫자만 조절) */
+  width: 100%;
   display: flex;
   align-items: center; /* 세로 가운데 */
   justify-content: center; /* 가로 가운데 */
-  color: var(--gray-500);
-  font-size: 14px;
+  color: var(--gray-600);
+  font-size: 20px;
+}
+
+/* ---- 최근 조회된 스터디 empty ---- */
+
+.home-section-empty--recent {
+  height: 247px; /* mobile */
+}
+
+.home-section-empty--browse {
+  height: 405px; /* mobile */
+}
+
+/* 빈 여백 - 태블릿 반응형 */
+@media (min-width: 601px) {
+  .home-section-empty--recent {
+    height: 338px; /* tablet */
+  }
+
+  .home-section-empty--browse {
+    height: 627px; /* tablet */
+  }
+}
+
+/* 빈 여백 - 데스트탑 반응형 */
+@media (min-width: 1201px) {
+  .home-section-empty--recent {
+    height: 382px;
+  }
+
+  .home-section-empty--browse {
+    height: 822px;
+  }
 }

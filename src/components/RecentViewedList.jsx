@@ -15,7 +15,7 @@ export default function RecentViewedList({ studies = [] }) {
           ))}
         </div>
       ) : (
-        <div className="home-section-empty">
+        <div className="home-section-empty home-section-empty--recent">
           <p>아직 조회한 스터디가 없어요</p>
         </div>
       )}
