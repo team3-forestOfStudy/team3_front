@@ -1,110 +1,235 @@
-/* 카드 컨테이너 */
-.study-card {
-  width: 100%;
-  border-radius: 12px;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-  border: solid 1px #dddddd;
+/* 스터디 카드 리스트 그리드 배치 */
+.study-card-list {
+  display: grid;
+  gap: 24px;
 }
 
-/* 배경별 CSS – 실제 색을 팀 디자인에 맞게 커스텀 */
+/* 데스크탑: 3열 (1920 ~ 1201) */
+@media (min-width: 1201px) {
+  .study-card-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 태블릿: 2열 (1200 ~ 601) */
+@media (max-width: 1200px) and (min-width: 601px) {
+  .study-card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 모바일: 1열 (600 ~ 375) */
+@media (max-width: 600px) {
+  .study-card-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 카드 공통 스타일 */
+.study-card {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  border: solid 1px #ddd;
+  border-radius: 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 24px;
+
+  cursor: pointer;
+}
+
+/* 사진 / 단색 배경에 따른 텍스트 컬러 기본값 */
+.study-card--photo {
+  color: #ffffff;
+}
+
+.study-card--solid {
+  color: var(--gray_900, #414141);
+}
+
+/* 사진 배경일 때 흰색으로 강제할 텍스트들 */
+.study-card--photo .study-card__title,
+.study-card--photo .study-card__days,
+.study-card--photo .study-card__description {
+  color: #ffffff;
+}
+
+/* 단색 배경 클래스 (배경색) */
 .bg-green {
   background-color: #e8f5e9;
 }
-
 .bg-yellow {
   background-color: #fff8e1;
 }
-
 .bg-blue {
   background-color: #e3f2fd;
 }
-
 .bg-pink {
   background-color: #fce4ec;
 }
 
-/* 이미지형 배경 */
-.bg-workspace_1 {
-  background-image: url('../assets/studyCard/workspace_1.svg');
-  background-size: cover;
-}
-.bg-workspace_2 {
-  background-image: url('../assets/studyCard/workspace_2.svg');
-  background-size: cover;
-}
-.bg-pattern {
-  background-image: url('../assets/studyCard/pattern.svg');
-  background-size: cover;
-}
-.bg-leaf {
-  background-image: url('../assets/studyCard/leaf.svg');
-  background-size: cover;
+/* 단색 배경일 때 닉네임 포인트 컬러 */
+.bg-green .study-card__nickname {
+  color: var(--green_700, #578246);
 }
 
-/* 포인트 뱃지 */
+.bg-yellow .study-card__nickname {
+  color: var(--yellow_700, #c18e1b);
+}
+
+.bg-pink .study-card__nickname {
+  color: var(--red_200, #ffa3a5);
+}
+
+.bg-blue .study-card__nickname {
+  color: var(--blue_600, #418099);
+}
+
+/* 상단 텍스트 영역 */
+.study-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.study-card__title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.study-card__nickname {
+  font-weight: 700;
+}
+
+.study-card__days {
+  font-size: 14px;
+  color: var(--gray_600, #7b7b7b);
+}
+
+/* 사진 배경일 때 days 컬러도 흰색 */
+.study-card--photo .study-card__days {
+  color: #ffffff;
+}
+
+/* 소개 텍스트 */
+.study-card__description {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+/* 포인트 뱃지 (상단 오른쪽) */
 .study-card__point-badge {
-  font-size: 12px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 20px;
   position: absolute;
   top: 16px;
   right: 16px;
+
+  width: 86px;
+  height: 22px;
+  padding: 0 8px;
+
+  border-radius: 999px;
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+
+  border: solid 1px #ddd;
+  opacity: 80%; /* 포인트 버튼이 스터디 제목을 가리니까 조금 약하게*/
 }
 
-/* 제목 */
-.study-card__title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-top: 20px;
-  margin-bottom: 6px;
+/* 단색 배경일 때 포인트 뱃지 색상 */
+.study-card--solid .study-card__point-badge {
+  background-color: #ffffff;
+  color: var(--gray_900, #414141);
 }
 
-/* 진행 기간 */
-.study-card__days {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 12px;
+/* 사진 배경일 때 포인트 뱃지 색상 */
+.study-card--photo .study-card__point-badge {
+  background-color: var(--gray_900, #414141);
+  color: #ffffff;
 }
 
-/* 설명 */
-.study-card__description {
-  font-size: 14px;
-  margin-bottom: 16px;
-  height: 40px; /* 2줄 고정 */
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* 포인트 아이콘 */
+.study-card__point-badge-icon {
+  width: 14px;
+  height: 14px;
 }
 
-/* 하단 아이콘 */
-.study-card__icons {
+/* 이모지 영역 (하단) */
+.study-card__footer {
+  margin-top: auto; /* 내용 위에 있고, footer는 카드 맨 아래로 밀림 */
+}
+
+.study-card__emojis {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 개별 이모지 버튼 */
+.study-card__emoji {
+  width: 56px;
+  height: 28px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  font-size: 12px;
+  cursor: pointer;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  color: inherit;
+}
+
+/* 사진 배경일 때 이모지 버튼 배경 조금 어둡게 */
+.study-card--photo .study-card__emoji {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 이모지 아이콘 / 숫자 */
+.study-card__emoji-icon {
+  font-size: 16px;
+}
+
+.study-card__emoji-count {
   font-size: 14px;
-  color: #444;
+  color: #fff;
 }
 
-/* 반응형 그리드 (StudyBrowse에서 사용됨) */
-.study-card-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+/* 사진 배경 공통 속성 */
+.study-card.bg-photo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* 태블릿 */
-@media (min-width: 601px) {
-  .study-card-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
+/* 개별 이미지 매핑 */
+.bg-workspace_1 {
+  background-image: url('../assets/studyCard/workspace_1.svg');
 }
-
-/* 데스크탑 */
-@media (min-width: 1201px) {
-  .study-card-list {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
+.bg-workspace_2 {
+  background-image: url('../assets/studyCard/workspace_2.svg');
+}
+.bg-pattern {
+  background-image: url('../assets/studyCard/pattern.svg');
+}
+.bg-leaf {
+  background-image: url('../assets/studyCard/leaf.svg');
 }
