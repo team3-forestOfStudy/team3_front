@@ -174,40 +174,43 @@
 
 .study-card__emojis {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 5px;
 }
 
 /* 개별 이모지 버튼 */
 .study-card__emoji {
-  min-width: 52px;
-  padding: 4px 8px;
+  width: 56px;
+  height: 28px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: none;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
 
   font-size: 12px;
   cursor: pointer;
 
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.4);
   color: inherit;
 }
 
 /* 사진 배경일 때 이모지 버튼 배경 조금 어둡게 */
 .study-card--photo .study-card__emoji {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* 이모지 아이콘 / 숫자 */
 .study-card__emoji-icon {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .study-card__emoji-count {
-  font-size: 12px;
+  font-size: 14px;
+  color: #fff;
 }
 
 /* 사진 배경 공통 속성 */
