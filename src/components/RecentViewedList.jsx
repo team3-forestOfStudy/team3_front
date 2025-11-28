@@ -20,7 +20,6 @@ export default function RecentViewedList() {
   }, []);
 
   useEffect(() => {
-    // 카드가 로드된 뒤 버튼 상태 업데이트
     updateScrollButtons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studies.length]);
@@ -36,16 +35,54 @@ export default function RecentViewedList() {
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
   };
 
+  // 🔥 전역(mouseup / touchend)에서 드래그 강제 종료
+  const handleWindowMouseUp = () => {
+    isDraggingRef.current = false;
+    window.removeEventListener('mouseup', handleWindowMouseUp);
+  };
+
+  const handleWindowTouchEnd = () => {
+    isDraggingRef.current = false;
+    window.removeEventListener('touchend', handleWindowTouchEnd);
+    window.removeEventListener('touchcancel', handleWindowTouchEnd);
+  };
+
   // 한 화면(현재 박스 너비)만큼 스크롤
+  // 한 화면(카드 개수 기준)만큼 스크롤
   const scrollByPage = direction => {
-    const el = containerRef.current;
-    if (!el) return;
+    const scroller = containerRef.current;
+    if (!scroller) return;
 
-    const amount = el.clientWidth; // recent_box 안에서 한 화면 너비
-    const left = direction === 'left' ? -amount : amount;
+    const listEl = scroller.querySelector('.study-card-list');
+    const firstCard = listEl?.querySelector('.study-card');
+    if (!firstCard) return;
 
-    el.scrollBy({
-      left,
+    const cardRect = firstCard.getBoundingClientRect();
+    const cardWidth = cardRect.width;
+
+    // CSS에서 gap: 16px 로 맞춰둔 값
+    const gap = 16;
+
+    // 화면 크기에 따라 한 페이지에 보여줄 카드 개수
+    let cardsPerPage = 3; // 기본: 데스크탑
+    const width = window.innerWidth;
+
+    if (width <= 1200 && width > 600) {
+      cardsPerPage = 2; // 태블릿
+    } else if (width <= 600) {
+      cardsPerPage = 1; // 모바일 (사실 화살표 안 보이지만 일단 맞춰둠)
+    }
+
+    const step = (cardWidth + gap) * cardsPerPage;
+
+    const current = scroller.scrollLeft;
+    const target = direction === 'left' ? current - step : current + step;
+
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    const clamped = Math.max(0, Math.min(target, maxScroll));
+
+    scroller.scrollTo({
+      left: clamped,
       behavior: 'smooth',
     });
   };
@@ -57,6 +94,9 @@ export default function RecentViewedList() {
     dragMovedRef.current = false;
     startXRef.current = e.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
+
+    // ✅ 화면 어디서 마우스를 떼든 드래그 종료
+    window.addEventListener('mouseup', handleWindowMouseUp);
   };
 
   const handleMouseMove = e => {
@@ -65,7 +105,7 @@ export default function RecentViewedList() {
     const x = e.pageX - containerRef.current.offsetLeft;
     const walk = x - startXRef.current;
 
-    if (Math.abs(walk) > 5) {
+    if (Math.abs(walk) > 10) {
       dragMovedRef.current = true;
     }
 
@@ -74,6 +114,7 @@ export default function RecentViewedList() {
   };
 
   const handleMouseUpOrLeave = () => {
+    // 영역 안에서 떼면 여기서도 종료
     isDraggingRef.current = false;
   };
 
@@ -85,6 +126,10 @@ export default function RecentViewedList() {
     dragMovedRef.current = false;
     startXRef.current = touch.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
+
+    // ✅ 터치도 화면 어디서 떼든 종료
+    window.addEventListener('touchend', handleWindowTouchEnd);
+    window.addEventListener('touchcancel', handleWindowTouchEnd);
   };
 
   const handleTouchMove = e => {
@@ -107,6 +152,7 @@ export default function RecentViewedList() {
   };
 
   const handleTouchEnd = () => {
+    // 영역 안에서 떼면 여기서도 종료 (window 쪽에서도 한 번 더 정리)
     isDraggingRef.current = false;
   };
 
@@ -123,13 +169,22 @@ export default function RecentViewedList() {
     updateScrollButtons();
   };
 
+  // 컴포넌트 언마운트 시 혹시 남아있을 리스너 정리
+  useEffect(() => {
+    return () => {
+      window.removeEventListener('mouseup', handleWindowMouseUp);
+      window.removeEventListener('touchend', handleWindowTouchEnd);
+      window.removeEventListener('touchcancel', handleWindowTouchEnd);
+    };
+  }, []);
+
   return (
     <section className="home-section home-section--recent">
       <h2 className="g_tit">최근 조회한 스터디</h2>
 
       {hasCards ? (
         <div className="recent-scroller-wrapper">
-          {/* 왼쪽 화살표 (PC/태블릿 전용, 모바일에서는 CSS로 숨김) */}
+          {/* 왼쪽 화살표 (PC/태블릿, 모바일은 CSS에서 display:none) */}
           <button
             type="button"
             className="recent-arrow recent-arrow--left"

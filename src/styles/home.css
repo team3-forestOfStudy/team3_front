@@ -172,7 +172,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: none;
+  border: solid 1px #ddd;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
   display: flex;
@@ -184,8 +184,8 @@
 }
 
 .recent-arrow img {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 }
 
 /* 왼쪽 / 오른쪽 위치 */
@@ -198,7 +198,8 @@
   /* 오른쪽 화살표는 이미지를 반대로 회전 */
 }
 
-.recent-arrow--right img {
+/* 왼쪽 화살표 이미지를 반대로 회전 */
+.recent-arrow--left img {
   transform: rotate(180deg);
 }
 
