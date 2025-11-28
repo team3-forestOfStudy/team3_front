@@ -1,8 +1,9 @@
 /* ---------------- 헤더 레이아웃 ---------------- */
 
 .header {
-  position: sticky;
-  top: 0;
+  /* position: sticky; */
+  /* top: 0; */
+  position: static;
   z-index: 1000;
 
   display: flex;
