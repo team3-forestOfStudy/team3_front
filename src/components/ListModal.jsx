@@ -1,9 +1,9 @@
-import Modal from './Atoms/Modal';
-import { Chip } from './Atoms/Chip';
-import { useEffect, useState } from 'react';
-import '../styles/listmodal.css';
-import Trash from '../assets/icons/trash.svg';
-import data from '../mock/inital-content.json';
+import Modal from "./Atoms/Modal";
+import { Chip } from "./Atoms/Chip";
+import { useEffect, useState } from "react";
+import "../styles/listmodal.css";
+import Trash from "../assets/icons/trash.svg";
+import data from "../mock/inital-content.json";
 
 const ListModal = ({ isOpen, onClose, habits, onSave }) => {
   const [localHabits, setLocalHabits] = useState(data);
@@ -12,14 +12,14 @@ const ListModal = ({ isOpen, onClose, habits, onSave }) => {
     if (isOpen) {
       setLocalHabits(habits);
     }
-  }, [isOpen, habits])
+  }, [isOpen, habits]);
 
   const handleDelete = id => {
     setLocalHabits(prev => prev.filter(habit => habit.id !== id));
   };
 
   const handleAddHabit = () => {
-    setLocalHabits(prev => [...prev, { id: Date.now(), title: '' }]);
+    setLocalHabits(prev => [...prev, { id: Date.now(), title: "" }]);
   };
 
   const handleChangeTitle = (id, value) => {
@@ -32,13 +32,11 @@ const ListModal = ({ isOpen, onClose, habits, onSave }) => {
   };
 
   const handleSubmit = () => {
-    const cleaned = localHabits.filter(
-      habit => habit.title.trim() !== '',
-    )
+    const cleaned = localHabits.filter(habit => habit.title.trim() !== "");
 
     onSave(cleaned);
     onClose();
-  }
+  };
 
   if (!isOpen) return null;
 
