@@ -82,6 +82,11 @@
 
 /* ---- 최근 조회된 스터디 empty ---- */
 
+/* 최근 조회 카드 수 모바일 (폭 기준) */
+.study-card-list--recent .study-card {
+  flex: 0 0 100%; /* 1개 */
+}
+
 .home-section-empty--recent {
   height: 247px; /* mobile */
 }
@@ -91,7 +96,7 @@
 }
 
 /* 빈 여백 - 태블릿 반응형 */
-@media (min-width: 601px) {
+@media (max-width: 1200px) and (min-width: 601px) {
   .home-section-empty--recent {
     height: 338px; /* tablet */
   }
@@ -99,9 +104,14 @@
   .home-section-empty--browse {
     height: 627px; /* tablet */
   }
+
+  /* 최근 조회 카드 수 (폭 기준) */
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 1 * 16px) / 2); /* 2개 */
+  }
 }
 
-/* 빈 여백 - 데스트탑 반응형 */
+/* 빈 여백 - 데스크탑 반응형 */
 @media (min-width: 1201px) {
   .home-section-empty--recent {
     height: 382px;
@@ -110,4 +120,39 @@
   .home-section-empty--browse {
     height: 822px;
   }
+
+  /* 최근 조회 카드 수 (폭 기준) */
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 2 * 16px) / 3); /* 3개 + 간격 */
+  }
+}
+
+/* -------------------------------------------------------------------- */
+/* 최근 조회 섹션용 가로 스크롤 래퍼 */
+.home-section--recent .recent-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px; /* 스크롤바랑 카드가 너무 붙지 않게 */
+}
+
+/* 스크롤바 살짝만 보이게/꾸미고 싶다면 추가로 커스텀 가능 */
+.home-section--recent .recent-scroller::-webkit-scrollbar {
+  height: 6px;
+}
+
+.home-section--recent .recent-scroller::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+}
+
+/* 최근 조회 카드 리스트: 가로 한 줄 배치 (여기가 핵심) */
+/* 다른 곳에서 .study-card-list 를 grid 로 설정한 것을 이 규칙으로 덮어쓴다. */
+.home-section--recent .study-card-list {
+  display: flex !important; /* grid 덮어쓰기 */
+  gap: 16px;
+  flex-wrap: nowrap !important; /* 줄바꿈 방지 */
+}
+
+/* 섹션 타이틀과 카드 사이 간격 */
+.home-section--recent .g_tit {
+  margin-bottom: 30px; /* 제목 아래 여백 */
 }

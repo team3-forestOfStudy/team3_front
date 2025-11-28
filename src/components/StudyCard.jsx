@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/studycard.css';
 import pointIcon from '../assets/icons/ic_point.svg';
+import { addRecentViewedStudy } from '../utils/recentViewed'; // 최근 조회
 
 // emojiCode("1f431") → 실제 이모지로 변환
 function convertEmoji(code) {
@@ -43,6 +44,9 @@ export default function StudyCard({ study }) {
 
   const handleCardClick = () => {
     if (!studyId) return;
+    // 최근 조회 쿠키에 저장
+    addRecentViewedStudy(study);
+    // 클릭하면 상세 페이지로 이동
     navigate(`/Studydetails?studyId=${studyId}`);
   };
 
@@ -73,7 +77,7 @@ export default function StudyCard({ study }) {
       <header className="study-card__header">
         <h3 className="study-card__title">
           <span className="study-card__nickname">{nickname}</span>
-          {' 의 '}
+          {'의 '}
           {title}
         </h3>
 
@@ -85,7 +89,7 @@ export default function StudyCard({ study }) {
       {/* 소개 텍스트 */}
       <p className="study-card__description">{description}</p>
 
-      {/* 하단 이모지 영역 (나중에 API 붙으면 자동으로 표시됨) */}
+      {/* 하단 이모지 영역 (API 붙으면 자동으로 표시됨) */}
       {visibleEmojis.length > 0 && (
         <footer className="study-card__footer">
           <div className="study-card__emojis">
