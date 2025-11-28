@@ -1,33 +1,61 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/timer.css";
 import StartIcon from "../assets/icons/starticon.svg";
+import StopIcon from "../assets/icons/pause.svg";
+import ResetIcon from "../assets/icons/reset.svg";
+import Clock from "../assets/icons/clock.svg";
+import Modal from "../components/Atoms/Modal";
+import { showSuccesToast, showStopToast } from "../utils/toastmessage";
 
 const Timer = () => {
-  const [durationMinutes, setDurationMinutes] = useState(25); // 설정할 분
-  const [remainingTime, setRemainingTime] = useState(25 * 60); // 남은 시간(초)
+  const [durationMinutes, setDurationMinutes] = useState(0);
+  const [minutesInput, setMinutesInput] = useState("0");
+
+  const [remainingTime, setRemainingTime] = useState(0);
+
   const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false); // 한 번이라도 시작했는지
+  const [hasStarted, setHasStarted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const intervalIdRef = useRef(null);
+  const hasFinishedRef = useRef(false);
 
-  // durationMinutes가 바뀌면(타이머 시작 전) 남은 시간도 같이 변경
-  useEffect(() => {
-    if (!hasStarted) {
-      setRemainingTime(durationMinutes * 60);
-    }
-  }, [durationMinutes, hasStarted]);
+  const configuredTotalSeconds = durationMinutes * 60;
 
-  // 타이머 동작
+  const getTimeParts = sec => {
+    const isNegative = sec < 0;
+    const abs = Math.abs(sec);
+    const m = String(Math.floor(abs / 60)).padStart(2, "0");
+    const s = String(abs % 60).padStart(2, "0");
+    return { isNegative, mm: m, ss: s };
+  };
+
+  const formatSeconds = sec => {
+    const { mm, ss } = getTimeParts(sec);
+    return `${mm}:${ss}`;
+  };
+
+  const calcFocusPoint = minutes => {
+    if (minutes <= 0) return 0;
+    const bonus = Math.floor(minutes / 10);
+    return 3 + bonus;
+  };
+
   useEffect(() => {
     if (isRunning) {
       intervalIdRef.current = setInterval(() => {
         setRemainingTime(prev => {
-          if (prev <= 1) {
-            clearInterval(intervalIdRef.current);
-            intervalIdRef.current = null;
-            setIsRunning(false);
-            return 0;
+          const next = prev - 1;
+
+          if (prev > 0 && next <= 0 && !hasFinishedRef.current) {
+            hasFinishedRef.current = true;
+            const point = calcFocusPoint(durationMinutes);
+            if (point > 0) {
+              showSuccesToast(point);
+            }
           }
-          return prev - 1;
+
+          return next;
         });
       }, 1000);
     }
@@ -38,14 +66,48 @@ const Timer = () => {
         intervalIdRef.current = null;
       }
     };
-  }, [isRunning]);
+  }, [isRunning, durationMinutes]);
 
-  const handleStart = () => {
-    if (remainingTime <= 0) {
-      // 0초에서 다시 시작하면 현재 설정 분 기준으로 리셋
-      setRemainingTime(durationMinutes * 60);
+  const handleFirstStartClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleMinutesChange = e => {
+    const raw = e.target.value;
+
+    setMinutesInput(raw);
+
+    if (raw === "") {
+      setDurationMinutes(0);
+      return;
     }
+
+    let value = parseInt(raw, 10);
+    if (Number.isNaN(value) || value < 0) value = 0;
+    if (value > 60) value = 60;
+
+    setDurationMinutes(value);
+    setMinutesInput(String(value));
+  };
+
+  const handleModalConfirm = () => {
+    const total = configuredTotalSeconds;
+
+    if (total <= 0) return;
+
+    setRemainingTime(total);
     setHasStarted(true);
+    setIsRunning(true);
+    hasFinishedRef.current = false;
+    setIsModalOpen(false);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleResumeStart = () => {
+    if (remainingTime <= 0) return;
     setIsRunning(true);
   };
 
@@ -55,48 +117,48 @@ const Timer = () => {
 
   const handleReset = () => {
     setIsRunning(false);
-    setRemainingTime(durationMinutes * 60);
-    setHasStarted(false); // 다시 "기본 대기 상태"로
+    setRemainingTime(0);
+    setMinutesInput("0");
+    setDurationMinutes(0);
+    setHasStarted(false);
+    hasFinishedRef.current = false;
   };
 
-  const handleDurationChange = e => {
-    const value = Number(e.target.value);
-    if (Number.isNaN(value)) return;
-
-    // 최소 1분, 최대 180분 정도로 제한
-    const clamped = Math.min(Math.max(value, 1), 180);
-    setDurationMinutes(clamped);
-  };
-
-  const formatTime = () => {
-    const minutes = String(Math.floor(remainingTime / 60)).padStart(2, "0");
-    const seconds = String(remainingTime % 60).padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
-
-  // 3분 이하일 때 빨간색
-  const isDanger = remainingTime <= 3 * 60;
-
-  // 처음 상태: 아직 한 번도 시작 안 했을 때
+  const isDanger = hasStarted && remainingTime <= 3 * 60;
+  const isBelowZero = remainingTime < 0;
   const isInitial = !hasStarted;
+
+  const { isNegative, mm, ss } = getTimeParts(remainingTime);
 
   return (
     <div className="timer">
-      {/* 가운데 큰 숫자 */}
+      {configuredTotalSeconds > 0 && (
+        <div className="timer-config">
+          <div className="timer-chip">
+            <img src={Clock} alt="clock" className="timer-clock-icon" />
+            <span className="timer-config-text">
+              {formatSeconds(configuredTotalSeconds)}
+            </span>
+          </div>
+        </div>
+      )}
+
       <div
-        className={`timer-display g_sub_text20 fw_eb ${
-          isDanger ? "timer-display-danger" : ""
-        }`}
+        className={`timer-display g_sub_text20 fw_eb
+           ${isDanger ? "gray_300" : ""}
+           ${!isBelowZero && isDanger ? "red_600" : ""}
+           ${!isBelowZero && !isDanger ? "" : ""}
+           `}
       >
-        {formatTime()}
+        {isNegative && <span className="timer-sign">-</span>}
+        <span>{`${mm}:${ss}`}</span>
       </div>
 
-      {/* 처음 상태: Start 버튼만 */}
       {isInitial && (
         <div className="button-wrap">
           <button
             type="button"
-            onClick={handleStart}
+            onClick={handleFirstStartClick}
             className="start-button bg_green_300 fw_eb white g_sub_text01"
           >
             <img
@@ -109,22 +171,24 @@ const Timer = () => {
         </div>
       )}
 
-      {/* 시작 후에는 Stop / Start / Reset 세 버튼 */}
       {!isInitial && (
-        <div className="controls">
+        <div className="start-controls">
           <button
             type="button"
-            onClick={handleStop}
-            className="circle-btn stop-btn"
+            onClick={() => {
+              handleStop();
+              showStopToast();
+            }}
+            className="circle-btn bg_green_700"
             aria-label="일시정지"
           >
-            Stop!
+            <img src={StopIcon} alt="정지 아이콘" className="stop-botton" />
           </button>
 
           <button
             type="button"
-            onClick={handleStart}
-            className="start-button bg_green_300 fw_eb white g_sub_text01"
+            onClick={handleResumeStart}
+            className="start-button bg_gray_600 fw_eb white g_sub_text01"
           >
             <img
               src={StartIcon}
@@ -137,13 +201,52 @@ const Timer = () => {
           <button
             type="button"
             onClick={handleReset}
-            className="circle-btn reset-btn"
+            className="circle-btn bg_green_300"
             aria-label="리셋"
           >
-            Reset!
+            <img src={ResetIcon} alt="리셋 아이콘" className="reset-botton" />
           </button>
         </div>
       )}
+
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <div className="timer-modal">
+          <h3 className="timer-modal-title g_sub_text03 fw_eb">
+            집중 시간 설정
+          </h3>
+
+          <div className="timer-modal-inputs">
+            <div className="timer-modal-field g_sub_text03 fw_eb">
+              <input
+                type="number"
+                min="0"
+                max="60"
+                value={minutesInput}
+                onChange={handleMinutesChange}
+                className="timer-modal-input"
+              />
+              <span>분</span>
+            </div>
+          </div>
+
+          <div className="timer-modal-buttons">
+            <button
+              type="button"
+              className="timer-modal-btn confirm bg_green_300 g_sub_text03 fw_eb white"
+              onClick={handleModalConfirm}
+            >
+              확인
+            </button>
+            <button
+              type="button"
+              className="timer-modal-btn cancel bg_pink_100 g_sub_text03 fw_eb white"
+              onClick={handleModalClose}
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

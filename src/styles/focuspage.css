@@ -58,6 +58,7 @@
 .timer {
   text-align: center;
   align-items: center;
+  margin-bottom: 94px;
 }
 .button-wrap {
   display: flex;
@@ -71,22 +72,36 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-top: 94px;
 }
 
 .start-button-icon {
   width: 44px;
   height: 44px;
 }
+.circle-btn {
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  border-radius: 110px;
+}
+
+.start-controls {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.stop-botton,
+.reset-botton {
+  width: 35px;
+  height: 35px;
+}
 
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   .focus-title {
     max-width: 700px;
     margin: 0 auto 16px;
-  }
-
-  .hobbies-moveButtons {
-    gap: 12px;
   }
 
   .move-btn-home {
@@ -137,7 +152,6 @@
   .timer-display {
     font-size: 80px !important;
     text-align: center;
-    
   }
   .edit-btn {
     position: absolute;
