@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/studycard.css';
 import pointIcon from '../assets/icons/ic_point.svg';
 import { addRecentViewedStudy } from '../utils/recentViewed'; // 최근 조회
+import { getDaysInProgress } from '../utils/date';
 
 // emojiCode("1f431") → 실제 이모지로 변환
 function convertEmoji(code) {
@@ -12,7 +13,6 @@ function convertEmoji(code) {
     return code; // 혹시 오류나면 원래 문자 표시
   }
 }
-
 // 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
 const SOLID_BG_KEYS = ['green', 'yellow', 'blue', 'pink'];
 
@@ -23,13 +23,17 @@ export default function StudyCard({ study }) {
     nickname, // 닉네임
     title, // 스터디 이름
     description, // 스터디 소개
-    daysInProgress, // "OO일째 진행 중" 쪽 숫자 (예: 62)
+    status,
+    createdAt,
+    updatedAt,
     backgroundImage, // 'green' | 'yellow' | 'blue' | 'pink' | 'workspace_1' ...
     totalPoints, // 현재까지 획득한 포인트 (예: 310)
     topEmojis = [], // 나중에 API에서 내려줄 상위 3개 이모지 [{ emojiId, emojiCode, count }, ...]
   } = study;
 
   const navigate = useNavigate();
+  // 날짜 계산
+  const daysInProgress = getDaysInProgress(createdAt);
 
   /* 사진 배경 스터디 카드 */
   const isPhotoBg = backgroundImage && !SOLID_BG_KEYS.includes(backgroundImage);
@@ -61,26 +65,34 @@ export default function StudyCard({ study }) {
       className={`study-card ${variantClass} ${photoClass} ${bgClass}`}
       onClick={handleCardClick}
     >
-      {/* 상단 포인트 뱃지 */}
-      <button
-        type="button"
-        className="study-card__point-badge"
-        onClick={e => e.stopPropagation()} // 카드 클릭과 분리
-      >
-        <img src={pointIcon} alt="" className="study-card__point-badge-icon" />
-        <span className="study-card__point-badge-text">
-          {totalPoints}P 획득
-        </span>
-      </button>
-
       {/* 상단 텍스트 영역 */}
       <header className="study-card__header">
-        <h3 className="study-card__title">
-          <span className="study-card__nickname">{nickname}</span>
-          {'의 '}
-          {title}
-        </h3>
+        {/* 제목 + 포인트 배지 한 줄 */}
+        <div className="study-card__top-row">
+          <h3 className="study-card__title">
+            <span className="study-card__nickname">{nickname}</span>
+            {'의 '}
+            {title}
+          </h3>
 
+          {/* 포인트 배지 (하나만 사용) */}
+          <button
+            type="button"
+            className="study-card__point-badge"
+            onClick={e => e.stopPropagation()} // 카드 클릭과 분리
+          >
+            <img
+              src={pointIcon}
+              alt=""
+              className="study-card__point-badge-icon"
+            />
+            <span className="study-card__point-badge-text">
+              {totalPoints}P 획득
+            </span>
+          </button>
+        </div>
+
+        {/* 진행 일수 */}
         <p className="study-card__days">
           {daysInProgress != null ? `${daysInProgress}일째 진행 중` : ''}
         </p>
@@ -89,7 +101,7 @@ export default function StudyCard({ study }) {
       {/* 소개 텍스트 */}
       <p className="study-card__description">{description}</p>
 
-      {/* 하단 이모지 영역 (API 붙으면 자동으로 표시됨) */}
+      {/* 하단 이모지 영역 (API 붙으면 자동 표시) */}
       {visibleEmojis.length > 0 && (
         <footer className="study-card__footer">
           <div className="study-card__emojis">
@@ -98,10 +110,9 @@ export default function StudyCard({ study }) {
                 key={emoji.emojiId}
                 type="button"
                 className="study-card__emoji"
-                onClick={e => e.stopPropagation()} // 카드 클릭 막기
+                onClick={e => e.stopPropagation()}
               >
                 <span className="study-card__emoji-icon">
-                  {/* emojiCode → 실제 이모지 변환 로직 */}
                   {convertEmoji(emoji.emojiCode)}
                 </span>
                 <span className="study-card__emoji-count">{emoji.count}</span>
