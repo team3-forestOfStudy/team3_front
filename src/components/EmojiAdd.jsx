@@ -2,36 +2,47 @@ import React, { useState, useRef, useEffect } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 import SmileButton from '../components/SmileButton.jsx';
 import EmojiTag from '../components/EmojiTag.jsx';
+import { postStudyListEmoji, getStudyListEmoji } from '../utils/testapi.js';
 import '../styles/emoji.css';
 
 export default function EmojiCounterWithImage() {
-  const [emojiCounts, setEmojiCounts] = useState({});
+  const [emojis, setEmojis] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [EojiOpen, setEojiOpen] = useState(false);
 
   const warpRef = useRef(null); // ⭐ warp를 잡을 ref
   const emojiwarpRef = useRef(null); // ⭐ warp를 잡을 ref
 
-  const onEmojiClick = emojiData => {
-    const key = emojiData.unified;
-    console.log(emojiData.unified);
+  // 이모지 api 받아오기
+  const fetchEmojis = async () => {
+    try {
+      const { data } = await getStudyListEmoji(3);
+      setEmojis(data);
 
-    setEmojiCounts(prev => ({
-      ...prev,
-      [key]: {
-        data: emojiData,
-        count: prev[key] ? prev[key].count + 1 : 1,
-      },
-    }));
+      // now you have the actual data
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const emojiList = Object.values(emojiCounts);
+  // 이모지 서버에 추가하고 서버에잇는 이모지 받아오기
+  const onEmojiClick = async emojiData => {
+    const key = emojiData.unified;
+    // 스터디 번호
+    const studyid = 3;
+    // 이모지 서버에 추가
+    await postStudyListEmoji(studyid, key);
+    await fetchEmojis();
+  };
+
+  // 서버에서 받아온 이모지 코드를 정렬해서 보여주기
+  const emojiList = Object.values(emojis);
   const maxVisible = 3;
-  const visibleItems = emojiList.slice(0, maxVisible);
+  const emojiCodeItems = emojiList.slice(0, maxVisible);
   const moreCount =
     emojiList.length > maxVisible ? emojiList.length - maxVisible : 0;
 
-  // ⭐ 외부 클릭 감지 (warpRef 밖 클릭 시 setIsOpen(false))
+  // ⭐ 더보기 팝업 외부 클릭 감지 (warpRef 밖 클릭 시 setIsOpen(false))
   useEffect(() => {
     if (!isOpen) return;
 
@@ -48,7 +59,7 @@ export default function EmojiCounterWithImage() {
     };
   }, [isOpen]);
 
-  // ⭐ 외부 클릭 감지 (emojiwarpRef 밖 클릭 시 setEojiOpen(false))
+  // ⭐ 이모지 팝업 외부 클릭 감지 (emojiwarpRef 밖 클릭 시 setEojiOpen(false))
   useEffect(() => {
     if (!EojiOpen) return;
 
@@ -65,15 +76,20 @@ export default function EmojiCounterWithImage() {
     };
   }, [EojiOpen]);
 
+  useEffect(() => {
+    // 서버에서 이모지목록 보여주지
+    fetchEmojis(); // call the async function
+  }, []);
+
   return (
     <>
       <div className="emoji_wrap">
         <ul className="emoji_list">
-          {visibleItems.map((item, idx) => (
+          {emojiCodeItems.map((emojis, idx) => (
             <EmojiTag
-              unified={item.data.unified}
+              unified={emojis.emojiCode}
               key={idx}
-              count={item.count}
+              count={emojis.count}
             />
           ))}
 
@@ -86,11 +102,11 @@ export default function EmojiCounterWithImage() {
           {isOpen && (
             <div className="emoji_more_warp" ref={warpRef}>
               <ul className="emoji_more_list">
-                {emojiList.map((item, idx) => (
+                {emojiList.map((emojis, idx) => (
                   <EmojiTag
-                    unified={item.data.unified}
+                    unified={emojis.emojiCode}
                     key={idx}
-                    count={item.count}
+                    count={emojis.count}
                   />
                 ))}
               </ul>
