@@ -19,8 +19,8 @@
   gap: 4px;
   width: 144px;
   height: 48px;
-  border: 2px solid #DDDD; 
-  border-radius: 15px; 
+  border: 2px solid #dddd;
+  border-radius: 15px;
 }
 
 .point-find {
@@ -38,32 +38,30 @@
   width: 184px;
   height: 31px;
 }
-
-.focus-watch {
-  display: block;
-  border: 1px solid #DDDD;
-  border-radius: 20px;
-  padding: 40px 24px;
-  margin-top: 24px;
-}
-
 .focus-header {
   display: flex;
   gap: 92px;
   text-align: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 100px;
   margin-left: 485px;
 }
 
-.stopwatch {
+.focus-watch {
+  display: block;
+  border: 1px solid #dddd;
+  border-radius: 20px;
+  padding: 40px 24px;
+  margin-top: 24px;
+}
+
+.timer {
   text-align: center;
   align-items: center;
 }
 .button-wrap {
   display: flex;
   justify-content: center;
-  
 }
 .start-button {
   width: 333px;
@@ -79,5 +77,70 @@
 .start-button-icon {
   width: 44px;
   height: 44px;
-  
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .focus-title {
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+
+  .hobbies-moveButtons {
+    gap: 12px;
+  }
+
+  .move-btn-home {
+    width: 90px;
+    height: 44px;
+  }
+
+  .focus-header {
+    margin-left: 0;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 94px;
+  }
+
+  .edit-btn {
+    position: absolute;
+    right: 100px;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 600px) {
+  .focus-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    white-space: normal;
+  }
+
+  .focus-watch {
+    max-width: 360px;
+    margin: 16px auto 0;
+    padding: 24px 16px;
+    border-radius: 16px;
+    height: 100%;
+  }
+  .focus-header {
+    margin-left: 0;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 94px;
+  }
+
+  .timer-display {
+    font-size: 80px !important;
+    text-align: center;
+    
+  }
+  .edit-btn {
+    position: absolute;
+    right: 10px;
+  }
 }

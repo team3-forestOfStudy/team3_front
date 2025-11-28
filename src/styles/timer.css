@@ -1,0 +1,60 @@
+/* 큰 타이머 숫자 영역 (기존) */
+.timer-display {
+  font-size: 160px;
+  line-height: 1;
+  text-align: center;
+}
+
+/* 3분 이하일 때 빨간색 (기존) */
+.timer-display-danger {
+  color: #ff3b30;
+}
+
+/* 입력 모드에서 MM:SS 배치 */
+.timer-inputs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 분/초 입력 칸 - 밑줄/테두리 없이 숫자만 보이게 */
+.timer-field {
+  width: 2.8ch;            /* 숫자 2~3자리 정도 */
+  border: none;
+  background: transparent;
+  outline: none;
+  font: inherit;           /* g_sub_text20, fw_eb 그대로 사용 */
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* 콜론(:) */
+.timer-colon {
+  font: inherit;
+}
+
+/* 위쪽 칩/라벨(기존 스타일 유지용) */
+.timer-config {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.timer-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #e0e0e0;
+  font-size: 12px;
+  color: #555555;
+  background-color: #fafafa;
+}
+
+.timer-label {
+  font-size: 12px;
+}

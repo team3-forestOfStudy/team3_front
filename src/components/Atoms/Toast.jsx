@@ -1,6 +1,6 @@
 import "./Message.css";
 
-export default function Toast({ type = "info", message, className= "" }) {
+export default function Toast({ type = "info", message, className = "" }) {
   const icons = {
     error: "🚨",
     warning: "🚨",
