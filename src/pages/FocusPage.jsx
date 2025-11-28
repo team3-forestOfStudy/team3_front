@@ -1,8 +1,8 @@
-import { Link, Router } from 'react-router-dom';
-import { Title } from '../mock/Title';
-import arrow from '../assets/icons/arrow.svg';
-import '../styles/focuspage.css';
-import Start from '../assets/icons/starticon.svg';
+import { Link, Router } from "react-router-dom";
+import { Title } from "../mock/Title";
+import arrow from "../assets/icons/arrow.svg";
+import "../styles/focuspage.css";
+import Start from "../assets/icons/starticon.svg";
 
 const FocusPage = () => {
   return (
@@ -23,7 +23,7 @@ const FocusPage = () => {
                 </Link>
               </div>
             </div>
-            
+
             <div className="point-find">
               <h3 className="g_sub_text06 fw_l">현재까지 획득한 포인트</h3>
               <h3 className="reward-point">310p 획득</h3>
