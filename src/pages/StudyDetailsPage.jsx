@@ -4,19 +4,21 @@ import TextButton from '../components/Atoms/TextButton.jsx';
 import PointButton from '../components/Atoms/PointButton.jsx';
 import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
 import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
-import getStudyList from '../utils/testapi.js';
+import { getStudyList } from '../utils/testapi.js';
 import '../styles/studydetail.css';
 
 export default function StudyDetailsPage() {
-  const [data, setData] = useState(null);
-  const StudyDetailLoad = async () => {
+  // 스터디 api
+  const [data, setData] = useState('');
+  const studyDetailLoad = async () => {
     const { data } = await getStudyList(3);
     setData(data);
+    console.log(data);
   };
+
   useEffect(() => {
-    StudyDetailLoad();
+    studyDetailLoad();
   }, []);
-  if (!data) return <div>로딩중...</div>;
 
   const point = '10' + 'P';
 
