@@ -7,7 +7,50 @@ import Clock from "../assets/icons/clock.svg";
 import Modal from "../components/Atoms/Modal";
 import { showSuccesToast, showStopToast } from "../utils/toastmessage";
 
-const Timer = () => {
+// - 나중에 백엔드 배포가 끝나면 이 값을 실제 서버 주소로 교체하면 됨
+const API_BASE_URL = "http://localhost:4000";
+
+async function createFocusLog({ studyId, plannedMinutes, actualMinutes }) {
+  if (studyId == null) {
+    console.warn("studyId가 없습니다. API를 호출하지 않습니다.");
+    return null;
+  }
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/studies/${studyId}/focus-logs`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plannedMinutes,
+          actualMinutes,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      console.error("포커스 로그 생성 실패:", response.status);
+      return null;
+    }
+
+    const result = await response.json();
+    return result?.data ?? null;
+  } catch (error) {
+    console.error("포커스 로그 API 호출 중 에러:", error);
+    return null;
+  }
+}
+
+const calcFocusPoint = minutes => {
+  if (minutes <= 0) return 0;
+  const bonus = Math.floor(minutes / 10);
+  return 3 + bonus;
+};
+
+const Timer = ({ studyId, onPointEarned }) => {
   const [durationMinutes, setDurationMinutes] = useState(0);
   const [minutesInput, setMinutesInput] = useState("0");
 
@@ -35,12 +78,6 @@ const Timer = () => {
     return `${mm}:${ss}`;
   };
 
-  const calcFocusPoint = minutes => {
-    if (minutes <= 0) return 0;
-    const bonus = Math.floor(minutes / 10);
-    return 3 + bonus;
-  };
-
   useEffect(() => {
     if (isRunning) {
       intervalIdRef.current = setInterval(() => {
@@ -49,10 +86,34 @@ const Timer = () => {
 
           if (prev > 0 && next <= 0 && !hasFinishedRef.current) {
             hasFinishedRef.current = true;
-            const point = calcFocusPoint(durationMinutes);
-            if (point > 0) {
-              showSuccesToast(point);
-            }
+
+            const plannedMinutes = durationMinutes;
+            const actualMinutes = durationMinutes;
+
+            (async () => {
+              const data = await createFocusLog({
+                //실제로 API연결되면 그냥 syudyID
+                studyId: 3,
+                plannedMinutes,
+                actualMinutes,
+              });
+
+              const pointFromServer =
+                data && typeof data.pointAmount === "number"
+                  ? data.pointAmount
+                  : null;
+
+              if (pointFromServer != null && pointFromServer > 0) {
+                showSuccesToast(pointFromServer);
+                if (onPointEarned) onPointEarned(pointFromServer);
+              } else {
+                const fallbackPoint = calcFocusPoint(durationMinutes);
+                if (fallbackPoint > 0) {
+                  showSuccesToast(fallbackPoint);
+                  if (onPointEarned) onPointEarned(fallbackPoint);
+                }
+              }
+            })();
           }
 
           return next;
@@ -66,7 +127,7 @@ const Timer = () => {
         intervalIdRef.current = null;
       }
     };
-  }, [isRunning, durationMinutes]);
+  }, [isRunning, durationMinutes, studyId]);
 
   const handleFirstStartClick = () => {
     setIsModalOpen(true);
@@ -113,6 +174,7 @@ const Timer = () => {
 
   const handleStop = () => {
     setIsRunning(false);
+    showStopToast();
   };
 
   const handleReset = () => {
@@ -175,10 +237,7 @@ const Timer = () => {
         <div className="start-controls">
           <button
             type="button"
-            onClick={() => {
-              handleStop();
-              showStopToast();
-            }}
+            onClick={handleStop}
             className="circle-btn bg_green_700"
             aria-label="일시정지"
           >

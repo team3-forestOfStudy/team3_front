@@ -1,5 +1,5 @@
 import { Title } from "../mock/Title";
-import Date from "../utils/Date";
+import Date from "../utils/TodayDate";
 import { Chip } from "../components/Atoms/Chip";
 import { Link } from "react-router-dom";
 import arrow from "../assets/icons/arrow.svg";
