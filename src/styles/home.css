@@ -156,3 +156,66 @@
 .home-section--recent .g_tit {
   margin-bottom: 30px; /* 제목 아래 여백 */
 }
+
+/* -------------------------------------------------------------------- */
+/* 화살표 이동 기능 */
+/* 가로 스크롤 영역 감싸는 래퍼 */
+.recent-scroller-wrapper {
+  position: relative;
+}
+
+/* 화살표 공통 스타일 (PC/태블릿) */
+.recent-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+.recent-arrow img {
+  width: 16px;
+  height: 16px;
+}
+
+/* 왼쪽 / 오른쪽 위치 */
+.recent-arrow--left {
+  left: -18px;
+}
+
+.recent-arrow--right {
+  right: -18px;
+  /* 오른쪽 화살표는 이미지를 반대로 회전 */
+}
+
+.recent-arrow--right img {
+  transform: rotate(180deg);
+}
+
+/* 비활성화 상태 */
+.recent-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* 호버 시 약간 강조 (비활성 아닐 때만) */
+.recent-arrow:not(:disabled):hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* 모바일(600px 이하)에서는 화살표 숨김 */
+@media (max-width: 600px) {
+  .recent-arrow {
+    display: none;
+  }
+}
