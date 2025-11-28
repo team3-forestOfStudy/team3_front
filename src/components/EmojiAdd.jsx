@@ -5,7 +5,7 @@ import EmojiTag from '../components/EmojiTag.jsx';
 import { postStudyListEmoji, getStudyListEmoji } from '../utils/testapi.js';
 import '../styles/emoji.css';
 
-export default function EmojiCounterWithImage() {
+export default function EmojiCounterWithImage({ studyId }) {
   const [emojis, setEmojis] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [EojiOpen, setEojiOpen] = useState(false);
@@ -16,7 +16,7 @@ export default function EmojiCounterWithImage() {
   // 이모지 api 받아오기
   const fetchEmojis = async () => {
     try {
-      const { data } = await getStudyListEmoji(3);
+      const { data } = await getStudyListEmoji(studyId);
       setEmojis(data);
 
       // now you have the actual data
@@ -29,18 +29,16 @@ export default function EmojiCounterWithImage() {
   const onEmojiClick = async emojiData => {
     const key = emojiData.unified;
     // 스터디 번호
-    const studyid = 3;
+    const studyid = studyId;
     // 이모지 서버에 추가
     await postStudyListEmoji(studyid, key);
     await fetchEmojis();
   };
 
   // 서버에서 받아온 이모지 코드를 정렬해서 보여주기
-  const emojiList = Object.values(emojis);
   const maxVisible = 3;
-  const emojiCodeItems = emojiList.slice(0, maxVisible);
-  const moreCount =
-    emojiList.length > maxVisible ? emojiList.length - maxVisible : 0;
+  const emojiCodeItems = emojis.slice(0, maxVisible);
+  const moreCount = emojis.length > maxVisible ? emojis.length - maxVisible : 0;
 
   // ⭐ 더보기 팝업 외부 클릭 감지 (warpRef 밖 클릭 시 setIsOpen(false))
   useEffect(() => {
@@ -102,7 +100,7 @@ export default function EmojiCounterWithImage() {
           {isOpen && (
             <div className="emoji_more_warp" ref={warpRef}>
               <ul className="emoji_more_list">
-                {emojiList.map((emojis, idx) => (
+                {emojis.map((emojis, idx) => (
                   <EmojiTag
                     unified={emojis.emojiCode}
                     key={idx}

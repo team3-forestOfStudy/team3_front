@@ -4,19 +4,27 @@ import TextButton from '../components/Atoms/TextButton.jsx';
 import PointButton from '../components/Atoms/PointButton.jsx';
 import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
 import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
-import { getStudyList } from '../utils/testapi.js';
+import { getStudyListEmoji, getStudyList } from '../utils/testapi.js';
 import '../styles/studydetail.css';
-
+let studyId = 3;
 export default function StudyDetailsPage() {
-  // 스터디 api
+  // 스터디
   const [data, setData] = useState('');
+  const [emojiData, setEmojiData] = useState('');
+
+  // 스터디 상세페이지 가져오기
   const studyDetailLoad = async () => {
-    const { data } = await getStudyList(3);
+    const { data } = await getStudyList(studyId);
     setData(data);
-    console.log(data);
   };
 
+  // 이모지 api
+  const emojiLoad = async () => {
+    const { data } = await getStudyListEmoji(studyId);
+    setEmojiData(data);
+  };
   useEffect(() => {
+    emojiLoad();
     studyDetailLoad();
   }, []);
 
@@ -29,7 +37,7 @@ export default function StudyDetailsPage() {
           <div className="g_box">
             {/* 캡션 이모지 영역 */}
             <div className="detail_top">
-              <EmojiCounterWithImage />
+              <EmojiCounterWithImage studyId={studyId} />
               <div className="detail_top_right">
                 <TextButton className="g_sub_text09 green_700">
                   공유하기
