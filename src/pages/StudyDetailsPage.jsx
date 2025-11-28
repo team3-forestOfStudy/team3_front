@@ -5,6 +5,7 @@ import PointButton from '../components/Atoms/PointButton.jsx';
 import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
 import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
 import { getStudyListEmoji, getStudyList } from '../utils/testapi.js';
+import PasswordModal from '../components/PasswordModal.jsx';
 import '../styles/studydetail.css';
 let studyId = 3;
 export default function StudyDetailsPage() {
@@ -28,8 +29,6 @@ export default function StudyDetailsPage() {
     studyDetailLoad();
   }, []);
 
-  const point = '10' + 'P';
-
   return (
     <>
       <div className="container" id="container">
@@ -40,16 +39,24 @@ export default function StudyDetailsPage() {
               <EmojiCounterWithImage studyId={studyId} />
               <div className="detail_top_right">
                 <TextButton className="g_sub_text09 green_700">
-                  공유하기
+                  공유 하기
                 </TextButton>
                 <p>|</p>
-                <TextButton className="g_sub_text09 green_700">
+                <PasswordModal
+                  title={data.title}
+                  studyId={studyId}
+                  actionType="edit"
+                >
                   수정하기
-                </TextButton>
+                </PasswordModal>
                 <p>|</p>
-                <TextButton className="g_sub_text09 gray_600">
+                <PasswordModal
+                  title={data.title}
+                  studyId={studyId}
+                  actionType="delete"
+                >
                   스터디 삭제하기
-                </TextButton>
+                </PasswordModal>
               </div>
             </div>
             {/* 스터디 제목 */}
@@ -73,7 +80,7 @@ export default function StudyDetailsPage() {
                 <h2 className="g_sub_text07 fw_l gray_600">
                   현재까지 획득한 포인트
                 </h2>
-                <PointButton>{point} 획득</PointButton>
+                <PointButton>{data.totalPoints} P 획득</PointButton>
               </div>
               {/*  스케줄 영역 */}
               <div className="detail_bottom">

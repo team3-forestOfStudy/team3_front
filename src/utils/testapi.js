@@ -6,6 +6,21 @@ export async function getStudyList(id) {
   return body;
 }
 
+export async function deleteStudyList(id, password) {
+  const response = await fetch(`${BASE_URL}studies/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      password: password,
+    }),
+  });
+
+  const body = await response.json();
+  return body;
+}
+
 // export async function postStudyListEmoji(emojiformData) {
 //   const response = await fetch(`http://172.30.1.30:4000/api/studies/3/emojis`, {
 //     method: 'POST',
