@@ -1,0 +1,119 @@
+.timer-display {
+  font-size: 160px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 94px;
+}
+
+.timer-display-danger {
+  color: #ff3b30;
+}
+
+.timer-config {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.timer-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #e0e0e0;
+  font-size: 12px;
+  color: #555555;
+  background-color: #fafafa;
+}
+
+.timer-clock-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.timer-config-text {
+  font-size: 12px;
+}
+
+.timer-inputs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-field {
+  width: 2.8ch;
+  border: none;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.timer-colon {
+  font: inherit;
+}
+
+.timer-label {
+  font-size: 12px;
+}
+
+.start-controls {
+  display: flex;
+}
+.start-button {
+  width: 333px;
+  height: 60px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.start-button-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.timer-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.timer-modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  border-radius: 100px;
+}
+
+@media screen and (max-width: 600px) {
+  .timer-display {
+    font-size: 80px;
+    margin-bottom: 48px;
+  }
+
+  .timer-config-text {
+    font-size: 11px;
+  }
+
+  .timer-chip {
+    padding: 3px 10px;
+  }
+  .start-controls {
+    gap: 2px;
+  }
+  .start-button {
+    width: 200px;
+    border-radius: 30px;
+  }
+}

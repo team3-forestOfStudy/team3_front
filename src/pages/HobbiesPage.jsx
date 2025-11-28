@@ -1,17 +1,17 @@
-import { Title } from '../mock/Title';
-import Date from '../utils/Date';
-import { Chip } from '../components/Atoms/Chip';
-import { Link } from 'react-router-dom';
-import arrow from '../assets/icons/arrow.svg';
-import '../styles/hobbiespage.css';
-import { useEffect, useState } from 'react';
-import ListModal from '../components/ListModal';
-import MOCK_HABITS from '../mock/inital-content.json';
+import { Title } from "../mock/Title";
+import Date from "../utils/Date";
+import { Chip } from "../components/Atoms/Chip";
+import { Link } from "react-router-dom";
+import arrow from "../assets/icons/arrow.svg";
+import "../styles/hobbiespage.css";
+import { useEffect, useState } from "react";
+import ListModal from "../components/ListModal";
+import MOCK_HABITS from "../mock/inital-content.json";
 
 const HobbiesPage = () => {
   // const compledIds = new Set();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [habits, setHabits] = useState([])
+  const [habits, setHabits] = useState([]);
 
   //선택된 habbit의 id 저장
   const [selectedHabitIds, setSelectedHabitIds] = useState([]);
@@ -27,19 +27,18 @@ const HobbiesPage = () => {
     //   });
   }, []);
 
-
   const handleClickHabit = async habit => {
-    setSelectedHabitIds(prev => 
+    setSelectedHabitIds(prev =>
       prev.includes(habit.id)
         ? prev.filter(id => id !== habit.id)
-        : [...prev, habit.id]
+        : [...prev, habit.id],
     );
 
     try {
       const response = await fetch(`/api/habits/${habit.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           done: true,
@@ -47,10 +46,10 @@ const HobbiesPage = () => {
       });
 
       if (!response.ok) {
-        console.error('습관 업데이트 실패');
+        console.error("습관 업데이트 실패");
       }
     } catch (error) {
-      console.error('네트워크 오류', error);
+      console.error("네트워크 오류", error);
     }
   };
 
@@ -60,8 +59,8 @@ const HobbiesPage = () => {
   const handleClose = () => setIsModalOpen(false);
 
   const handleSaveHabits = updatedHabits => {
-    setHabits(updatedHabits)
-  }
+    setHabits(updatedHabits);
+  };
 
   return (
     <>
@@ -100,9 +99,7 @@ const HobbiesPage = () => {
                 {habits.length === 0 ? (
                   <p className="no-habit-message g_sub_text04 fw_m gray_600">
                     아직 습관이 없어요. <br />
-                    <span>
-                      목록 수정을 눌러 습관을 생성해보세요!
-                    </span>
+                    <span>목록 수정을 눌러 습관을 생성해보세요!</span>
                   </p>
                 ) : (
                   habits.map(habit => (
@@ -111,8 +108,8 @@ const HobbiesPage = () => {
                       onClick={() => handleClickHabit(habit)}
                       className={`fw_b gray_600 habbit-chip ${
                         selectedHabitIds.includes(habit.id)
-                          ? 'habbit-chip--selected'
-                          : ''
+                          ? "habbit-chip--selected"
+                          : ""
                       }`}
                     >
                       {habit.title}
@@ -124,11 +121,11 @@ const HobbiesPage = () => {
           </div>
         </div>
       </div>
-      <ListModal 
-      isOpen={isModalOpen} 
-      onClose={handleClose}
-      habits={habits}
-      onSave={handleSaveHabits}
+      <ListModal
+        isOpen={isModalOpen}
+        onClose={handleClose}
+        habits={habits}
+        onSave={handleSaveHabits}
       />
     </>
   );

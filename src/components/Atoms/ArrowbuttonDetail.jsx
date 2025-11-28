@@ -1,5 +1,5 @@
-import './arrowbutton.css';
-import ArrowRight from '../../assets/icons/arrow.svg';
+import "./arrowbutton.css";
+import ArrowRight from "../../assets/icons/arrow.svg";
 
 export default function ArrowButton({ children }) {
   return (
