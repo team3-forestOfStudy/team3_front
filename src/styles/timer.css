@@ -83,17 +83,34 @@
   height: 24px;
 }
 
+.timer-modal {
+  display: block;
+  width: 100%;
+}
+
+.timer-modal-inputs{
+  margin: 30px;
+  gap: -10px !important;
+}
+
+.timer-modal-input {
+  font-size: 30px !important; 
+}
+
 .timer-modal-buttons {
   display: flex;
   justify-content: center;
   gap: 30px;
+  padding: 20px;
 }
 .timer-modal-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
+  height: 50px;
   border-radius: 100px;
+  padding: 15px;
 }
 
 @media screen and (max-width: 600px) {
