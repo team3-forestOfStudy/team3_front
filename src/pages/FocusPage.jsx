@@ -10,7 +10,8 @@ import PointButton from "../components/Atoms/PointButton.jsx";
 const API_BASE_URL = "http://localhost:4000";
 
 const FocusPage = () => {
-  // const { studyId } = useParams();
+  // const { id } = useParams();
+  // const studyId = Number(id);
   const studyId = 11; //지금은 임의로 studyId = 3을 설정
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ const FocusPage = () => {
             )}
 
             <div className="focus-move-btns">
-              <Link to="/Hobbies" className="move-btn-hobbies gray_600">
+              <Link to={`/study/${studyId}/hobbies`} className="move-btn-hobbies gray_600">
                 오늘의 습관
                 <img src={arrow} alt="arrow" className="arrow-icon" />
               </Link>
