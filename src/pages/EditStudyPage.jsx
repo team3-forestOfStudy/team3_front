@@ -1,9 +1,10 @@
-// EditStudyPage.jsx (updated: 수정 성공 후 상세 페이지 이동)
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import StudyMake from '../components/StudyMake.jsx';
+// EditStudyPage.jsx (토스트 알림 + 1초 후 상세 페이지 이동)
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import StudyMake from "../components/StudyMake.jsx";
 
-const API_BASE_URL = 'http://localhost:4000';
+const API_BASE_URL = "http://localhost:4000";
 
 export default function EditStudyPage() {
   const { id } = useParams();
@@ -11,14 +12,19 @@ export default function EditStudyPage() {
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // 스터디 기본 정보 불러오기
   useEffect(() => {
     const loadStudy = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/studies/${id}`);
         const data = await res.json();
 
-        if (!res.ok || data.result !== 'success') {
-          alert(data.message || '스터디 정보를 불러오지 못했습니다.');
+        if (!res.ok || data.result !== "success") {
+          // 조회 실패는 기존 메시지 유지 (토스트로만 변경 가능)
+          toast.error(data.message || "😨 서버 오류가 발생했습니다.", {
+            className: "toast-base g_sub_text10 fw_m",
+            autoClose: 2000,
+          });
           return;
         }
 
@@ -27,14 +33,17 @@ export default function EditStudyPage() {
         setInitialData({
           nickname: s.nickname,
           studyName: s.title,
-          intro: s.description ?? '',
+          intro: s.description ?? "",
           selectedBg: s.backgroundImage,
         });
 
         setLoading(false);
       } catch (error) {
         console.error(error);
-        alert('서버 오류가 발생했습니다.');
+        toast.error("😨 서버 오류가 발생했습니다.", {
+          className: "toast-base g_sub_text10 fw_m",
+          autoClose: 2000,
+        });
       }
     };
 
@@ -42,8 +51,9 @@ export default function EditStudyPage() {
   }, [id]);
 
   const handleUpdate = async formData => {
+    // 비밀번호 / 변경 없음 체크는 그대로 alert 사용 (로컬 검증)
     if (!formData.password) {
-      alert('수정을 위해 비밀번호를 입력해주세요.');
+      alert("수정을 위해 비밀번호를 입력해주세요.");
       return;
     }
 
@@ -71,31 +81,46 @@ export default function EditStudyPage() {
     }
 
     if (!hasChange) {
-      alert('수정할 값이 최소 1개 이상이어야 합니다.');
+      alert("수정할 값이 최소 1개 이상이어야 합니다.");
       return;
     }
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/studies/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
       const data = await res.json();
 
-      if (!res.ok || data.result !== 'success') {
-        alert(data.message || '스터디 수정에 실패했습니다.');
+      // ❌ 수정 실패
+      if (!res.ok || data.result !== "success") {
+        toast.error("😨 스터디 수정이 실패했습니다.", {
+          className: "toast-base g_sub_text10 fw_m bg_pink_100 red_600",
+          autoClose: 2000,
+        });
         return;
       }
 
-      alert(data.message || '스터디가 수정되었습니다.');
+      // ✅ 수정 성공
+      toast.success("😀 스터디가 수정되었습니다!", {
+        className: "toast-base g_sub_text10 fw_m green_700 bg_mint_100",
+        autoClose: 2000,
+        position: "top-center",
+      });
 
-      // ⭐ 수정 후 상세 페이지로 이동
-      navigate(`/Studydetails?studyId=${id}`);
+      // 1초 뒤 상세 페이지로 이동
+      setTimeout(() => {
+        navigate(`/Studydetails?studyId=${id}`);
+      }, 1000);
     } catch (error) {
       console.error(error);
-      alert('서버 오류가 발생했습니다.');
+      // 🔥 서버 오류
+      toast.error("😨 서버 오류가 발생했습니다.", {
+        className: "toast-base g_sub_text10 fw_m",
+        autoClose: 2000,
+      });
     }
   };
 
