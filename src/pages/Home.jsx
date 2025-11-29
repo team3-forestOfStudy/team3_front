@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
-import '../styles/home.css';
-import RecentViewedList from '../components/RecentViewedList.jsx';
-import StudyBrowse from '../components/StudyBrowse.jsx';
+import "../styles/home.css";
+import RecentViewedList from "../components/RecentViewedList.jsx";
+import StudyBrowse from "../components/StudyBrowse.jsx";
 
 export default function Home() {
   return (
