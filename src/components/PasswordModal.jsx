@@ -1,15 +1,15 @@
-import '../styles/passwordmodal.css';
-import React, { Children, useState } from 'react';
-import Modal from './Atoms/Modal.jsx';
-import eyeInvisible from '../assets/icons/eyes.svg';
-import eyeVisible from '../assets/icons/visible.svg';
-import { deleteStudyList } from '../utils/testapi.js';
+import "../styles/passwordmodal.css";
+import React, { Children, useState } from "react";
+import Modal from "./Atoms/Modal.jsx";
+import eyeInvisible from "../assets/icons/eyes.svg";
+import eyeVisible from "../assets/icons/visible.svg";
+import { deleteStudyList } from "../utils/testapi.js";
 
 const PASSWORD_MIN_LENGTH = 4;
 
 const message = {
-  passwordEmpty: '비밀번호를 입력해주세요',
-  passwordError: '비밀번호4자 이상 입력해주세요',
+  passwordEmpty: "비밀번호를 입력해주세요",
+  passwordError: "비밀번호4자 이상 입력해주세요",
 };
 
 export default function PasswordModal({
@@ -20,9 +20,9 @@ export default function PasswordModal({
   studyId,
 }) {
   const [open, setOpen] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
 
   const handleClose = () => {
     setOpen(false);
@@ -52,41 +52,41 @@ export default function PasswordModal({
     e.preventDefault();
     if (!password) {
       setPasswordError(message.passwordEmpty);
-      alert('비밀번호를 입력해주세요');
-      console.log('gd');
+      alert("비밀번호를 입력해주세요");
+      console.log("gd");
 
       return;
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
       setPasswordError(message.passwordError);
-      alert('비밀번호4자 이상 입력해주세요');
+      alert("비밀번호4자 이상 입력해주세요");
       return;
     }
 
     try {
-      console.log('삭제하기 실행');
+      console.log("삭제하기 실행");
       const result = await deleteStudyList(studyId, password);
 
-      console.log('삭제 요청 결과: ', result);
+      console.log("삭제 요청 결과: ", result);
 
-      if (result.result === 'success') {
-        alert('삭제되었습니다.');
+      if (result.result === "success") {
+        alert("삭제되었습니다.");
       } else {
-        alert('비밀번호가 틀렸습니다.');
+        alert("비밀번호가 틀렸습니다.");
       }
     } catch (err) {
       console.error(err);
-      setPasswordError('서버 요청 중 오류가 발생했습니다.');
+      setPasswordError("서버 요청 중 오류가 발생했습니다.");
     }
   };
 
-  if (actionType === 'edit') {
-    console.log('🎯 수정하기 실행');
+  if (actionType === "edit") {
+    console.log("🎯 수정하기 실행");
     // 수정 API
   }
 
-  if (actionType === 'delete') {
+  if (actionType === "delete") {
     // 삭제 API
   }
 
@@ -109,11 +109,11 @@ export default function PasswordModal({
           <label htmlFor="password" className="g_sub_text07 fw_sb">
             비밀번호
           </label>
-          <div className="input-wrapper">
+          <div className="input-wrapper-study">
             <input
               id="password"
               className="password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="비밀번호를 입력해 주세요"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -121,7 +121,7 @@ export default function PasswordModal({
             <button
               type="button"
               className="password-toggle-button"
-              aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+              aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
               onClick={() => setShowPassword(prev => !prev)}
             >
               <img
@@ -129,15 +129,15 @@ export default function PasswordModal({
                 src={showPassword ? eyeVisible : eyeInvisible}
                 alt={
                   showPassword
-                    ? '비밀번호 표시 상태 아이콘'
-                    : '비밀번호 숨김 상태 아이콘'
+                    ? "비밀번호 표시 상태 아이콘"
+                    : "비밀번호 숨김 상태 아이콘"
                 }
               />
             </button>
           </div>
         </div>
 
-        {actionType === 'edit' && (
+        {actionType === "edit" && (
           <button
             className="Button01 w100"
             type="button"
@@ -147,7 +147,7 @@ export default function PasswordModal({
           </button>
         )}
         {/* 삭제 버튼 */}
-        {actionType === 'delete' && (
+        {actionType === "delete" && (
           <button
             className="Button01 w100"
             type="button"
