@@ -11,7 +11,7 @@ const API_BASE_URL = "http://localhost:4000";
 
 const FocusPage = () => {
   // const { studyId } = useParams();
-  const studyId = 3; //지금은 임의로 studyId = 3을 설정
+  const studyId = 11; //지금은 임의로 studyId = 3을 설정
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -49,7 +49,7 @@ const FocusPage = () => {
               <div className="skeleton skeleton-title"></div>
             ) : (
               <h3 className="title g_sub_text01 fw_eb">
-                {study.nickname} - {study.title}
+                {study.nickname}  {study.title}
               </h3>
             )}
 
