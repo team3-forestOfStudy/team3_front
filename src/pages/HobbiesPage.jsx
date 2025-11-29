@@ -1,7 +1,7 @@
 import { Title } from "../mock/Title";
 import Date from "../utils/TodayDate";
 import { Chip } from "../components/Atoms/Chip";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import arrow from "../assets/icons/arrow.svg";
 import "../styles/hobbiespage.css";
 import { useEffect, useState } from "react";
@@ -9,29 +9,33 @@ import ListModal from "../components/ListModal";
 import MOCK_HABITS from "../mock/inital-content.json";
 
 const HobbiesPage = () => {
-  // const compledIds = new Set();
+  // 👉 URL에서 /study/:id/hobbies 의 id를 가져옴
+  const { id } = useParams();
+  const studyId = Number(id);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [habits, setHabits] = useState([]);
 
-  //선택된 habbit의 id 저장
+  // 선택된 habit의 id 저장
   const [selectedHabitIds, setSelectedHabitIds] = useState([]);
 
   useEffect(() => {
     setHabits(MOCK_HABITS);
 
-    // fetch("/api/habits")
+    // 나중에 실제 API 연동 시 studyId를 활용해서 요청 가능
+    // fetch(`/api/studies/${studyId}/habits`)
     //   .then((res) => res.json())
     //   .then((data) => setHabits(data))
     //   .catch((error) => {
     //     console.error("습관 목록 불러오기 실패", error);
     //   });
-  }, []);
+  }, [studyId]);
 
-  const handleClickHabit = async habit => {
-    setSelectedHabitIds(prev =>
+  const handleClickHabit = async (habit) => {
+    setSelectedHabitIds((prev) =>
       prev.includes(habit.id)
-        ? prev.filter(id => id !== habit.id)
-        : [...prev, habit.id],
+        ? prev.filter((id) => id !== habit.id)
+        : [...prev, habit.id]
     );
 
     try {
@@ -53,12 +57,12 @@ const HobbiesPage = () => {
     }
   };
 
-  /*모달 열기 */
+  /* 모달 열기 */
   const handleOpen = () => setIsModalOpen(true);
-  /*모달 닫기 */
+  /* 모달 닫기 */
   const handleClose = () => setIsModalOpen(false);
 
-  const handleSaveHabits = updatedHabits => {
+  const handleSaveHabits = (updatedHabits) => {
     setHabits(updatedHabits);
   };
 
@@ -71,22 +75,29 @@ const HobbiesPage = () => {
             <div className="hobbies-header">
               <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
               <div className="hobbies-moveButtons g_sub_text10 fw_m">
-                <Link to="/Focus" className="move-btn-focus gray_600">
+                {/* 같은 스터디의 포커스 페이지로 이동 */}
+                <Link
+                  to={`/study/${studyId}/focus`}
+                  className="move-btn-focus gray_600"
+                >
                   오늘의 집중
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
 
+                {/* 홈으로 이동 */}
                 <Link to="/" className="move-btn-home gray_600">
                   홈
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
               </div>
             </div>
+
             {/* 현재시간 */}
             <div className="TodayTime">
               <h3 className="g_sub_text06 fw_l">현재시간</h3>
               <Date className="date-box g_sub_text10 fw_m" />
             </div>
+
             {/* 오늘의 습관 */}
             <div className="hobbies-list-box">
               <div className="list-header">
@@ -102,7 +113,7 @@ const HobbiesPage = () => {
                     <span>목록 수정을 눌러 습관을 생성해보세요!</span>
                   </p>
                 ) : (
-                  habits.map(habit => (
+                  habits.map((habit) => (
                     <Chip
                       key={habit.id}
                       onClick={() => handleClickHabit(habit)}
@@ -121,6 +132,7 @@ const HobbiesPage = () => {
           </div>
         </div>
       </div>
+
       <ListModal
         isOpen={isModalOpen}
         onClose={handleClose}
