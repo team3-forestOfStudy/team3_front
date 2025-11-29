@@ -1,0 +1,26 @@
+.Button01 {
+  padding: 14px 0;
+  box-sizing: border-box;
+  transition: all ease-in 0.1s;
+  background-color: var(--green-300);
+  border-radius: 16px;
+  color: #fff;
+  font-family: 'JejuStoneWall';
+}
+
+.Button01:hover {
+  scale: 1.01;
+  opacity: 0.95;
+}
+
+.Button01 .Button01_text {
+  color: #fff;
+  font-family: 'JejuStoneWall';
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0px -3px 1px var(--green-700);
+}
+
+.Button01.shadowGray .Button01_text {
+  text-shadow: 0px -3px 1px var(--gray-600);
+}

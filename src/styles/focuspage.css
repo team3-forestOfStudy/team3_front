@@ -1,0 +1,196 @@
+.focus-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  white-space: nowrap;
+}
+.focus-move-btns {
+  display: flex;
+  gap: 16px;
+}
+
+.move-btn-hobbies {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 144px;
+  height: 48px;
+  border: 2px solid #dddd;
+  border-radius: 15px;
+}
+
+.point-find {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reward-point {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50px;
+  width: 184px;
+  height: 31px;
+}
+.focus-header {
+  display: flex;
+  gap: 92px;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 100px;
+  margin-left: 485px;
+}
+
+.focus-watch {
+  display: block;
+  border: 1px solid #dddd;
+  border-radius: 20px;
+  padding: 40px 24px;
+  margin-top: 24px;
+}
+
+.timer {
+  text-align: center;
+  align-items: center;
+  margin-bottom: 94px;
+}
+.button-wrap {
+  display: flex;
+  justify-content: center;
+}
+.start-button {
+  width: 333px;
+  height: 60px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.start-button-icon {
+  width: 44px;
+  height: 44px;
+}
+.circle-btn {
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  border-radius: 110px;
+}
+
+.start-controls {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.stop-botton,
+.reset-botton {
+  width: 35px;
+  height: 35px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #eeeeee 25%, #f5f5f5 50%, #eeeeee 75%);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  animation: skeleton-loading 1.2s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-title {
+  width: 260px;
+  height: 32px;
+  margin-bottom: 12px;
+}
+
+.skeleton-point-btn {
+  width: 140px;
+  height: 45px;
+  border-radius: 50px;
+  margin-top: 8px;
+}
+
+.skeleton-timer-box {
+  width: 100%;
+  height: 160px;
+  margin-top: 24px;
+  border-radius: 20px;
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .focus-title {
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+
+  .move-btn-home {
+    width: 90px;
+    height: 44px;
+  }
+
+  .focus-header {
+    margin-left: 0;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 94px;
+  }
+
+  .edit-btn {
+    position: absolute;
+    right: 100px;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 600px) {
+  .focus-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    white-space: normal;
+  }
+
+  .focus-watch {
+    max-width: 360px;
+    margin: 16px auto 0;
+    padding: 24px 16px;
+    border-radius: 16px;
+    height: 100%;
+  }
+  .focus-header {
+    margin-left: 0;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 94px;
+  }
+
+  .timer-display {
+    font-size: 80px !important;
+    text-align: center;
+  }
+  .edit-btn {
+    position: absolute;
+    right: 10px;
+  }
+}

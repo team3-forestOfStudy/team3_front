@@ -1,0 +1,17 @@
+.detail_point_button {
+    position: relative;
+    border-radius: 100px;
+    border: 1px solid var(--gray-300);
+    padding: 8px 12px;
+    padding-left: 35px;
+    z-index: 1;
+    cursor: unset;
+}
+
+.detail_point_button img {
+    position: absolute;
+    top: 49%;
+    left: 12px;
+    transform: translateY(-50%);
+    width: auto;
+}

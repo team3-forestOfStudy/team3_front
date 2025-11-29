@@ -1,0 +1,367 @@
+/* 스터디 카드 리스트 그리드 배치 */
+.study-card-list {
+  display: grid;
+  gap: 24px;
+}
+
+/* 데스크탑: 3열 (1920 ~ 1201) */
+@media (min-width: 1201px) {
+  .study-card-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* 태블릿: 2열 (1200 ~ 601) */
+@media (max-width: 1200px) and (min-width: 601px) {
+  .study-card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 모바일: 1열 (600 ~ 375) */
+@media (max-width: 600px) {
+  .study-card-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 카드 공통 스타일 */
+.study-card {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  border: solid 1px #ddd;
+  border-radius: 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 24px;
+
+  cursor: pointer;
+}
+
+/* 사진 / 단색 배경에 따른 텍스트 컬러 기본값 */
+.study-card--photo {
+  /* 기본: 사진 배경에서 쓰이는 텍스트 컬러를 변수로 관리 */
+  --study-card-text-main: #ffffff;
+  --study-card-text-sub: rgba(255, 255, 255, 0.85);
+  color: var(--study-card-text-main);
+}
+
+.study-card--solid {
+  color: var(--gray_900, #414141);
+}
+
+/* 사진 배경일 때 텍스트 컬러 (변수 기반) */
+.study-card--photo .study-card__title,
+.study-card--photo .study-card__description,
+.study-card--photo .study-card__nickname {
+  color: var(--study-card-text-main);
+}
+
+.study-card--photo .study-card__days {
+  color: var(--study-card-text-sub);
+}
+
+/* 단색 배경 클래스 (배경색) */
+.bg-green {
+  background-color: #e8f5e9;
+}
+.bg-yellow {
+  background-color: #fff8e1;
+}
+.bg-blue {
+  background-color: #e3f2fd;
+}
+.bg-pink {
+  background-color: #fce4ec;
+}
+
+/* 단색 배경일 때 닉네임 포인트 컬러 */
+.bg-green .study-card__nickname {
+  color: var(--green_700, #578246);
+}
+
+.bg-yellow .study-card__nickname {
+  color: var(--yellow_700, #c18e1b);
+}
+
+.bg-pink .study-card__nickname {
+  color: var(--red_200, #ffa3a5);
+}
+
+.bg-blue .study-card__nickname {
+  color: var(--blue_600, #418099);
+}
+
+/* 상단 텍스트 영역 */
+.study-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  /* 오버레이 위에 오도록 */
+  position: relative;
+  z-index: 1;
+}
+
+.study-card__top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* 제목 첫 줄 기준 맞추기 */
+  gap: 8px;
+}
+
+/* 스터디 카드 제목 */
+.study-card__title {
+  flex: 1 1 auto;
+  font-size: 20px;
+  font-weight: 700;
+
+  display: -webkit-box; /* 멀티라인 ellipsis 패턴 */
+  -webkit-line-clamp: 2; /* 최대 2줄 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; /* 긴 단어도 적당히 줄바꿈 */
+
+  line-height: 22px; /* 포인트 버튼과 수직 높이 중앙 정렬 위해서 */
+  min-height: 44px;
+  min-width: 0%;
+  margin: 0;
+}
+
+.study-card__nickname {
+  font-weight: 700;
+}
+
+.study-card__days {
+  font-size: 14px;
+  color: var(--gray_600, #7b7b7b);
+}
+
+/* 소개 텍스트 */
+.study-card__description {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 8px;
+
+  /* 오버레이 위에 오도록 */
+  position: relative;
+  z-index: 1;
+}
+
+/* 포인트 뱃지 (상단 오른쪽) */
+.study-card__point-badge {
+  position: static !important;
+  flex-shrink: 0; /* 버튼 작아지지 않게 방지 */
+  white-space: nowrap; /* 텍스트 줄바꿈 금지 */
+  width: 86px;
+  height: 22px;
+  padding: 0 8px;
+
+  border-radius: 999px;
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+
+  border: solid 1px #ddd;
+  opacity: 0.8; /* 포인트 버튼이 스터디 제목을 가리니까 조금 약하게*/
+
+  /* 오버레이 위에 오도록 */
+  position: relative !important;
+  z-index: 1;
+}
+
+/* 단색 배경일 때 포인트 뱃지 색상 */
+.study-card--solid .study-card__point-badge {
+  background-color: #ffffff;
+  color: var(--gray_900, #414141);
+}
+
+/* 사진 배경일 때 포인트 뱃지 색상 */
+.study-card--photo .study-card__point-badge {
+  background-color: var(--gray_900, rgba(0, 0, 0, 0.7));
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+}
+
+/* 포인트 아이콘 */
+.study-card__point-badge-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* 이모지 영역 (하단) */
+.study-card__footer {
+  margin-top: auto; /* 내용 위에 있고, footer는 카드 맨 아래로 밀림 */
+
+  /* 오버레이 위에 오도록 */
+  position: relative;
+  z-index: 1;
+}
+
+.study-card__emojis {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 개별 이모지 버튼 */
+.study-card__emoji {
+  width: 56px;
+  height: 28px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  font-size: 12px;
+  cursor: pointer;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  color: inherit;
+}
+
+/* 사진 배경일 때 이모지 버튼 배경 조금 어둡게 */
+.study-card--photo .study-card__emoji {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 이모지 아이콘 / 숫자 */
+.study-card__emoji-icon {
+  font-size: 16px;
+}
+
+.study-card__emoji-count {
+  font-size: 14px;
+  color: #fff;
+}
+
+/* 사진 배경 공통 속성 */
+.study-card.bg-photo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 사진 배경용 어두운 오버레이 */
+.study-card.bg-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); /* 전체 사진을 살짝 어둡게 */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 개별 이미지 매핑 */
+.bg-workspace_1 {
+  background-image: url("../assets/studyCard/workspace_1.svg");
+}
+.bg-workspace_2 {
+  background-image: url("../assets/studyCard/workspace_2.svg");
+}
+.bg-pattern {
+  background-image: url("../assets/studyCard/pattern.svg");
+}
+.bg-leaf {
+  background-image: url("../assets/studyCard/leaf.svg");
+}
+
+/* 📌 밝은 사진 배경(leaf 등)에서 텍스트 컬러 예외 처리 */
+/* 필요하면 bg-snow, bg-beach 같은 클래스만 추가로 더 override 하면 됨 */
+.study-card.bg-leaf {
+  --study-card-text-main: #fff;
+  --study-card-text-sub: #fff;
+}
+
+/* --------------------- 스켈레톤  ---------------------------- */
+/* 스켈레톤 공통 스타일 */
+.skeleton {
+  background: linear-gradient(90deg, #e3e3e3 25%, #f2f2f2 37%, #e3e3e3 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.2s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* 스켈레톤 반짝이는 효과 */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* 스켈레톤 카드용 래퍼 */
+.study-card--skeleton {
+  background-color: #f7f7f7;
+  border-color: #eeeeee;
+  cursor: default;
+}
+
+/* 스켈레톤 카드는 클릭/호버 안 되게 */
+.study-card--skeleton,
+.study-card--skeleton * {
+  pointer-events: none;
+}
+
+/* ------ 각 영역별 크기 지정 ------------------------ */
+
+/* 제목 자리 */
+.skeleton-title {
+  width: 60%;
+  height: 22px;
+}
+
+/* 포인트 배지 자리 */
+.skeleton-badge {
+  width: 86px;
+  height: 22px;
+}
+
+/* 00일째 진행 중 자리 */
+.skeleton-days {
+  width: 40%;
+  height: 16px;
+  margin-top: 8px;
+}
+
+/* 설명 텍스트 자리 */
+.skeleton-description-line {
+  width: 100%;
+  height: 14px;
+  margin-top: 12px;
+}
+
+.skeleton-description-line.short {
+  width: 70%;
+}
+
+/* 이모지 버튼 자리 */
+.skeleton-emoji {
+  width: 56px;
+  height: 28px;
+}
+
+/* 최근 조회 캐러셀 안 카드 폭 조정 */
+.recent-viewed__item .study-card {
+  min-width: 280px;
+  max-width: 320px;
+}

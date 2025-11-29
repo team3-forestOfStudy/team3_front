@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "path": "..",
+    },
+    {
+      "path": "../../team3_back",
+    },
+  ],
+  "settings": {},
+
+  "terminal.integrated.splitCwd": "inherited",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "frontend": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "args": ["-i"],
+      "cwd": "D:/Study/프로그래밍/Codeit/Project/team3_front",
+    },
+    "backend": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "args": ["-i"],
+      "cwd": "D:/Study/프로그래밍/Codeit/Project/team3_back",
+    },
+  },
+  "terminal.integrated.defaultProfile.windows": "frontend",
+}

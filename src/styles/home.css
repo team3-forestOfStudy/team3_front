@@ -1,0 +1,222 @@
+/* 최근 조회한 스터디 모바일 */
+.recent_box {
+  width: 344px;
+  height: 247px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+/* 스터디 둘러보기 */
+.studybrowse_box {
+  width: 344px;
+  height: 405px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+/* 태블릿: 높이값 (601px 이상) */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .recent_box {
+    width: 697px;
+    height: 338px;
+  }
+
+  .studybrowse_box {
+    width: 697px;
+    height: 627px;
+  }
+}
+
+/* 데스크탑: 높이값 (1201px 이상) */
+@media (min-width: 1201px) {
+  .recent_box {
+    width: 1200px;
+    height: 382px;
+  }
+
+  .studybrowse_box {
+    width: 1200px;
+    height: 822px;
+  }
+}
+
+/* 섹션 흰 배경 박스 */
+.home-section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 24px 40px;
+  margin-bottom: 40px;
+}
+
+/* 검색 + 정렬 한 줄 */
+.study-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px 0; /* 위아래 24px */
+  gap: 16px; /* 좁은 화면에서 살짝 여유 */
+}
+
+/* 검색창 폭 고정 (최대 335px) */
+.study-filter-bar .search-input {
+  flex: 1;
+  max-width: 335px;
+}
+
+/* 더보기 버튼 가운데 정렬 */
+.more-button-wrapper {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 섹션 비어 있을 때 중앙 정렬용 박스 */
+.home-section-empty {
+  width: 100%;
+  display: flex;
+  align-items: center; /* 세로 가운데 */
+  justify-content: center; /* 가로 가운데 */
+  color: var(--gray-600);
+  font-size: 20px;
+}
+
+/* ---- 최근 조회된 스터디 empty ---- */
+
+/* 최근 조회 카드 수 모바일 (폭 기준) */
+.study-card-list--recent .study-card {
+  flex: 0 0 100%; /* 1개 */
+}
+
+.home-section-empty--recent {
+  height: 247px; /* mobile */
+}
+
+.home-section-empty--browse {
+  height: 405px; /* mobile */
+}
+
+/* 빈 여백 - 태블릿 반응형 */
+@media (max-width: 1200px) and (min-width: 601px) {
+  .home-section-empty--recent {
+    height: 338px; /* tablet */
+  }
+
+  .home-section-empty--browse {
+    height: 627px; /* tablet */
+  }
+
+  /* 최근 조회 카드 수 (폭 기준) */
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 1 * 16px) / 2); /* 2개 */
+  }
+}
+
+/* 빈 여백 - 데스크탑 반응형 */
+@media (min-width: 1201px) {
+  .home-section-empty--recent {
+    height: 382px;
+  }
+
+  .home-section-empty--browse {
+    height: 822px;
+  }
+
+  /* 최근 조회 카드 수 (폭 기준) */
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 2 * 16px) / 3); /* 3개 + 간격 */
+  }
+}
+
+/* -------------------------------------------------------------------- */
+/* 최근 조회 섹션용 가로 스크롤 래퍼 */
+.home-section--recent .recent-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px; /* 스크롤바랑 카드가 너무 붙지 않게 */
+}
+
+/* 스크롤바 살짝만 보이게/꾸미고 싶다면 추가로 커스텀 가능 */
+.home-section--recent .recent-scroller::-webkit-scrollbar {
+  height: 6px;
+}
+
+.home-section--recent .recent-scroller::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+}
+
+/* 최근 조회 카드 리스트: 가로 한 줄 배치 (여기가 핵심) */
+/* 다른 곳에서 .study-card-list 를 grid 로 설정한 것을 이 규칙으로 덮어쓴다. */
+.home-section--recent .study-card-list {
+  display: flex !important; /* grid 덮어쓰기 */
+  gap: 16px;
+  flex-wrap: nowrap !important; /* 줄바꿈 방지 */
+}
+
+/* 섹션 타이틀과 카드 사이 간격 */
+.home-section--recent .g_tit {
+  margin-bottom: 30px; /* 제목 아래 여백 */
+}
+
+/* -------------------------------------------------------------------- */
+/* 화살표 이동 기능 */
+/* 가로 스크롤 영역 감싸는 래퍼 */
+.recent-scroller-wrapper {
+  position: relative;
+}
+
+/* 화살표 공통 스타일 (PC/태블릿) */
+.recent-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: solid 1px #ddd;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+.recent-arrow img {
+  width: 24px;
+  height: 24px;
+}
+
+/* 왼쪽 / 오른쪽 위치 */
+.recent-arrow--left {
+  left: -18px;
+}
+
+.recent-arrow--right {
+  right: -18px;
+  /* 오른쪽 화살표는 이미지를 반대로 회전 */
+}
+
+/* 왼쪽 화살표 이미지를 반대로 회전 */
+.recent-arrow--left img {
+  transform: rotate(180deg);
+}
+
+/* 비활성화 상태 */
+.recent-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* 호버 시 약간 강조 (비활성 아닐 때만) */
+.recent-arrow:not(:disabled):hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* 모바일(600px 이하)에서는 화살표 숨김 */
+@media (max-width: 600px) {
+  .recent-arrow {
+    display: none;
+  }
+}

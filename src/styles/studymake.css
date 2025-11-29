@@ -1,0 +1,63 @@
+/* 스터디 만들기 전체 박스 모바일 */
+.studymake-box {
+  padding: 16px;
+  width: 344px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+/* 태블릿: 601px ~ 1200px */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .studymake-box {
+    width: 696px;
+    padding: 24px;
+  }
+}
+
+/* 데스크탑: 1201px 이상 */
+@media (min-width: 1201px) {
+  .studymake-box {
+    width: 696px;
+    padding: 24px;
+  }
+}
+
+/* 배경이미지 8개 그리드 */
+.bg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 모바일 2열 */
+  gap: 16px;
+}
+
+/* 배경이미지 태블릿 이상에서 4열*/
+@media (min-width: 601px) {
+  .bg-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.bg-item {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* 컬러형 div는 g_boxs가 크기/라운드 담당 */
+.bg-item__image {
+  width: 150px;
+  height: 150px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+/* 배경 이미지 선택 아이콘 */
+.bg-item__selected-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+}
