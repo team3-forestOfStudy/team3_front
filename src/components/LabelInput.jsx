@@ -1,15 +1,15 @@
 // src/components/LabelInput.jsx
-import { useState } from 'react';
-import icSearch from '../assets/icons/search.svg';
-import icVisibleOn from '../assets/icons/visible.svg';
-import icVisibleOff from '../assets/icons/eyes.svg';
-import '../styles/labelinput.css';
+import { useState } from "react";
+import icSearch from "../assets/icons/search.svg";
+import icVisibleOn from "../assets/icons/visible.svg";
+import icVisibleOff from "../assets/icons/eyes.svg";
+import "../styles/labelinput.css";
 
 export default function LabelInput({
   label,
   placeholder,
-  type = 'text', // "text" | "password" ...
-  as = 'input', // "input" | "textarea"
+  type = "text", // "text" | "password" ...
+  as = "input", // "input" | "textarea"
   value,
   onChange,
   errorType, // "", "empty", "invalid", "noNumber", "noSpecial", "notMatch"
@@ -18,24 +18,24 @@ export default function LabelInput({
   const [visible, setVisible] = useState(false);
 
   const errorMessage = {
-    empty: '* 필수 입력사항입니다.',
-    invalid: '잘못된 입력입니다.',
-    noNumber: '최소 1개의 숫자가 포함되어야 합니다.',
-    noSpecial: '최소 1개의 특수 문자가 포함되어야 합니다.',
-    notMatch: '비밀번호가 일치하지 않습니다.',
+    empty: "* 필수 입력사항입니다.",
+    invalid: "잘못된 입력입니다.",
+    noNumber: "최소 1개의 숫자가 포함되어야 합니다.",
+    noSpecial: "최소 1개의 특수 문자가 포함되어야 합니다.",
+    notMatch: "비밀번호가 일치하지 않습니다.",
   }[errorType];
 
-  const isPassword = type === 'password';
-  const showSearchIcon = icon === 'search' && !isPassword;
+  const isPassword = type === "password";
+  const showSearchIcon = icon === "search" && !isPassword;
 
   // 🔹 여기서 wrapper 클래스 한 번에 구성
   const wrapperClassName = [
-    'input-wrapper',
-    showSearchIcon ? 'input-wrapper--search' : '',
-    isPassword ? 'input-wrapper--password' : '',
+    "input-wrapper-study",
+    showSearchIcon ? "input-wrapper--search" : "",
+    isPassword ? "input-wrapper--password" : "",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   return (
     <div className="input-group">
@@ -52,17 +52,17 @@ export default function LabelInput({
         )}
 
         {/* input / textarea */}
-        {as === 'textarea' ? (
+        {as === "textarea" ? (
           <textarea
-            className={`input-basic ${errorType ? 'input-basic--error' : ''}`}
+            className={`input-basic ${errorType ? "input-basic--error" : ""}`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
           />
         ) : (
           <input
-            type={isPassword && !visible ? 'password' : 'text'}
-            className={`input-basic ${errorType ? 'input-basic--error' : ''}`}
+            type={isPassword && !visible ? "password" : "text"}
+            className={`input-basic ${errorType ? "input-basic--error" : ""}`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
@@ -78,7 +78,7 @@ export default function LabelInput({
           >
             <img
               src={visible ? icVisibleOn : icVisibleOff}
-              alt={visible ? '비밀번호 숨기기' : '비밀번호 보이기'}
+              alt={visible ? "비밀번호 숨기기" : "비밀번호 보이기"}
             />
           </button>
         )}
