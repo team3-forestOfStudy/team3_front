@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../styles/timer.css";
 import StartIcon from "../assets/icons/starticon.svg";
 import StopIcon from "../assets/icons/pause.svg";
+import Stoptogglebtn from "../assets/icons/stoptogglebtn.svg";
 import ResetIcon from "../assets/icons/reset.svg";
 import Clock from "../assets/icons/clock.svg";
 import Modal from "../components/Atoms/Modal";
@@ -83,39 +84,7 @@ const Timer = ({ studyId, onPointEarned }) => {
       intervalIdRef.current = setInterval(() => {
         setRemainingTime(prev => {
           const next = prev - 1;
-
-          if (prev > 0 && next <= 0 && !hasFinishedRef.current) {
-            hasFinishedRef.current = true;
-
-            const plannedMinutes = durationMinutes;
-            const actualMinutes = durationMinutes;
-
-            (async () => {
-              const data = await createFocusLog({
-                //실제로 API연결되면 그냥 syudyID
-                studyId: 3,
-                plannedMinutes,
-                actualMinutes,
-              });
-
-              const pointFromServer =
-                data && typeof data.pointAmount === "number"
-                  ? data.pointAmount
-                  : null;
-
-              if (pointFromServer != null && pointFromServer > 0) {
-                showSuccesToast(pointFromServer);
-                if (onPointEarned) onPointEarned(pointFromServer);
-              } else {
-                const fallbackPoint = calcFocusPoint(durationMinutes);
-                if (fallbackPoint > 0) {
-                  showSuccesToast(fallbackPoint);
-                  if (onPointEarned) onPointEarned(fallbackPoint);
-                }
-              }
-            })();
-          }
-
+          // ⬇️ 시간 0초 도달 시 토스트 & 포인트 지급 로직 제거
           return next;
         });
       }, 1000);
@@ -172,9 +141,63 @@ const Timer = ({ studyId, onPointEarned }) => {
     setIsRunning(true);
   };
 
-  const handleStop = () => {
+  const handleStop = async () => {
     setIsRunning(false);
-    showStopToast();
+
+    // ⬇️ 0초 이상일 때는 "일시정지" 동작만 수행 (토스트만, 포인트 X)
+    if (remainingTime >= 0) {
+      showStopToast();
+      return;
+    }
+
+    // ⬇️ 0초 아래(마이너스 구간)에서 Stop! 버튼을 누른 경우: 즉시 포인트 지급 + 대기 화면으로 전환
+    if (!hasStarted || configuredTotalSeconds <= 0) return;
+
+    const elapsedSeconds = configuredTotalSeconds - remainingTime;
+    const actualMinutes = Math.max(0, Math.floor(elapsedSeconds / 60));
+
+    if (actualMinutes <= 0) {
+      // 방어 코드: 혹시라도 시간이 0분이면 그냥 대기 화면으로만 복귀
+      setHasStarted(false);
+      setRemainingTime(0);
+      hasFinishedRef.current = false;
+      return;
+    }
+
+    const plannedMinutes = durationMinutes;
+
+    try {
+      const data = await createFocusLog({
+        // TODO: 실제 API 연결 시 studyId 프롭 사용
+        studyId: studyId ?? 11,
+        plannedMinutes,
+        actualMinutes,
+      });
+
+      const pointFromServer =
+        data && typeof data.pointAmount === "number" ? data.pointAmount : null;
+
+      if (pointFromServer != null && pointFromServer > 0) {
+        // ✅ 마이너스 구간에서는 "집중이 종료되었습니다" 토스트 없이 바로 포인트 토스트만 출력
+        showSuccesToast(pointFromServer);
+        if (onPointEarned) onPointEarned(pointFromServer);
+      } else {
+        const fallbackPoint = calcFocusPoint(actualMinutes);
+        if (fallbackPoint > 0) {
+          showSuccesToast(fallbackPoint);
+          if (onPointEarned) onPointEarned(fallbackPoint);
+        }
+      }
+    } catch (error) {
+      console.error("포커스 로그/포인트 처리 중 에러:", error);
+    } finally {
+      // ✅ 대기 화면으로 복귀 + 타이머 설정도 초기화
+      setHasStarted(false);
+      setRemainingTime(0);
+      setDurationMinutes(0);
+      setMinutesInput("0");
+      hasFinishedRef.current = false;
+    }
   };
 
   const handleReset = () => {
@@ -234,43 +257,62 @@ const Timer = ({ studyId, onPointEarned }) => {
       )}
 
       {!isInitial && (
-        <div className="start-controls">
-          <button
-            type="button"
-            onClick={handleStop}
-            className="circle-btn bg_green_700"
-            aria-label="일시정지"
-          >
-            <img src={StopIcon} alt="정지 아이콘" className="stop-botton" />
-          </button>
+        isBelowZero ? (
+          // ⬇초과 시간(remainingTime < 0)일 때
+          <div className="button-wrap">
+            <button
+              type="button"
+              onClick={handleStop}
+              className="start-button bg_green_300 fw_eb white g_sub_text01"
+            >
+              <img
+                src={Stoptogglebtn}
+                alt="스톱 아이콘"
+                className="start-button-icon"
+              />
+              Stop!
+            </button>
+          </div>
+        ) : (
+          // ⬇아직 0초 이상일 때
+          <div className="start-controls">
+            <button
+              type="button"
+              onClick={handleStop}
+              className="circle-btn bg_green_700"
+              aria-label="일시정지"
+            >
+              <img src={StopIcon} alt="정지 아이콘" className="stop-botton" />
+            </button>
 
-          <button
-            type="button"
-            onClick={handleResumeStart}
-            className="start-button bg_gray_600 fw_eb white g_sub_text01"
-          >
-            <img
-              src={StartIcon}
-              alt="시작 아이콘"
-              className="start-button-icon"
-            />
-            Start!
-          </button>
+            <button
+              type="button"
+              onClick={handleResumeStart}
+              className="start-button bg_gray_600 fw_eb white g_sub_text01"
+            >
+              <img
+                src={StartIcon}
+                alt="시작 아이콘"
+                className="start-button-icon"
+              />
+              Start!
+            </button>
 
-          <button
-            type="button"
-            onClick={handleReset}
-            className="circle-btn bg_green_300"
-            aria-label="리셋"
-          >
-            <img src={ResetIcon} alt="리셋 아이콘" className="reset-botton" />
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="circle-btn bg_green_300"
+              aria-label="리셋"
+            >
+              <img src={ResetIcon} alt="리셋 아이콘" className="reset-botton" />
+            </button>
+          </div>
+        )
       )}
 
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
         <div className="timer-modal">
-          <h3 className="timer-modal-title g_sub_text03 fw_eb">
+          <h3 className="timer-modal-title g_sub_text02 fw_eb">
             집중 시간 설정
           </h3>
 
@@ -284,7 +326,7 @@ const Timer = ({ studyId, onPointEarned }) => {
                 onChange={handleMinutesChange}
                 className="timer-modal-input"
               />
-              <span>분</span>
+              <span className="timer-modal-input">분</span>
             </div>
           </div>
 
