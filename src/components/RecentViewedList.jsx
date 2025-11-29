@@ -1,10 +1,14 @@
-import { useEffect, useState, useRef } from 'react';
-import StudyCard from '../components/StudyCard';
-import { getRecentViewedStudies } from '../utils/recentViewed';
-import arrowIcon from '../assets/icons/arrow.svg';
+import { useEffect, useState, useRef } from "react";
+import StudyCard from "../components/StudyCard";
+import StudyCardSkeleton from "../components/StudyCardSkeleton"; // 🔥 추가
+import { getRecentViewedStudies } from "../utils/recentViewed";
+import arrowIcon from "../assets/icons/arrow.svg";
+
+const RECENT_SKELETON_COUNT = 3; // 데스크탑 기준 3개
 
 export default function RecentViewedList() {
   const [studies, setStudies] = useState([]);
+  const [loading, setLoading] = useState(true); // 🔥 추가
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -17,6 +21,7 @@ export default function RecentViewedList() {
   useEffect(() => {
     const data = getRecentViewedStudies();
     setStudies(data);
+    setLoading(false); // 🔥 데이터 로드 후 로딩 종료
   }, []);
 
   useEffect(() => {
@@ -38,52 +43,49 @@ export default function RecentViewedList() {
   // 🔥 전역(mouseup / touchend)에서 드래그 강제 종료
   const handleWindowMouseUp = () => {
     isDraggingRef.current = false;
-    window.removeEventListener('mouseup', handleWindowMouseUp);
+    window.removeEventListener("mouseup", handleWindowMouseUp);
   };
 
   const handleWindowTouchEnd = () => {
     isDraggingRef.current = false;
-    window.removeEventListener('touchend', handleWindowTouchEnd);
-    window.removeEventListener('touchcancel', handleWindowTouchEnd);
+    window.removeEventListener("touchend", handleWindowTouchEnd);
+    window.removeEventListener("touchcancel", handleWindowTouchEnd);
   };
 
-  // 한 화면(현재 박스 너비)만큼 스크롤
   // 한 화면(카드 개수 기준)만큼 스크롤
   const scrollByPage = direction => {
     const scroller = containerRef.current;
     if (!scroller) return;
 
-    const listEl = scroller.querySelector('.study-card-list');
-    const firstCard = listEl?.querySelector('.study-card');
+    const listEl = scroller.querySelector(".study-card-list");
+    const firstCard = listEl?.querySelector(".study-card");
     if (!firstCard) return;
 
     const cardRect = firstCard.getBoundingClientRect();
     const cardWidth = cardRect.width;
 
-    // CSS에서 gap: 16px 로 맞춰둔 값
-    const gap = 16;
+    const gap = 16; // CSS gap 값과 맞춤
 
-    // 화면 크기에 따라 한 페이지에 보여줄 카드 개수
     let cardsPerPage = 3; // 기본: 데스크탑
     const width = window.innerWidth;
 
     if (width <= 1200 && width > 600) {
       cardsPerPage = 2; // 태블릿
     } else if (width <= 600) {
-      cardsPerPage = 1; // 모바일 (사실 화살표 안 보이지만 일단 맞춰둠)
+      cardsPerPage = 1; // 모바일
     }
 
     const step = (cardWidth + gap) * cardsPerPage;
 
     const current = scroller.scrollLeft;
-    const target = direction === 'left' ? current - step : current + step;
+    const target = direction === "left" ? current - step : current + step;
 
     const maxScroll = scroller.scrollWidth - scroller.clientWidth;
     const clamped = Math.max(0, Math.min(target, maxScroll));
 
     scroller.scrollTo({
       left: clamped,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -95,8 +97,7 @@ export default function RecentViewedList() {
     startXRef.current = e.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
 
-    // ✅ 화면 어디서 마우스를 떼든 드래그 종료
-    window.addEventListener('mouseup', handleWindowMouseUp);
+    window.addEventListener("mouseup", handleWindowMouseUp);
   };
 
   const handleMouseMove = e => {
@@ -114,7 +115,6 @@ export default function RecentViewedList() {
   };
 
   const handleMouseUpOrLeave = () => {
-    // 영역 안에서 떼면 여기서도 종료
     isDraggingRef.current = false;
   };
 
@@ -127,9 +127,8 @@ export default function RecentViewedList() {
     startXRef.current = touch.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
 
-    // ✅ 터치도 화면 어디서 떼든 종료
-    window.addEventListener('touchend', handleWindowTouchEnd);
-    window.addEventListener('touchcancel', handleWindowTouchEnd);
+    window.addEventListener("touchend", handleWindowTouchEnd);
+    window.addEventListener("touchcancel", handleWindowTouchEnd);
   };
 
   const handleTouchMove = e => {
@@ -152,7 +151,6 @@ export default function RecentViewedList() {
   };
 
   const handleTouchEnd = () => {
-    // 영역 안에서 떼면 여기서도 종료 (window 쪽에서도 한 번 더 정리)
     isDraggingRef.current = false;
   };
 
@@ -169,12 +167,12 @@ export default function RecentViewedList() {
     updateScrollButtons();
   };
 
-  // 컴포넌트 언마운트 시 혹시 남아있을 리스너 정리
+  // 컴포넌트 언마운트 시 리스너 정리
   useEffect(() => {
     return () => {
-      window.removeEventListener('mouseup', handleWindowMouseUp);
-      window.removeEventListener('touchend', handleWindowTouchEnd);
-      window.removeEventListener('touchcancel', handleWindowTouchEnd);
+      window.removeEventListener("mouseup", handleWindowMouseUp);
+      window.removeEventListener("touchend", handleWindowTouchEnd);
+      window.removeEventListener("touchcancel", handleWindowTouchEnd);
     };
   }, []);
 
@@ -182,13 +180,24 @@ export default function RecentViewedList() {
     <section className="home-section home-section--recent">
       <h2 className="g_tit">최근 조회한 스터디</h2>
 
-      {hasCards ? (
+      {loading ? (
+        // 🔹 로딩 중: 가로 스켈레톤 카드
         <div className="recent-scroller-wrapper">
-          {/* 왼쪽 화살표 (PC/태블릿, 모바일은 CSS에서 display:none) */}
+          <div className="recent-scroller">
+            <div className="study-card-list study-card-list--recent">
+              {Array.from({ length: RECENT_SKELETON_COUNT }).map((_, index) => (
+                <StudyCardSkeleton key={index} />
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : hasCards ? (
+        // 🔹 실제 최근 조회 카드 캐러셀
+        <div className="recent-scroller-wrapper">
           <button
             type="button"
             className="recent-arrow recent-arrow--left"
-            onClick={() => scrollByPage('left')}
+            onClick={() => scrollByPage("left")}
             disabled={!canScrollLeft}
           >
             <img src={arrowIcon} alt="이전 스터디" />
@@ -214,17 +223,17 @@ export default function RecentViewedList() {
             </div>
           </div>
 
-          {/* 오른쪽 화살표 */}
           <button
             type="button"
             className="recent-arrow recent-arrow--right"
-            onClick={() => scrollByPage('right')}
+            onClick={() => scrollByPage("right")}
             disabled={!canScrollRight}
           >
             <img src={arrowIcon} alt="다음 스터디" />
           </button>
         </div>
       ) : (
+        // 🔹 카드도 없고 로딩도 아님 → 빈 상태
         <div className="home-section-empty home-section-empty--recent">
           <p>아직 조회한 스터디가 없어요</p>
         </div>
