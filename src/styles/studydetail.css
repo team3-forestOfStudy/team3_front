@@ -18,9 +18,9 @@
 }
 
 .detail_mid_title {
+    max-width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .detail_mid_title_right {
@@ -28,6 +28,11 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
+}
+
+.detail_mid_title_left {
+    display: block;
+    max-width: 60%;
 }
 
 .detail_mid_content {
