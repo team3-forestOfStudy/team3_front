@@ -77,7 +77,7 @@ export default function StudyDetailsPage() {
                   <div className="skeleton skeleton_title"></div>
                 ) : (
                   <h2 className="g_sub_text01 detail_mid_title_left">
-                    <span className="blue_600">{data.nickname}</span>의
+                    <span className="blue_600">{data.nickname}</span>의&nbsp;
                     {data.title}
                   </h2>
                 )}
