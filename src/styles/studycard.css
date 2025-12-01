@@ -27,6 +27,7 @@
 
 /* 카드 공통 스타일 */
 .study-card {
+  box-sizing: border-box; /* 패딩 포함해서 243 안에 넣기 */
   position: relative;
   width: 100%;
   min-height: 220px;
@@ -39,7 +40,7 @@
   flex-direction: column;
   /* justify-content: space-between; */
   gap: 24px;
-
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
   cursor: pointer;
 }
 
@@ -320,6 +321,7 @@
   background-color: #f7f7f7;
   border-color: #eeeeee;
   cursor: default;
+  min-height: 243px;
 }
 
 /* 스켈레톤 카드는 클릭/호버 안 되게 */
@@ -364,6 +366,10 @@
 .skeleton-emoji {
   width: 56px;
   height: 28px;
+}
+
+.study-card--skeleton .skeleton-description-line {
+  margin-top: 8px;
 }
 
 /* 최근 조회 캐러셀 안 카드 폭 조정 */

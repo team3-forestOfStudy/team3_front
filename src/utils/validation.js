@@ -2,11 +2,11 @@
 
 // 닉네임 최소, 최대 글자수
 export const NICKNAME_MIN = 2;
-export const NICKNAME_MAX = 10;
+export const NICKNAME_MAX = 8;
 
 // 스터디 이름(title) 최소, 최대 글자수
 export const STUDY_NAME_MIN = 2;
-export const STUDY_NAME_MAX = 18;
+export const STUDY_NAME_MAX = 16;
 
 // 소개(description) 최소, 최대 글자수
 export const INTRO_MIN = 2;
