@@ -8,20 +8,19 @@ import { useEffect, useState } from "react";
 import ListModal from "../components/ListModal";
 import MOCK_HABITS from "../mock/inital-content.json";
 
-// 🔄 Render 배포 후 API URL 변경 필요
-// 기존: const API_BASE_URL = "http://localhost:4000";
-// 변경: 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-// const API_BASE_URL = "http://localhost:4000";
 
 const HobbiesPage = () => {
   // 👉 URL에서 /study/:id/hobbies 의 id를 가져옴
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   // URL 파라미터에서 studyId 가져오기 (쿼리 파라미터 또는 라우트 파라미터)
-  // const studyIdFromQuery = searchParams.get("studyId");
-  // const studyId = id ? Number(id) : studyIdFromQuery ? Number(studyIdFromQuery) : null;
-  const studyId = 11;
+  const studyIdFromQuery = searchParams.get("studyId");
+  const studyId = id
+    ? Number(id)
+    : studyIdFromQuery
+      ? Number(studyIdFromQuery)
+      : null;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [habits, setHabits] = useState([]);
@@ -61,30 +60,26 @@ const HobbiesPage = () => {
   useEffect(() => {
     setHabits(MOCK_HABITS);
 
-    // 🔄 Render 배포 후 API URL 변경 필요
-    // 나중에 실제 API 연동 시 studyId를 활용해서 요청 가능
-    // 기존: fetch(`/api/studies/${studyId}/habits`)
-    // 변경: fetch(`https://team3-forest-study-backend.onrender.com/api/studies/${studyId}/habits`)
-    //   .then((res) => res.json())
-    //   .then((data) => setHabits(data))
-    //   .catch((error) => {
-    //     console.error("습관 목록 불러오기 실패", error);
-    //   });
+    fetch(
+      `https://team3-forest-study-backend.onrender.com/api/studies/${studyId}/habits`,
+    )
+      .then(res => res.json())
+      .then(data => setHabits(data))
+      .catch(error => {
+        console.error("습관 목록 불러오기 실패", error);
+      });
   }, [studyId]);
 
-  const handleClickHabit = async (habit) => {
-    setSelectedHabitIds((prev) =>
+  const handleClickHabit = async habit => {
+    setSelectedHabitIds(prev =>
       prev.includes(habit.id)
-        ? prev.filter((id) => id !== habit.id)
-        : [...prev, habit.id]
+        ? prev.filter(id => id !== habit.id)
+        : [...prev, habit.id],
     );
 
     try {
-      // 🔄 Render 배포 후 API URL 변경 필요
-      // 기존: const response = await fetch(`/api/habits/${habit.id}`, {
-      // 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-      //       const response = await fetch(`${API_BASE_URL}/api/habits/${habit.id}`, {
-      const response = await fetch(`/api/habits/${habit.id}`, {
+      const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
+      const response = await fetch(`${API_BASE_URL}/api/habits/${habit.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +102,7 @@ const HobbiesPage = () => {
   /* 모달 닫기 */
   const handleClose = () => setIsModalOpen(false);
 
-  const handleSaveHabits = (updatedHabits) => {
+  const handleSaveHabits = updatedHabits => {
     setHabits(updatedHabits);
   };
 
@@ -168,7 +163,7 @@ const HobbiesPage = () => {
                     <span>목록 수정을 눌러 습관을 생성해보세요!</span>
                   </p>
                 ) : (
-                  habits.map((habit) => (
+                  habits.map(habit => (
                     <Chip
                       key={habit.id}
                       onClick={() => handleClickHabit(habit)}

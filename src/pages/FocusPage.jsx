@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
 
 import arrow from "../assets/icons/arrow.svg";
@@ -8,17 +8,25 @@ import PointButton from "../components/Atoms/PointButton.jsx";
 
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-
+// const API_BASE_URL = "http://localhost:4000";
 const FocusPage = () => {
   const { id } = useParams();
-  const studyId = Number(id);
-  // const studyId = 11; //지금은 임의로 studyId = 11을 설정
+  const [searchParams] = useSearchParams();
+  const studyIdFromQuery = searchParams.get("studyId");
+  // URL 파라미터 또는 쿼리 파라미터에서 studyId 가져오기
+  const studyId = id ? Number(id) : studyIdFromQuery ? Number(studyIdFromQuery) : null;
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalPoints, setTotalPoints] = useState(0);
 
   // 스터디 상세 정보 API 호출
   useEffect(() => {
+    if (!studyId || isNaN(studyId)) {
+      console.warn("studyId가 유효하지 않습니다:", studyId);
+      setLoading(false);
+      return;
+    }
+
     const fetchStudyData = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/api/studies/${studyId}`);
@@ -59,10 +67,12 @@ const FocusPage = () => {
             )}
 
             <div className="focus-move-btns">
-              <Link to={`/hobbies?studyId=${studyId}`} className="move-btn-hobbies gray_600">
-                오늘의 습관
-                <img src={arrow} alt="arrow" className="arrow-icon" />
-              </Link>
+              {studyId && !isNaN(studyId) && (
+                <Link to={`/hobbies?studyId=${studyId}`} className="move-btn-hobbies gray_600">
+                  오늘의 습관
+                  <img src={arrow} alt="arrow" className="arrow-icon" />
+                </Link>
+              )}
               <Link to="/" className="move-btn-home gray_600">
                 홈
                 <img src={arrow} alt="arrow" className="arrow-icon" />
@@ -89,7 +99,7 @@ const FocusPage = () => {
 
             {loading ? (
               <div className="skeleton skeleton-timer-box"></div>
-            ) : study ? (
+            ) : study && studyId && !isNaN(studyId) ? (
               <div className="timer">
                 <Timer
                   studyId={Number(studyId)}
