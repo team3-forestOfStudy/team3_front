@@ -1,5 +1,5 @@
-import '../styles/weeklyhabittracker.css';
-import weeklyTrackerImg from '../assets/icons/Subtract.svg';
+import "../styles/weeklyhabittracker.css";
+import weeklyTrackerImg from "../assets/icons/Subtract.svg";
 
 export default function WeeklyHabitTracker() {
   return (
@@ -25,27 +25,27 @@ export default function WeeklyHabitTracker() {
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
           </tr>
@@ -55,59 +55,59 @@ export default function WeeklyHabitTracker() {
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
           </tr>
           <tr>
             <th className=" g_sub_text06 fw_b ellips ">
-              react 스터디 책 1챕터 읽기{' '}
+              react 스터디 책 1챕터 읽기{" "}
             </th>
             <td>
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
           </tr>
@@ -117,27 +117,27 @@ export default function WeeklyHabitTracker() {
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
           </tr>
@@ -147,27 +147,27 @@ export default function WeeklyHabitTracker() {
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
             <td>
-              {' '}
+              {" "}
               <img className="sticker" src={weeklyTrackerImg} alt="" />
             </td>
           </tr>

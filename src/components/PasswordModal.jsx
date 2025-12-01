@@ -12,6 +12,7 @@ export default function PasswordModal({
   children,
   onClose,
   title,
+  nickname,
   actionType,
   studyId,
 }) {
@@ -98,7 +99,9 @@ export default function PasswordModal({
       </button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)}>
-        <h1 className="g_sub_text01 title">{title}</h1>
+        <h1 className="g_sub_text01 title modal_title ellips">
+          {nickname}의{title}
+        </h1>
         <h3 className="g_sub_text07 gray_600 fw_l h3"> 권한이 필요해요!</h3>
 
         <div>
