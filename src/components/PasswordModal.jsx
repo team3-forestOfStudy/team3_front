@@ -1,16 +1,12 @@
 import "../styles/passwordmodal.css";
 import React, { Children, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "./Atoms/Modal.jsx";
 import eyeInvisible from "../assets/icons/eyes.svg";
 import eyeVisible from "../assets/icons/visible.svg";
 import { deleteStudyList } from "../utils/testapi.js";
 
 const PASSWORD_MIN_LENGTH = 4;
-
-const message = {
-  passwordEmpty: "비밀번호를 입력해주세요",
-  passwordError: "비밀번호4자 이상 입력해주세요",
-};
 
 export default function PasswordModal({
   children,
@@ -22,44 +18,46 @@ export default function PasswordModal({
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
     if (onClose) onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
+
     if (!password) {
-      setPasswordError(message.passwordEmpty);
-      alert(passwordError);
+      alert("비밀번호를 입력해주세요");
       return;
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
-      setPasswordError(message.passwordError);
-      alert(passwordError);
+      alert("비밀번호4자 이상 입력해주세요");
       return;
     }
+    try {
+      console.log("수정하기 실행");
 
+      navigate(`/EditStudyPage?studyId=${studyId}`);
+    } catch (err) {
+      console.error(err);
+    }
     //API호출 함수 첨가 가능
-
-    handleClose();
   };
 
   // 삭제 버튼 클릭후 비밀번호 검사
   const handleDelete = async e => {
     e.preventDefault();
+
     if (!password) {
-      setPasswordError(message.passwordEmpty);
       alert("비밀번호를 입력해주세요");
-      console.log("gd");
 
       return;
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
-      setPasswordError(message.passwordError);
       alert("비밀번호4자 이상 입력해주세요");
       return;
     }
@@ -68,16 +66,14 @@ export default function PasswordModal({
       console.log("삭제하기 실행");
       const result = await deleteStudyList(studyId, password);
 
-      console.log("삭제 요청 결과: ", result);
-
       if (result.result === "success") {
         alert("삭제되었습니다.");
+        navigate("/");
       } else {
-        alert("비밀번호가 틀렸습니다.");
+        alert(result.message);
       }
     } catch (err) {
       console.error(err);
-      setPasswordError("서버 요청 중 오류가 발생했습니다.");
     }
   };
 
@@ -109,7 +105,7 @@ export default function PasswordModal({
           <label htmlFor="password" className="g_sub_text07 fw_sb">
             비밀번호
           </label>
-          <div className="input-wrapper-study">
+          <div className="input-wrapper-study mt15">
             <input
               id="password"
               className="password"
@@ -139,7 +135,7 @@ export default function PasswordModal({
 
         {actionType === "edit" && (
           <button
-            className="Button01 w100"
+            className="Button01 w100 mt40"
             type="button"
             onClick={handleSubmit}
           >
@@ -149,7 +145,7 @@ export default function PasswordModal({
         {/* 삭제 버튼 */}
         {actionType === "delete" && (
           <button
-            className="Button01 w100"
+            className="Button01 w100 mt40"
             type="button"
             onClick={handleDelete}
           >
