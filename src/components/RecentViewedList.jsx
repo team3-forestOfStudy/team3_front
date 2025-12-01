@@ -21,33 +21,44 @@ export default function RecentViewedList() {
 
   // 🔥🔥 최근 조회 쿠키 → 최신 데이터로 동기화하는 함수
   async function syncRecentViewed() {
+    // 1. 쿠키에 저장된 최근 조회 리스트
     const recent = getRecentViewedStudies();
 
+    if (!recent || recent.length === 0) {
+      setStudies([]);
+      return;
+    }
+
+    // 2. 각 studyId에 대해 최신 데이터 조회
     const results = await Promise.all(
       recent.map(async item => {
         try {
           const res = await fetch(
             `http://localhost:4000/api/studies/${item.studyId}`,
           );
-          if (!res.ok) throw new Error("deleted or not found");
+
+          if (!res.ok) {
+            throw new Error("deleted or not found");
+          }
 
           const json = await res.json();
-          return json.data; // 최신 스터디 데이터 반환
-        } catch (e) {
-          // 삭제된 스터디 → 쿠키에서도 제거
+
+          // ✅ 최신 데이터로 교체해서 렌더에는 사용
+          return json.data;
+        } catch (error) {
+          // ❌ 삭제되었거나 오류 → 쿠키에서도 제거
           removeRecentViewedStudy(item.studyId);
           return null;
         }
       }),
     );
 
-    const filtered = results.filter(Boolean);
-    setStudies(filtered);
+    // 3. 살아있는 스터디만 상태에 반영
+    const alive = results.filter(Boolean);
+    setStudies(alive);
 
-    // 쿠키도 최신 상태로 갱신
-    document.cookie = `recentStudies=${encodeURIComponent(
-      JSON.stringify(filtered),
-    )}; path=/; max-age=${7 * 86400}`;
+    // ❗ 여기서 더 이상 쿠키를 덮어쓰지 않는다
+    //    (새로 클릭해서 추가된 항목은 recentViewed.js가 관리)
   }
 
   // 첫 로딩 시 동기화 실행
