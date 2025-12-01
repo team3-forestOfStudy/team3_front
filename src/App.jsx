@@ -37,7 +37,7 @@ function App() {
         <Route path="study/edit/:ide" element={<EditStudyPage />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/Studydetails" element={<StudyDetailsPage />} />
-        <Route path="/Hobbies" element={<HobbiesPage />} />
+        <Route path="/hobbies" element={<HobbiesPage />} />
         <Route path="/Focus" element={<FocusPage />} />
       </Routes>
 

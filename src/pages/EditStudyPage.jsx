@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import StudyMake from "../components/StudyMake.jsx";
 
+// 🔄 Render 배포 후 API URL 변경 필요
+// 기존: const API_BASE_URL = "http://localhost:4000";
+// 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 const API_BASE_URL = "http://localhost:4000";
 
 export default function EditStudyPage() {

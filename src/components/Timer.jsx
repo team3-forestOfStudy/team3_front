@@ -8,8 +8,11 @@ import Clock from "../assets/icons/clock.svg";
 import Modal from "../components/Atoms/Modal";
 import { showSuccesToast, showStopToast } from "../utils/toastmessage";
 
-// - 나중에 백엔드 배포가 끝나면 이 값을 실제 서버 주소로 교체하면 됨
-const API_BASE_URL = "http://localhost:4000";
+// 🔄 Render 배포 후 API URL 변경 필요
+// 기존: const API_BASE_URL = "http://localhost:4000";
+// 변경: 
+const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
+// const API_BASE_URL = "http://localhost:4000";
 
 async function createFocusLog({ studyId, plannedMinutes, actualMinutes }) {
   if (studyId == null) {
