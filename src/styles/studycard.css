@@ -144,7 +144,13 @@
 }
 
 /* 소개 텍스트 */
+/* 스터디 카드 내용 두줄넘지 않도록 변경 */
 .study-card__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 표시할 줄 수 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
   font-size: 14px;
   line-height: 1.4;
   margin-top: 8px;
