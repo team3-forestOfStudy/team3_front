@@ -11,6 +11,8 @@ import "../styles/studydetail.css";
 import { useSearchParams } from "react-router-dom";
 
 export default function StudyDetailsPage() {
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(true);
   const FocusPage = () => {
     const [searchParams] = useSearchParams(); // /study/:id/... 에서 온 id
     const studyId = Number(searchParams.get("studyId"));
@@ -19,8 +21,6 @@ export default function StudyDetailsPage() {
   const studyId = FocusPage();
   console.log(FocusPage());
   // 스터디
-  const [data, setData] = useState("");
-  const [loading, setLoading] = useState(true);
 
   // 스터디 상세페이지 가져오기 api
   const studyDetailLoad = async () => {
@@ -75,13 +75,15 @@ export default function StudyDetailsPage() {
                 {loading ? (
                   <div className="skeleton skeleton_title"></div>
                 ) : (
-                  <h2 className="g_sub_text01">{data.title}</h2>
+                  <h2 className="g_sub_text01">
+                    {data.nickname}의{data.title}
+                  </h2>
                 )}
                 <div className="detail_mid_title_right">
-                  <Link to={`/focus?studyId=${studyId}`}>
+                  <Link to={`/hobbies?studyId=${studyId}`}>
                     <ArrowButton>오늘의 습관</ArrowButton>
                   </Link>
-                  <Link to={`/hobbies?studyId=${studyId}`}>
+                  <Link to={`/focus?studyId=${studyId}`}>
                     <ArrowButton>오늘의 집중</ArrowButton>
                   </Link>
                 </div>
