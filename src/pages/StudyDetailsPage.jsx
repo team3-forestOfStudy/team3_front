@@ -4,28 +4,35 @@ import TextButton from '../components/Atoms/TextButton.jsx';
 import PointButton from '../components/Atoms/PointButton.jsx';
 import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
 import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
-import { getStudyListEmoji, getStudyList } from '../utils/testapi.js';
+import { getStudyList } from '../utils/testapi.js';
 import PasswordModal from '../components/PasswordModal.jsx';
+import { Link } from 'react-router-dom';
 import '../styles/studydetail.css';
-let studyId = 3;
+import { useSearchParams } from 'react-router-dom';
+
 export default function StudyDetailsPage() {
+  const FocusPage = () => {
+    const [searchParams] = useSearchParams(); // /study/:id/... 에서 온 id
+    const studyId = Number(searchParams.get('studyId'));
+    return studyId;
+  };
+  const studyId = FocusPage();
+  console.log(FocusPage());
   // 스터디
   const [data, setData] = useState('');
-  const [emojiData, setEmojiData] = useState('');
 
-  // 스터디 상세페이지 가져오기
+  // 스터디 상세페이지 가져오기 api
   const studyDetailLoad = async () => {
     const { data } = await getStudyList(studyId);
     setData(data);
   };
 
-  // 이모지 api
-  const emojiLoad = async () => {
-    const { data } = await getStudyListEmoji(studyId);
-    setEmojiData(data);
-  };
+  // // 이모지 api
+  // const emojiLoad = async () => {
+  //   const { data } = await getStudyListEmoji(studyId);
+  //   setEmojiData(data);
+  // };
   useEffect(() => {
-    emojiLoad();
     studyDetailLoad();
   }, []);
 
@@ -64,8 +71,12 @@ export default function StudyDetailsPage() {
               <div className="detail_mid_title">
                 <h2 className="g_sub_text01">{data.title}</h2>
                 <div className="detail_mid_title_right">
-                  <ArrowButton>오늘의 집중</ArrowButton>
-                  <ArrowButton>오늘의 습관</ArrowButton>
+                  <Link to={`/study/${studyId}/focus`}>
+                    <ArrowButton>오늘의 습관</ArrowButton>
+                  </Link>
+                  <Link to={`/study/${studyId}/hobbies`}>
+                    <ArrowButton>오늘의 집중</ArrowButton>
+                  </Link>
                 </div>
               </div>
               {/* 스터디 상세내용  */}
