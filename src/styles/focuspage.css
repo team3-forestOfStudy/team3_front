@@ -38,6 +38,126 @@
   width: 184px;
   height: 31px;
 }
+
+.choice-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  margin-right: 20px;
+}
+
+.recommend-time {
+  display: flex;
+  gap: 8px;
+}
+
+.one,
+.five,
+.ten {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ten:hover,
+.twenty:hover,
+.thirty:hover {
+  opacity: 0.8;
+}
+
+.ten img,
+.twenty img,
+.thirty img {
+  width: 12px;
+  height: 12px;
+}
+
+.plus {
+  width: 12px;
+  height: 12px;
+}
+
+
+
+.maual-mins {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.maual-mins:hover {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+/* 타이머 모달 스타일 */
+.timer-modal {
+  display: block;
+  width: 100%;
+}
+
+.timer-modal-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.timer-modal-inputs {
+  margin: 30px;
+  gap: -10px !important;
+}
+
+.timer-modal-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.timer-modal-input {
+  font-size: 30px !important;
+  text-align: center;
+  width: 80px;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.timer-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+.timer-modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
+  border-radius: 100px;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.timer-modal-btn:hover {
+  opacity: 0.8;
+}
+
 .focus-header {
   display: flex;
   gap: 92px;
@@ -169,6 +289,10 @@
 
   .title {
     white-space: normal;
+  }
+
+  .choice-time {
+    margin-top: 15px;
   }
 
   .focus-watch {

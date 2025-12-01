@@ -5,14 +5,10 @@ import StopIcon from "../assets/icons/pause.svg";
 import Stoptogglebtn from "../assets/icons/stoptogglebtn.svg";
 import ResetIcon from "../assets/icons/reset.svg";
 import Clock from "../assets/icons/clock.svg";
-import Modal from "../components/Atoms/Modal";
 import { showSuccesToast, showStopToast } from "../utils/toastmessage";
 
-// 🔄 Render 배포 후 API URL 변경 필요
-// 기존: const API_BASE_URL = "http://localhost:4000";
-// 변경: 
+
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-// const API_BASE_URL = "http://localhost:4000";
 
 async function createFocusLog({ studyId, plannedMinutes, actualMinutes }) {
   if (studyId == null) {
@@ -54,18 +50,25 @@ const calcFocusPoint = minutes => {
   return 3 + bonus;
 };
 
-const Timer = ({ studyId, onPointEarned }) => {
-  const [durationMinutes, setDurationMinutes] = useState(0);
-  const [minutesInput, setMinutesInput] = useState("0");
+const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
+  const [durationMinutes, setDurationMinutes] = useState(initialMinutes);
+  const [minutesInput, setMinutesInput] = useState(String(initialMinutes));
 
   const [remainingTime, setRemainingTime] = useState(0);
 
   const [isRunning, setIsRunning] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const intervalIdRef = useRef(null);
   const hasFinishedRef = useRef(false);
+
+  useEffect(() => {
+    if (!hasStarted) {
+      setDurationMinutes(initialMinutes);
+      setMinutesInput(String(initialMinutes));
+      setRemainingTime(initialMinutes * 60);
+    }
+  }, [initialMinutes, hasStarted]);
 
   const configuredTotalSeconds = durationMinutes * 60;
 
@@ -87,7 +90,6 @@ const Timer = ({ studyId, onPointEarned }) => {
       intervalIdRef.current = setInterval(() => {
         setRemainingTime(prev => {
           const next = prev - 1;
-          // ⬇️ 시간 0초 도달 시 토스트 & 포인트 지급 로직 제거
           return next;
         });
       }, 1000);
@@ -102,42 +104,17 @@ const Timer = ({ studyId, onPointEarned }) => {
   }, [isRunning, durationMinutes, studyId]);
 
   const handleFirstStartClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleMinutesChange = e => {
-    const raw = e.target.value;
-
-    setMinutesInput(raw);
-
-    if (raw === "") {
-      setDurationMinutes(0);
-      return;
+    if (durationMinutes > 0) {
+      setRemainingTime(durationMinutes * 60);
+      setHasStarted(true);
+      setIsRunning(true);
+      hasFinishedRef.current = false;
+      if (onTimeSet) {
+        onTimeSet(durationMinutes);
+      }
     }
-
-    let value = parseInt(raw, 10);
-    if (Number.isNaN(value) || value < 0) value = 0;
-    if (value > 60) value = 60;
-
-    setDurationMinutes(value);
-    setMinutesInput(String(value));
   };
 
-  const handleModalConfirm = () => {
-    const total = configuredTotalSeconds;
-
-    if (total <= 0) return;
-
-    setRemainingTime(total);
-    setHasStarted(true);
-    setIsRunning(true);
-    hasFinishedRef.current = false;
-    setIsModalOpen(false);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
 
   const handleResumeStart = () => {
     if (remainingTime <= 0) return;
@@ -147,20 +124,17 @@ const Timer = ({ studyId, onPointEarned }) => {
   const handleStop = async () => {
     setIsRunning(false);
 
-    // ⬇️ 0초 이상일 때는 "일시정지" 동작만 수행 (토스트만, 포인트 X)
     if (remainingTime >= 0) {
       showStopToast();
       return;
     }
 
-    // ⬇️ 0초 아래(마이너스 구간)에서 Stop! 버튼을 누른 경우: 즉시 포인트 지급 + 대기 화면으로 전환
     if (!hasStarted || configuredTotalSeconds <= 0) return;
 
     const elapsedSeconds = configuredTotalSeconds - remainingTime;
     const actualMinutes = Math.max(0, Math.floor(elapsedSeconds / 60));
 
     if (actualMinutes <= 0) {
-      // 방어 코드: 혹시라도 시간이 0분이면 그냥 대기 화면으로만 복귀
       setHasStarted(false);
       setRemainingTime(0);
       hasFinishedRef.current = false;
@@ -171,8 +145,7 @@ const Timer = ({ studyId, onPointEarned }) => {
 
     try {
       const data = await createFocusLog({
-        // TODO: 실제 API 연결 시 studyId 프롭 사용
-        studyId: studyId ?? 11,
+        studyId,
         plannedMinutes,
         actualMinutes,
       });
@@ -181,7 +154,6 @@ const Timer = ({ studyId, onPointEarned }) => {
         data && typeof data.pointAmount === "number" ? data.pointAmount : null;
 
       if (pointFromServer != null && pointFromServer > 0) {
-        // ✅ 마이너스 구간에서는 "집중이 종료되었습니다" 토스트 없이 바로 포인트 토스트만 출력
         showSuccesToast(pointFromServer);
         if (onPointEarned) onPointEarned(pointFromServer);
       } else {
@@ -194,7 +166,6 @@ const Timer = ({ studyId, onPointEarned }) => {
     } catch (error) {
       console.error("포커스 로그/포인트 처리 중 에러:", error);
     } finally {
-      // ✅ 대기 화면으로 복귀 + 타이머 설정도 초기화
       setHasStarted(false);
       setRemainingTime(0);
       setDurationMinutes(0);
@@ -247,6 +218,7 @@ const Timer = ({ studyId, onPointEarned }) => {
           <button
             type="button"
             onClick={handleFirstStartClick}
+            disabled={durationMinutes <= 0}
             className="start-button bg_green_300 fw_eb white g_sub_text01"
           >
             <img
@@ -313,44 +285,6 @@ const Timer = ({ studyId, onPointEarned }) => {
         )
       )}
 
-      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
-        <div className="timer-modal">
-          <h3 className="timer-modal-title g_sub_text02 fw_eb">
-            집중 시간 설정
-          </h3>
-
-          <div className="timer-modal-inputs">
-            <div className="timer-modal-field g_sub_text03 fw_eb">
-              <input
-                type="number"
-                min="0"
-                max="60"
-                value={minutesInput}
-                onChange={handleMinutesChange}
-                className="timer-modal-input"
-              />
-              <span className="timer-modal-input">분</span>
-            </div>
-          </div>
-
-          <div className="timer-modal-buttons">
-            <button
-              type="button"
-              className="timer-modal-btn confirm bg_green_300 g_sub_text03 fw_eb white"
-              onClick={handleModalConfirm}
-            >
-              확인
-            </button>
-            <button
-              type="button"
-              className="timer-modal-btn cancel bg_pink_100 g_sub_text03 fw_eb white"
-              onClick={handleModalClose}
-            >
-              취소
-            </button>
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };
