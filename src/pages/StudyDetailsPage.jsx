@@ -54,6 +54,7 @@ export default function StudyDetailsPage() {
                 <p>|</p>
                 <PasswordModal
                   title={data.title}
+                  nickname={data.nickname}
                   studyId={studyId}
                   actionType="edit"
                 >
@@ -75,8 +76,9 @@ export default function StudyDetailsPage() {
                 {loading ? (
                   <div className="skeleton skeleton_title"></div>
                 ) : (
-                  <h2 className="g_sub_text01">
-                    {data.nickname}의{data.title}
+                  <h2 className="g_sub_text01 detail_mid_title_left">
+                    <span className="blue_600">{data.nickname}</span>의
+                    {data.title}
                   </h2>
                 )}
                 <div className="detail_mid_title_right">
