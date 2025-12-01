@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import StudyCard from "../components/StudyCard";
 import StudyCardSkeleton from "../components/StudyCardSkeleton";
 import {
@@ -12,6 +13,7 @@ const RECENT_SKELETON_COUNT = 3;
 export default function RecentViewedList() {
   const [studies, setStudies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
@@ -34,7 +36,7 @@ export default function RecentViewedList() {
       recent.map(async item => {
         try {
           const res = await fetch(
-            `http://localhost:4000/api/studies/${item.studyId}`,
+            `https://team3-forest-study-backend.onrender.com/api/studies/${item.studyId}`,
           );
 
           if (!res.ok) {
@@ -63,8 +65,9 @@ export default function RecentViewedList() {
 
   // 첫 로딩 시 동기화 실행
   useEffect(() => {
+    setLoading(true);
     syncRecentViewed().finally(() => setLoading(false));
-  }, []);
+  }, [location.pathname]);
 
   // -------------------------------
   // (아래는 기존 드래그, 화살표 로직 그대로)
@@ -81,8 +84,10 @@ export default function RecentViewedList() {
     const el = containerRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(scrollLeft > 5);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
+    const epsilon = 1; // 오차 허용치
+
+    setCanScrollLeft(scrollLeft > epsilon);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - epsilon);
   };
 
   const scrollByPage = direction => {
@@ -100,9 +105,14 @@ export default function RecentViewedList() {
 
     const step = (cardWidth + gap) * cardsPerPage;
     const current = scroller.scrollLeft;
-    const target = direction === "left" ? current - step : current + step;
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
 
-    scroller.scrollTo({ left: target, behavior: "smooth" });
+    const rawTarget = direction === "left" ? current - step : current + step;
+
+    const clamped = Math.max(0, Math.min(rawTarget, maxScroll));
+
+    scroller.scrollTo({ left: clamped, behavior: "smooth" });
+    setTimeout(updateScrollButtons, 300);
   };
 
   // 드래그 스크롤
@@ -130,6 +140,10 @@ export default function RecentViewedList() {
       e.preventDefault();
       e.stopPropagation();
     }
+  };
+
+  const handleScroll = () => {
+    updateScrollButtons();
   };
 
   const hasCards = studies.length > 0;
@@ -162,6 +176,7 @@ export default function RecentViewedList() {
           <div
             className="recent-scroller"
             ref={containerRef}
+            onScroll={handleScroll}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onClickCapture={handleClickCapture}

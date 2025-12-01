@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 🔄 Render 배포 후 API URL 변경 필요
-// 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-const API_BASE_URL = "http://localhost:4000";
+const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 export default function CreateStudyPage() {
   const navigate = useNavigate();

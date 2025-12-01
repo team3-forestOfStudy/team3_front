@@ -55,14 +55,12 @@ export function addRecentViewedStudy(study) {
       studyId: study.studyId,
       nickname: study.nickname,
       title: study.title,
-      description: study.description,
+      description: (study.description || "").slice(0, 50),
       backgroundImage: study.backgroundImage,
       totalPoints: study.totalPoints,
       status: study.status,
       createdAt: study.createdAt,
       updatedAt: study.updatedAt,
-      topEmojis: study.topEmojis || [],
-      habitRecords: study.habitRecords || [],
     };
 
     // 같은 studyId는 제거 후 맨 앞에 추가
