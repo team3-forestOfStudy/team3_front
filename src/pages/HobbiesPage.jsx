@@ -10,10 +10,8 @@ import ListModal from "../components/ListModal";
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 const HobbiesPage = () => {
-  // 👉 URL에서 /study/:id/hobbies 의 id를 가져옴
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  // URL 파라미터에서 studyId 가져오기 (쿼리 파라미터 또는 라우트 파라미터)
   const studyIdFromQuery = searchParams.get("studyId");
   const studyId = id
     ? Number(id)
@@ -26,10 +24,8 @@ const HobbiesPage = () => {
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 오늘 체크된 habit의 id 저장 (API에서 받아온 체크 상태)
   const [checkedHabitIds, setCheckedHabitIds] = useState([]);
 
-  // 스터디 상세 정보 API 호출
   useEffect(() => {
     if (!studyId) {
       setLoading(false);
@@ -56,7 +52,6 @@ const HobbiesPage = () => {
     fetchStudyData();
   }, [studyId]);
 
-  // 스터디별 습관 목록 조회 및 오늘의 습관 체크 상태 조회
   useEffect(() => {
     if (!studyId || isNaN(studyId)) {
       setHabits([]);
@@ -72,7 +67,6 @@ const HobbiesPage = () => {
         const result = await res.json();
 
         if (res.ok && result.result === "success") {
-          // API 응답 구조에 따라 배열 추출
           let habitsArray = null;
           
           if (Array.isArray(result.data)) {
@@ -86,7 +80,6 @@ const HobbiesPage = () => {
           if (Array.isArray(habitsArray)) {
             setHabits(habitsArray);
             
-            // 오늘 체크된 습관 ID 추출 (checkedToday 또는 isCheckedToday 필드 확인)
             const checkedIds = habitsArray
               .filter(habit => habit.checkedToday || habit.isCheckedToday)
               .map(habit => habit.id || habit.habitId);
@@ -103,14 +96,13 @@ const HobbiesPage = () => {
     fetchHabits();
   }, [studyId]);
 
-  // 습관 체크 토글 (클릭 시 체크/언체크)
   const handleClickHabit = async habit => {
     if (!studyId || isNaN(studyId)) return;
 
     const habitId = habit.id || habit.habitId;
     const isCurrentlyChecked = checkedHabitIds.includes(habitId);
+    const newCheckedState = !isCurrentlyChecked; 
 
-    // UI 즉시 업데이트 (낙관적 업데이트)
     setCheckedHabitIds(prev =>
       isCurrentlyChecked
         ? prev.filter(id => id !== habitId)
@@ -125,6 +117,9 @@ const HobbiesPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            isChecked: newCheckedState,
+          }),
         }
       );
 
@@ -138,7 +133,6 @@ const HobbiesPage = () => {
         console.error("습관 체크 업데이트 실패");
       }
     } catch (error) {
-      // 실패 시 원래 상태로 복구
       setCheckedHabitIds(prev =>
         isCurrentlyChecked
           ? [...prev, habitId]
@@ -153,43 +147,40 @@ const HobbiesPage = () => {
   /* 모달 닫기 */
   const handleClose = () => setIsModalOpen(false);
 
-  // 습관 목록이 업데이트되면 다시 조회
-  const handleHabitsUpdated = () => {
+  const handleHabitsUpdated = async () => {
     if (!studyId || isNaN(studyId)) return;
 
-    const fetchHabits = async () => {
-      try {
-        const res = await fetch(
-          `${API_BASE_URL}/api/studies/${studyId}/habits`
-        );
-        const result = await res.json();
+    try {
+      const res = await fetch(
+        `${API_BASE_URL}/api/studies/${studyId}/habits`
+      );
+      const result = await res.json();
 
-        if (res.ok && result.result === "success") {
-          let habitsArray = null;
-          
-          if (Array.isArray(result.data)) {
-            habitsArray = result.data;
-          } else if (Array.isArray(result.data?.habits)) {
-            habitsArray = result.data.habits;
-          } else if (Array.isArray(result.habits)) {
-            habitsArray = result.habits;
-          }
+      console.log("습관 목록 재조회 응답:", result); 
 
-          if (Array.isArray(habitsArray)) {
-            setHabits(habitsArray);
-            
-            const checkedIds = habitsArray
-              .filter(habit => habit.checkedToday || habit.isCheckedToday)
-              .map(habit => habit.id || habit.habitId);
-            setCheckedHabitIds(checkedIds);
-          }
+      if (res.ok && result.result === "success") {
+        let habitsArray = null;
+        
+        if (Array.isArray(result.data)) {
+          habitsArray = result.data;
+        } else if (Array.isArray(result.data?.habits)) {
+          habitsArray = result.data.habits;
+        } else if (Array.isArray(result.habits)) {
+          habitsArray = result.habits;
         }
-      } catch (error) {
-        console.error("습관 목록 다시 불러오기 실패", error);
-      }
-    };
 
-    fetchHabits();
+        if (Array.isArray(habitsArray)) {
+          console.log("습관 목록 업데이트:", habitsArray); 
+          setHabits(habitsArray);
+        } else {
+          console.warn("습관 목록이 배열이 아닙니다:", result);
+        }
+      } else {
+        console.error("습관 목록 조회 실패:", result.message || result);
+      }
+    } catch (error) {
+      console.error("습관 목록 다시 불러오기 실패", error);
+    }
   };
 
   return (
