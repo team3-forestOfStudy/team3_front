@@ -1,31 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import EmojiCounterWithImage from '../components/EmojiAdd';
-import TextButton from '../components/Atoms/TextButton.jsx';
-import PointButton from '../components/Atoms/PointButton.jsx';
-import ArrowButton from '../components/Atoms/ArrowbuttonDetail.jsx';
-import WeeklyHabitTracker from '../components/WeeklyHabitTracker.jsx';
-import { getStudyListEmoji, getStudyList } from '../utils/testapi.js';
-import PasswordModal from '../components/PasswordModal.jsx';
-import '../styles/studydetail.css';
-let studyId = 3;
-export default function StudyDetailsPage() {
-  // 스터디
-  const [data, setData] = useState('');
-  const [emojiData, setEmojiData] = useState('');
+import React, { useState, useEffect } from "react";
+import EmojiCounterWithImage from "../components/EmojiAdd";
+import TextButton from "../components/Atoms/TextButton.jsx";
+import PointButton from "../components/Atoms/PointButton.jsx";
+import ArrowButton from "../components/Atoms/ArrowbuttonDetail.jsx";
+import WeeklyHabitTracker from "../components/WeeklyHabitTracker.jsx";
+import { getStudyList } from "../utils/testapi.js";
+import PasswordModal from "../components/PasswordModal.jsx";
+import { Link } from "react-router-dom";
+import "../styles/studydetail.css";
+import { useSearchParams } from "react-router-dom";
 
-  // 스터디 상세페이지 가져오기
+export default function StudyDetailsPage() {
+  const [data, setData] = useState("");
+  const [loading, setLoading] = useState(true);
+  const FocusPage = () => {
+    const [searchParams] = useSearchParams(); // /study/:id/... 에서 온 id
+    const studyId = Number(searchParams.get("studyId"));
+    return studyId;
+  };
+  const studyId = FocusPage();
+  console.log(FocusPage());
+  // 스터디
+
+  // 스터디 상세페이지 가져오기 api
   const studyDetailLoad = async () => {
+    setLoading(true);
     const { data } = await getStudyList(studyId);
     setData(data);
+    setLoading(false);
   };
 
-  // 이모지 api
-  const emojiLoad = async () => {
-    const { data } = await getStudyListEmoji(studyId);
-    setEmojiData(data);
-  };
+  // // 이모지 api
+  // const emojiLoad = async () => {
+  //   const { data } = await getStudyListEmoji(studyId);
+  //   setEmojiData(data);
+  // };
   useEffect(() => {
-    emojiLoad();
     studyDetailLoad();
   }, []);
 
@@ -62,18 +72,35 @@ export default function StudyDetailsPage() {
             {/* 스터디 제목 */}
             <div className="detail_mid">
               <div className="detail_mid_title">
-                <h2 className="g_sub_text01">{data.title}</h2>
+                {loading ? (
+                  <div className="skeleton skeleton_title"></div>
+                ) : (
+                  <h2 className="g_sub_text01">
+                    {data.nickname}의{data.title}
+                  </h2>
+                )}
                 <div className="detail_mid_title_right">
-                  <ArrowButton>오늘의 집중</ArrowButton>
-                  <ArrowButton>오늘의 습관</ArrowButton>
+                  <Link to={`/hobbies?studyId=${studyId}`}>
+                    <ArrowButton>오늘의 습관</ArrowButton>
+                  </Link>
+                  <Link to={`/focus?studyId=${studyId}`}>
+                    <ArrowButton>오늘의 집중</ArrowButton>
+                  </Link>
                 </div>
               </div>
               {/* 스터디 상세내용  */}
               <div className="detail_mid_content">
                 <h3 className="g_sub_text07 fw_l gray_600">소개</h3>
-                <p className="detail_mid_content_text g_sub_text06">
-                  {data.description}
-                </p>
+                {loading ? (
+                  <>
+                    <div className="skeleton skeleton_desc"></div>
+                    <div className="skeleton skeleton_desc short"></div>
+                  </>
+                ) : (
+                  <p className="detail_mid_content_text g_sub_text06">
+                    {data.description}
+                  </p>
+                )}
               </div>
               {/* 포인트영역 */}
               <div className="detail_mid_point_wrap">

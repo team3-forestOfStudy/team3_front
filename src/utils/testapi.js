@@ -1,4 +1,7 @@
-const BASE_URL = 'http://172.30.1.30:4000/api/';
+// 🔄 Render 배포 후 API URL 변경 필요
+// 기존: const BASE_URL = 'http://172.30.1.30:4000/api/';
+const BASE_URL = "https://team3-forest-study-backend.onrender.com/api/";
+// const BASE_URL = "http://172.30.1.30:4000/api/";
 
 export async function getStudyList(id) {
   const response = await fetch(`${BASE_URL}studies/${id}`);
@@ -8,9 +11,9 @@ export async function getStudyList(id) {
 
 export async function deleteStudyList(id, password) {
   const response = await fetch(`${BASE_URL}studies/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       password: password,
@@ -36,9 +39,9 @@ export async function deleteStudyList(id, password) {
 export async function postStudyListEmoji(id, emojiCode) {
   try {
     const response = await fetch(`${BASE_URL}studies/${id}/emojis`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ emojiCode }), // JSON 형식으로 보내기
     });
@@ -50,7 +53,7 @@ export async function postStudyListEmoji(id, emojiCode) {
     const body = await response.json();
     return body;
   } catch (error) {
-    console.error('Error posting emoji:', error);
+    console.error("Error posting emoji:", error);
     return null;
   }
 }

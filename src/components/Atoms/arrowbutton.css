@@ -1,4 +1,5 @@
 .detail_arrow_button {
+    white-space: nowrap;
     position: relative;
     border-radius: 15px;
     border: 1px solid var(--gray-300);

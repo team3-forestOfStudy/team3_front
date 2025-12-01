@@ -6,13 +6,13 @@ import arrow from "../assets/icons/arrow.svg";
 import Timer from "../components/Timer";
 import PointButton from "../components/Atoms/PointButton.jsx";
 
-// - 나중에 백엔드가 배포되면 이 값을 실제 서버 주소로 교체하면 됨
-const API_BASE_URL = "http://localhost:4000";
+
+const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 const FocusPage = () => {
-  // const { id } = useParams();
-  // const studyId = Number(id);
-  const studyId = 11; //지금은 임의로 studyId = 3을 설정
+  const { id } = useParams();
+  const studyId = Number(id);
+  // const studyId = 11; //지금은 임의로 studyId = 11을 설정
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -48,14 +48,18 @@ const FocusPage = () => {
           <div className="focus-title">
             {loading ? (
               <div className="skeleton skeleton-title"></div>
-            ) : (
+            ) : study ? (
               <h3 className="title g_sub_text01 fw_eb">
                 {study.nickname}  {study.title}
+              </h3>
+            ) : (
+              <h3 className="title g_sub_text01 fw_eb">
+                스터디를 불러올 수 없습니다
               </h3>
             )}
 
             <div className="focus-move-btns">
-              <Link to={`/study/${studyId}/hobbies`} className="move-btn-hobbies gray_600">
+              <Link to={`/hobbies?studyId=${studyId}`} className="move-btn-hobbies gray_600">
                 오늘의 습관
                 <img src={arrow} alt="arrow" className="arrow-icon" />
               </Link>
@@ -85,7 +89,7 @@ const FocusPage = () => {
 
             {loading ? (
               <div className="skeleton skeleton-timer-box"></div>
-            ) : (
+            ) : study ? (
               <div className="timer">
                 <Timer
                   studyId={Number(studyId)}
@@ -97,6 +101,10 @@ const FocusPage = () => {
                     }
                   }}
                 />
+              </div>
+            ) : (
+              <div className="timer">
+                <p>스터디 정보를 불러올 수 없습니다</p>
               </div>
             )}
           </div>
