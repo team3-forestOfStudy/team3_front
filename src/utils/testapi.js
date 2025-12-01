@@ -1,7 +1,7 @@
 // 🔄 Render 배포 후 API URL 변경 필요
 // 기존: const BASE_URL = 'http://172.30.1.30:4000/api/';
-const BASE_URL = "https://team3-forest-study-backend.onrender.com/api/";
-// const BASE_URL = "http://172.30.1.30:4000/api/";
+// const BASE_URL = "https://team3-forest-study-backend.onrender.com/api/";
+const BASE_URL = "http://172.30.1.30:4000/api/";
 
 export async function getStudyList(id) {
   const response = await fetch(`${BASE_URL}studies/${id}`);
@@ -9,6 +9,7 @@ export async function getStudyList(id) {
   return body;
 }
 
+// 비밀번호 조회하는 api
 export async function deleteStudyList(id, password) {
   const response = await fetch(`${BASE_URL}studies/${id}`, {
     method: "DELETE",
@@ -17,6 +18,21 @@ export async function deleteStudyList(id, password) {
     },
     body: JSON.stringify({
       password: password,
+    }),
+  });
+
+  const body = await response.json();
+  return body;
+}
+// 비밀번호 조회하는 api
+export async function postVerifyStudyList(id, VerifyPassword) {
+  const response = await fetch(`${BASE_URL}studies/${id}/Verify-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      password: VerifyPassword,
     }),
   });
 
