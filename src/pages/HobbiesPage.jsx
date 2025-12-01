@@ -6,7 +6,6 @@ import arrow from "../assets/icons/arrow.svg";
 import "../styles/hobbiespage.css";
 import { useEffect, useState } from "react";
 import ListModal from "../components/ListModal";
-import MOCK_HABITS from "../mock/inital-content.json";
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
@@ -27,8 +26,8 @@ const HobbiesPage = () => {
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 선택된 habit의 id 저장
-  const [selectedHabitIds, setSelectedHabitIds] = useState([]);
+  // 오늘 체크된 habit의 id 저장 (API에서 받아온 체크 상태)
+  const [checkedHabitIds, setCheckedHabitIds] = useState([]);
 
   // 스터디 상세 정보 API 호출
   useEffect(() => {
@@ -57,42 +56,94 @@ const HobbiesPage = () => {
     fetchStudyData();
   }, [studyId]);
 
+  // 스터디별 습관 목록 조회 및 오늘의 습관 체크 상태 조회
   useEffect(() => {
-    setHabits(MOCK_HABITS);
+    if (!studyId || isNaN(studyId)) {
+      setHabits([]);
+      setCheckedHabitIds([]);
+      return;
+    }
 
-    fetch(
-      `https://team3-forest-study-backend.onrender.com/api/studies/${studyId}/habits`,
-    )
-      .then(res => res.json())
-      .then(data => setHabits(data))
-      .catch(error => {
+    const fetchHabits = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/studies/${studyId}/habits`
+        );
+        const result = await res.json();
+
+        if (res.ok && result.result === "success") {
+          // API 응답 구조에 따라 배열 추출
+          let habitsArray = null;
+          
+          if (Array.isArray(result.data)) {
+            habitsArray = result.data;
+          } else if (Array.isArray(result.data?.habits)) {
+            habitsArray = result.data.habits;
+          } else if (Array.isArray(result.habits)) {
+            habitsArray = result.habits;
+          }
+
+          if (Array.isArray(habitsArray)) {
+            setHabits(habitsArray);
+            
+            // 오늘 체크된 습관 ID 추출 (checkedToday 또는 isCheckedToday 필드 확인)
+            const checkedIds = habitsArray
+              .filter(habit => habit.checkedToday || habit.isCheckedToday)
+              .map(habit => habit.id || habit.habitId);
+            setCheckedHabitIds(checkedIds);
+          }
+        }
+      } catch (error) {
         console.error("습관 목록 불러오기 실패", error);
-      });
+        setHabits([]);
+        setCheckedHabitIds([]);
+      }
+    };
+
+    fetchHabits();
   }, [studyId]);
 
+  // 습관 체크 토글 (클릭 시 체크/언체크)
   const handleClickHabit = async habit => {
-    setSelectedHabitIds(prev =>
-      prev.includes(habit.id)
-        ? prev.filter(id => id !== habit.id)
-        : [...prev, habit.id],
+    if (!studyId || isNaN(studyId)) return;
+
+    const habitId = habit.id || habit.habitId;
+    const isCurrentlyChecked = checkedHabitIds.includes(habitId);
+
+    // UI 즉시 업데이트 (낙관적 업데이트)
+    setCheckedHabitIds(prev =>
+      isCurrentlyChecked
+        ? prev.filter(id => id !== habitId)
+        : [...prev, habitId]
     );
 
     try {
-      const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-      const response = await fetch(`${API_BASE_URL}/api/habits/${habit.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          done: true,
-        }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/api/studies/${studyId}/habits/${habitId}/check-today`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
-        console.error("습관 업데이트 실패");
+        // 실패 시 원래 상태로 복구
+        setCheckedHabitIds(prev =>
+          isCurrentlyChecked
+            ? [...prev, habitId]
+            : prev.filter(id => id !== habitId)
+        );
+        console.error("습관 체크 업데이트 실패");
       }
     } catch (error) {
+      // 실패 시 원래 상태로 복구
+      setCheckedHabitIds(prev =>
+        isCurrentlyChecked
+          ? [...prev, habitId]
+          : prev.filter(id => id !== habitId)
+      );
       console.error("네트워크 오류", error);
     }
   };
@@ -102,8 +153,43 @@ const HobbiesPage = () => {
   /* 모달 닫기 */
   const handleClose = () => setIsModalOpen(false);
 
-  const handleSaveHabits = updatedHabits => {
-    setHabits(updatedHabits);
+  // 습관 목록이 업데이트되면 다시 조회
+  const handleHabitsUpdated = () => {
+    if (!studyId || isNaN(studyId)) return;
+
+    const fetchHabits = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/studies/${studyId}/habits`
+        );
+        const result = await res.json();
+
+        if (res.ok && result.result === "success") {
+          let habitsArray = null;
+          
+          if (Array.isArray(result.data)) {
+            habitsArray = result.data;
+          } else if (Array.isArray(result.data?.habits)) {
+            habitsArray = result.data.habits;
+          } else if (Array.isArray(result.habits)) {
+            habitsArray = result.habits;
+          }
+
+          if (Array.isArray(habitsArray)) {
+            setHabits(habitsArray);
+            
+            const checkedIds = habitsArray
+              .filter(habit => habit.checkedToday || habit.isCheckedToday)
+              .map(habit => habit.id || habit.habitId);
+            setCheckedHabitIds(checkedIds);
+          }
+        }
+      } catch (error) {
+        console.error("습관 목록 다시 불러오기 실패", error);
+      }
+    };
+
+    fetchHabits();
   };
 
   return (
@@ -123,7 +209,6 @@ const HobbiesPage = () => {
                 <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
               )}
               <div className="hobbies-moveButtons g_sub_text10 fw_m">
-                {/* 같은 스터디의 포커스 페이지로 이동 */}
                 {studyId && (
                   <Link
                     to={`/Focus?studyId=${studyId}`}
@@ -134,7 +219,6 @@ const HobbiesPage = () => {
                   </Link>
                 )}
 
-                {/* 홈으로 이동 */}
                 <Link to="/" className="move-btn-home gray_600">
                   홈
                   <img src={arrow} alt="arrow" className="arrow-icon" />
@@ -157,25 +241,28 @@ const HobbiesPage = () => {
                 </button>
               </div>
               <div className="chip-list">
-                {habits.length === 0 ? (
+                {!Array.isArray(habits) || habits.length === 0 ? (
                   <p className="no-habit-message g_sub_text04 fw_m gray_600">
                     아직 습관이 없어요. <br />
                     <span>목록 수정을 눌러 습관을 생성해보세요!</span>
                   </p>
                 ) : (
-                  habits.map(habit => (
-                    <Chip
-                      key={habit.id}
-                      onClick={() => handleClickHabit(habit)}
-                      className={`fw_b gray_600 habbit-chip ${
-                        selectedHabitIds.includes(habit.id)
-                          ? "habbit-chip--selected"
-                          : ""
-                      }`}
-                    >
-                      {habit.title}
-                    </Chip>
-                  ))
+                  habits.map(habit => {
+                    const habitId = habit.id || habit.habitId;
+                    const isChecked = checkedHabitIds.includes(habitId);
+                    
+                    return (
+                      <Chip
+                        key={habitId}
+                        onClick={() => handleClickHabit(habit)}
+                        className={`fw_b gray_600 habbit-chip ${
+                          isChecked ? "habbit-chip--selected" : ""
+                        }`}
+                      >
+                        {habit.title || habit.name}
+                      </Chip>
+                    );
+                  })
                 )}
               </div>
             </div>
@@ -187,7 +274,8 @@ const HobbiesPage = () => {
         isOpen={isModalOpen}
         onClose={handleClose}
         habits={habits}
-        onSave={handleSaveHabits}
+        studyId={studyId}
+        onHabitsUpdated={handleHabitsUpdated}
       />
     </>
   );
