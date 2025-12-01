@@ -1,9 +1,9 @@
 // src/components/StudyCard.jsx
-import { useNavigate } from 'react-router-dom';
-import '../styles/studycard.css';
-import pointIcon from '../assets/icons/ic_point.svg';
-import { addRecentViewedStudy } from '../utils/recentViewed'; // 최근 조회
-import { getDaysInProgress } from '../utils/date';
+import { useNavigate } from "react-router-dom";
+import "../styles/studycard.css";
+import pointIcon from "../assets/icons/ic_point.svg";
+import { addRecentViewedStudy } from "../utils/recentViewed"; // 최근 조회
+import { getDaysInProgress } from "../utils/date";
 
 // emojiCode("1f431") → 실제 이모지로 변환
 function convertEmoji(code) {
@@ -14,7 +14,7 @@ function convertEmoji(code) {
   }
 }
 // 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
-const SOLID_BG_KEYS = ['green', 'yellow', 'blue', 'pink'];
+const SOLID_BG_KEYS = ["green", "yellow", "blue", "pink"];
 
 export default function StudyCard({ study }) {
   // 백엔드 / 부모 컴포넌트에서 내려주는 스터디 데이터 형태 예시
@@ -37,14 +37,14 @@ export default function StudyCard({ study }) {
 
   /* 사진 배경 스터디 카드 */
   const isPhotoBg = backgroundImage && !SOLID_BG_KEYS.includes(backgroundImage);
-  const photoClass = isPhotoBg ? 'bg-photo' : '';
+  const photoClass = isPhotoBg ? "bg-photo" : "";
 
   // 단색 / 사진 배경 구분
   const isSolidBg = SOLID_BG_KEYS.includes(backgroundImage);
-  const variantClass = isSolidBg ? 'study-card--solid' : 'study-card--photo';
+  const variantClass = isSolidBg ? "study-card--solid" : "study-card--photo";
 
   // backgroundImage 값에 맞춰 CSS 클래스 결정 (bg-green, bg-yellow ...)
-  const bgClass = backgroundImage ? `bg-${backgroundImage}` : '';
+  const bgClass = backgroundImage ? `bg-${backgroundImage}` : "";
 
   const handleCardClick = () => {
     if (!studyId) return;
@@ -71,7 +71,7 @@ export default function StudyCard({ study }) {
         <div className="study-card__top-row">
           <h3 className="study-card__title">
             <span className="study-card__nickname">{nickname}</span>
-            {'의 '}
+            {"의 "}
             {title}
           </h3>
 
@@ -94,7 +94,7 @@ export default function StudyCard({ study }) {
 
         {/* 진행 일수 */}
         <p className="study-card__days">
-          {daysInProgress != null ? `${daysInProgress}일째 진행 중` : ''}
+          {daysInProgress != null ? `${daysInProgress}일째 진행 중` : ""}
         </p>
       </header>
 

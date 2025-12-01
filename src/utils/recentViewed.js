@@ -1,23 +1,23 @@
 // src/utils/recentViewed.js
 
-const RECENT_STUDY_COOKIE_KEY = 'recentStudies';
+const RECENT_STUDY_COOKIE_KEY = "recentStudies";
 const MAX_RECENT_COUNT = 9; // 최대 수량 수정하고 싶으면 여기에서
 
 // 쿠키 읽기
 function getCookie(name) {
-  if (typeof document === 'undefined') return '';
+  if (typeof document === "undefined") return "";
 
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
-    return parts.pop().split(';').shift();
+    return parts.pop().split(";").shift();
   }
-  return '';
+  return "";
 }
 
 // 쿠키 쓰기 (7일 유지)
 function setCookie(name, value, days = 7) {
-  if (typeof document === 'undefined') return;
+  if (typeof document === "undefined") return;
 
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
@@ -38,7 +38,7 @@ export function getRecentViewedStudies() {
     if (!Array.isArray(parsed)) return [];
     return parsed;
   } catch (e) {
-    console.error('getRecentViewedStudies error:', e);
+    console.error("getRecentViewedStudies error:", e);
     return [];
   }
 }
@@ -55,14 +55,12 @@ export function addRecentViewedStudy(study) {
       studyId: study.studyId,
       nickname: study.nickname,
       title: study.title,
-      description: study.description,
+      description: (study.description || "").slice(0, 50),
       backgroundImage: study.backgroundImage,
       totalPoints: study.totalPoints,
       status: study.status,
       createdAt: study.createdAt,
       updatedAt: study.updatedAt,
-      topEmojis: study.topEmojis || [],
-      habitRecords: study.habitRecords || [],
     };
 
     // 같은 studyId는 제거 후 맨 앞에 추가
@@ -72,6 +70,13 @@ export function addRecentViewedStudy(study) {
     const encoded = encodeURIComponent(JSON.stringify(next));
     setCookie(RECENT_STUDY_COOKIE_KEY, encoded);
   } catch (e) {
-    console.error('addRecentViewedStudy error:', e);
+    console.error("addRecentViewedStudy error:", e);
   }
+}
+
+export function removeRecentViewedStudy(studyId) {
+  const list = getRecentViewedStudies();
+  const next = list.filter(item => item.studyId !== studyId);
+  const encoded = encodeURIComponent(JSON.stringify(next));
+  setCookie(RECENT_STUDY_COOKIE_KEY, encoded);
 }
