@@ -40,11 +40,11 @@ export default function PasswordModal({
       return;
     }
     try {
-      console.log("수정하기 실행");
       const result = await postVerifyStudyList(studyId, password);
 
       if (result.result === "success") {
-        showErrorToast("일치");
+        showErrorToast("수정하기");
+
         navigate(`/EditStudyPage?studyId=${studyId}`, { state: { password } });
       } else {
         showErrorToast(result.message);
@@ -76,7 +76,7 @@ export default function PasswordModal({
       const result = await deleteStudyList(studyId, password);
 
       if (result.result === "success") {
-        showErrorToast("삭제되었습니다.");
+        showErrorToast("🚨 삭제되었습니다.");
         navigate("/");
       } else {
         showErrorToast(result.message);
@@ -85,15 +85,6 @@ export default function PasswordModal({
       console.error(err);
     }
   };
-
-  if (actionType === "edit") {
-    console.log("수정하기 실행");
-    // 수정 API
-  }
-
-  if (actionType === "delete") {
-    // 삭제 API
-  }
 
   return (
     <>
