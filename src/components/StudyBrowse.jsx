@@ -7,6 +7,9 @@ import SortDropdown from "./SortDropdown";
 import MoreButton from "./MoreButton";
 import "../styles/studycard.css";
 
+// 🔄 Render 배포 후 API URL 변경 필요
+// 기존: const API_BASE_URL = "http://localhost:4000";
+// 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 const API_BASE_URL = "http://localhost:4000";
 const PAGE_SIZE = 6;
 const SKELETON_COUNT = PAGE_SIZE; // 🔥 스켈레톤 6개(2행 x 3열)

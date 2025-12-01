@@ -1,29 +1,70 @@
 import { Title } from "../mock/Title";
 import Date from "../utils/TodayDate";
 import { Chip } from "../components/Atoms/Chip";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import arrow from "../assets/icons/arrow.svg";
 import "../styles/hobbiespage.css";
 import { useEffect, useState } from "react";
 import ListModal from "../components/ListModal";
 import MOCK_HABITS from "../mock/inital-content.json";
 
+// 🔄 Render 배포 후 API URL 변경 필요
+// 기존: const API_BASE_URL = "http://localhost:4000";
+// 변경: 
+const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
+// const API_BASE_URL = "http://localhost:4000";
+
 const HobbiesPage = () => {
   // 👉 URL에서 /study/:id/hobbies 의 id를 가져옴
   const { id } = useParams();
-  const studyId = Number(id);
+  const [searchParams] = useSearchParams();
+  // URL 파라미터에서 studyId 가져오기 (쿼리 파라미터 또는 라우트 파라미터)
+  // const studyIdFromQuery = searchParams.get("studyId");
+  // const studyId = id ? Number(id) : studyIdFromQuery ? Number(studyIdFromQuery) : null;
+  const studyId = 11;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [habits, setHabits] = useState([]);
+  const [study, setStudy] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // 선택된 habit의 id 저장
   const [selectedHabitIds, setSelectedHabitIds] = useState([]);
 
+  // 스터디 상세 정보 API 호출
+  useEffect(() => {
+    if (!studyId) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchStudyData = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/studies/${studyId}`);
+        const result = await res.json();
+
+        if (res.ok && result.result === "success") {
+          setStudy(result.data);
+        } else {
+          console.error("스터디 조회 실패:", result.message);
+        }
+      } catch (err) {
+        console.error("스터디 API 호출 오류:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudyData();
+  }, [studyId]);
+
   useEffect(() => {
     setHabits(MOCK_HABITS);
 
+    // 🔄 Render 배포 후 API URL 변경 필요
     // 나중에 실제 API 연동 시 studyId를 활용해서 요청 가능
-    // fetch(`/api/studies/${studyId}/habits`)
+    // 기존: fetch(`/api/studies/${studyId}/habits`)
+    // 변경: fetch(`https://team3-forest-study-backend.onrender.com/api/studies/${studyId}/habits`)
     //   .then((res) => res.json())
     //   .then((data) => setHabits(data))
     //   .catch((error) => {
@@ -39,6 +80,10 @@ const HobbiesPage = () => {
     );
 
     try {
+      // 🔄 Render 배포 후 API URL 변경 필요
+      // 기존: const response = await fetch(`/api/habits/${habit.id}`, {
+      // 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
+      //       const response = await fetch(`${API_BASE_URL}/api/habits/${habit.id}`, {
       const response = await fetch(`/api/habits/${habit.id}`, {
         method: "PUT",
         headers: {
@@ -73,16 +118,26 @@ const HobbiesPage = () => {
           {/* 헤더 */}
           <div className="g_box hobbies-main">
             <div className="hobbies-header">
-              <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
+              {loading ? (
+                <div className="skeleton skeleton-title"></div>
+              ) : study ? (
+                <h3 className="title g_sub_text01 fw_eb">
+                  {study.nickname}의 {study.title}
+                </h3>
+              ) : (
+                <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
+              )}
               <div className="hobbies-moveButtons g_sub_text10 fw_m">
                 {/* 같은 스터디의 포커스 페이지로 이동 */}
-                <Link
-                  to={`/study/${studyId}/focus`}
-                  className="move-btn-focus gray_600"
-                >
-                  오늘의 집중
-                  <img src={arrow} alt="arrow" className="arrow-icon" />
-                </Link>
+                {studyId && (
+                  <Link
+                    to={`/Focus?studyId=${studyId}`}
+                    className="move-btn-focus gray_600"
+                  >
+                    오늘의 집중
+                    <img src={arrow} alt="arrow" className="arrow-icon" />
+                  </Link>
+                )}
 
                 {/* 홈으로 이동 */}
                 <Link to="/" className="move-btn-home gray_600">
