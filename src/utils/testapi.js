@@ -1,7 +1,7 @@
 // 🔄 Render 배포 후 API URL 변경 필요
 // 기존: const BASE_URL = 'http://172.30.1.30:4000/api/';
-// const BASE_URL = "https://team3-forest-study-backend.onrender.com/api/";
-const BASE_URL = "http://172.30.1.30:4000/api/";
+const BASE_URL = "https://team3-forest-study-backend.onrender.com/api/";
+// const BASE_URL = "http://172.30.1.30:4000/api/";
 
 export async function getStudyList(id) {
   const response = await fetch(`${BASE_URL}studies/${id}`);
