@@ -223,13 +223,16 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
         })}
       </ul>
 
-      <button
-        type="button"
-        className="addHabitButton fw_l"
-        onClick={handleAddHabit}
-      >
-        +
-      </button>
+      <div className="listModal-item">
+        <button
+          type="button"
+          className="addHabitButton fw_l"
+          onClick={handleAddHabit}
+        >
+          +
+        </button>
+        <div style={{ width: '40px', flexShrink: 0 }}></div>
+      </div>
 
       <div className="buttonBox">
         <button

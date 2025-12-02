@@ -55,13 +55,12 @@ const FocusPage = () => {
     fetchStudyData();
   }, [studyId]);
 
-  // 시간 설정 핸들러
+  // 시간 설정
   const handleTimeSet = minutes => {
     setTimerMinutes(minutes);
   };
 
   const handleQuickTimeClick = minutes => {
-    // 누적 방식으로 시간 추가 (최대 60분)
     setTimerMinutes(prev => Math.min(prev + minutes, 60));
   };
 

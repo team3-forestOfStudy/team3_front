@@ -1,6 +1,6 @@
 .listModal {
   padding: 32px 24px;
-  width: 100%;
+  width: 648px;
   max-width: 420px;
   margin: 0 auto;
 }
@@ -22,12 +22,11 @@
 .listModal-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-decoration: underline;
+  gap: 8px;
 }
 
 .habitInput {
-  width: 100%;
+  flex: 1;
   padding: 12px 24px;
   border-radius: 999px;
   background-color: #f3f3f3;
@@ -36,12 +35,16 @@
   text-align: center;
   line-height: 1;
   display: block;
+  border-radius: 10px;
+  text-decoration: underline;
+  color: #818181;
 }
 
 .deleteButton {
-  margin-left: 10px;
   width: 40px;
   height: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
   border-radius: 50%;
   border: none;
   background-color: #ffe6ea;
@@ -57,10 +60,10 @@
 }
 
 .addHabitButton {
-  width: 100%;
-  margin: 8px auto 20px;
+  flex: 1;
+  margin: 8px 0 20px;
   padding: 12px 0;
-  border-radius: 999px;
+  border-radius: 10px;
   border: 2px solid #222;
   background-color: #ffffff;
   font-size: 22px;
@@ -81,27 +84,11 @@
     padding: 40px 32px;
     max-width: 520px;
   }
-
-  .habitChip {
-    width: 80%; 
-  }
-
-  .addHabitButton {
-    width: 80%;
-  }
 }
 
 @media (min-width: 1201px) and (max-width: 1920px) {
   .listModal {
     padding: 40px 48px;
     max-width: 640px;
-  }
-
-  .habitChip {
-    width: 400px; 
-  }
-
-  .addHabitButton {
-    width: 400px;
   }
 }

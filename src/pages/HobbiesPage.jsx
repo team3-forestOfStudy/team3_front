@@ -80,21 +80,74 @@ const HobbiesPage = () => {
 
           if (Array.isArray(habitsArray)) {
             setHabits(habitsArray);
-
-            const checkedIds = habitsArray
-              .filter(habit => habit.checkedToday || habit.isCheckedToday)
-              .map(habit => habit.id || habit.habitId);
-            setCheckedHabitIds(checkedIds);
           }
         }
       } catch (error) {
         console.error("습관 목록 불러오기 실패", error);
         setHabits([]);
+      }
+    };
+
+    const fetchCheckedHabits = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/studies/${studyId}/habits/today`,
+        );
+        const result = await res.json();
+
+        if (res.ok && result.result === "success") {
+          let checkedHabitsArray = null;
+
+          if (Array.isArray(result.data)) {
+            checkedHabitsArray = result.data;
+          } else if (Array.isArray(result.data?.habits)) {
+            checkedHabitsArray = result.data.habits;
+          } else if (Array.isArray(result.habits)) {
+            checkedHabitsArray = result.habits;
+          }
+
+          if (Array.isArray(checkedHabitsArray)) {
+            if (checkedHabitsArray.length > 0) {
+              console.log("체크된 습관 응답 예시:", checkedHabitsArray[0]);
+            }
+            
+            // 체크 상태 필드를 확인하여 실제로 체크된 습관만 필터링
+            const checkedIds = checkedHabitsArray
+              .filter(habit => {
+                const isChecked = 
+                  habit.isChecked === true ||
+                  habit.checked === true ||
+                  habit.isCheckedToday === true ||
+                  habit.checkedToday === true ||
+                  habit.todayChecked === true ||
+                  (habit.todayHabitCheck && habit.todayHabitCheck.isChecked === true) ||
+                  (habit.todayHabitCheck && habit.todayHabitCheck.checked === true);
+                
+                if (habit.isChecked === false || habit.checked === false || habit.isCheckedToday === false) {
+                  return false;
+                }
+                
+                return isChecked;
+              })
+              .map(habit => habit.id || habit.habitId)
+              .filter(id => id !== null && id !== undefined);
+            
+            setCheckedHabitIds(checkedIds);
+            console.log("오늘 체크된 습관 ID 목록:", checkedIds);
+          } else {
+            setCheckedHabitIds([]);
+          }
+        } else {
+          setCheckedHabitIds([]);
+        }
+      } catch (error) {
+        console.error("체크된 습관 목록 불러오기 실패", error);
         setCheckedHabitIds([]);
       }
     };
 
     fetchHabits();
+    fetchCheckedHabits();
   }, [studyId]);
 
   const handleClickHabit = async habit => {
@@ -103,6 +156,8 @@ const HobbiesPage = () => {
     const habitId = habit.id || habit.habitId;
     const isCurrentlyChecked = checkedHabitIds.includes(habitId);
     const newCheckedState = !isCurrentlyChecked;
+
+    console.log(`습관 ${habitId} 체크 상태 변경: ${isCurrentlyChecked} -> ${newCheckedState}`);
 
     setCheckedHabitIds(prev =>
       isCurrentlyChecked
@@ -124,14 +179,18 @@ const HobbiesPage = () => {
         },
       );
 
+      const responseData = await response.json();
+      console.log(`PATCH 응답 (${response.status}):`, responseData);
+
       if (!response.ok) {
-        // 실패 시 원래 상태로 복구
         setCheckedHabitIds(prev =>
           isCurrentlyChecked
             ? [...prev, habitId]
             : prev.filter(id => id !== habitId),
         );
-        console.error("습관 체크 업데이트 실패");
+        console.error("습관 체크 업데이트 실패:", responseData);
+      } else {
+        console.log("체크 상태 업데이트 성공, optimistic update 유지");
       }
     } catch (error) {
       setCheckedHabitIds(prev =>
@@ -171,6 +230,35 @@ const HobbiesPage = () => {
         if (Array.isArray(habitsArray)) {
           console.log("습관 목록 업데이트:", habitsArray);
           setHabits(habitsArray);
+          
+          // 체크된 습관 목록도 다시 불러오기
+          try {
+            const todayRes = await fetch(
+              `${API_BASE_URL}/api/studies/${studyId}/habits/today`,
+            );
+            const todayResult = await todayRes.json();
+
+            if (todayRes.ok && todayResult.result === "success") {
+              let checkedHabitsArray = null;
+
+              if (Array.isArray(todayResult.data)) {
+                checkedHabitsArray = todayResult.data;
+              } else if (Array.isArray(todayResult.data?.habits)) {
+                checkedHabitsArray = todayResult.data.habits;
+              } else if (Array.isArray(todayResult.habits)) {
+                checkedHabitsArray = todayResult.habits;
+              }
+
+              if (Array.isArray(checkedHabitsArray)) {
+                const checkedIds = checkedHabitsArray
+                  .map(h => h.id || h.habitId)
+                  .filter(id => id !== null && id !== undefined);
+                setCheckedHabitIds(checkedIds);
+              }
+            }
+          } catch (error) {
+            console.error("체크된 습관 목록 재조회 실패", error);
+          }
         } else {
           console.warn("습관 목록이 배열이 아닙니다:", result);
         }
