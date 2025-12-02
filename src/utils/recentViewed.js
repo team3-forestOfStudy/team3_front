@@ -1,56 +1,58 @@
 // src/utils/recentViewed.js
 
-const RECENT_STUDY_COOKIE_KEY = "recentStudies";
-const MAX_RECENT_COUNT = 9; // 최대 수량 수정하고 싶으면 여기에서
+const RECENT_STORAGE_KEY = "recentStudies";
+const MAX_RECENT_COUNT = 9; // 기존과 똑같이 9개 유지
 
-// 쿠키 읽기
-function getCookie(name) {
-  if (typeof document === "undefined") return "";
-
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  }
-  return "";
+// 브라우저 환경 체크 (SSR 방어용)
+function isBrowser() {
+  return (
+    typeof window !== "undefined" && typeof window.localStorage !== "undefined"
+  );
 }
 
-// 쿠키 쓰기 (7일 유지)
-function setCookie(name, value, days = 7) {
-  if (typeof document === "undefined") return;
-
-  const date = new Date();
-  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-  const expires = `expires=${date.toUTCString()}`;
-  document.cookie = `${name}=${value}; ${expires}; path=/`;
-}
-
-// 쿠키에서 최근 조회한 스터디 목록 가져오기
-export function getRecentViewedStudies() {
+function safeParse(json) {
   try {
-    const raw = getCookie(RECENT_STUDY_COOKIE_KEY);
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.error("recentViewed safeParse error:", e);
+    return [];
+  }
+}
+
+// 🔹 로컬 스토리지에서 최근 조회 목록 가져오기
+export function getRecentViewedStudies() {
+  if (!isBrowser()) return [];
+
+  try {
+    const raw = window.localStorage.getItem(RECENT_STORAGE_KEY);
     if (!raw) return [];
-
-    const decoded = decodeURIComponent(raw);
-    const parsed = JSON.parse(decoded);
-
-    // 혹시 배열이 아니면 방어
-    if (!Array.isArray(parsed)) return [];
-    return parsed;
+    return safeParse(raw);
   } catch (e) {
     console.error("getRecentViewedStudies error:", e);
     return [];
   }
 }
 
-// 스터디 하나를 최근 조회 목록에 추가
+// 🔹 로컬 스토리지에 목록 저장
+function saveRecentViewedStudies(list) {
+  if (!isBrowser()) return;
+
+  try {
+    window.localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.error("saveRecentViewedStudies error:", e);
+  }
+}
+
+// 🔹 스터디 하나를 최근 조회 목록에 추가
 export function addRecentViewedStudy(study) {
   try {
     if (!study || !study.studyId) return;
 
     const prev = getRecentViewedStudies();
 
-    // 최소 필드만 추려서 저장 (용량 대비)
+    // ✅ 기존 쿠키 버전과 동일하게 "trimmed" 구조 유지 + viewedAt만 추가
     const trimmed = {
       studyId: study.studyId,
       nickname: study.nickname,
@@ -63,20 +65,42 @@ export function addRecentViewedStudy(study) {
       updatedAt: study.updatedAt,
     };
 
-    // 같은 studyId는 제거 후 맨 앞에 추가
+    // 같은 studyId 제거 후 맨 앞에 추가
     const filtered = prev.filter(item => item.studyId !== trimmed.studyId);
-    const next = [trimmed, ...filtered].slice(0, MAX_RECENT_COUNT);
 
-    const encoded = encodeURIComponent(JSON.stringify(next));
-    setCookie(RECENT_STUDY_COOKIE_KEY, encoded);
+    const next = [
+      {
+        ...trimmed,
+        viewedAt: Date.now(), // 언제 봤는지 기록 (필요 없으면 나중에 지워도 됨)
+      },
+      ...filtered,
+    ].slice(0, MAX_RECENT_COUNT);
+
+    saveRecentViewedStudies(next);
   } catch (e) {
     console.error("addRecentViewedStudy error:", e);
   }
 }
 
+// 🔹 특정 스터디 제거
 export function removeRecentViewedStudy(studyId) {
-  const list = getRecentViewedStudies();
-  const next = list.filter(item => item.studyId !== studyId);
-  const encoded = encodeURIComponent(JSON.stringify(next));
-  setCookie(RECENT_STUDY_COOKIE_KEY, encoded);
+  try {
+    if (!studyId) return;
+
+    const list = getRecentViewedStudies();
+    const next = list.filter(item => item.studyId !== studyId);
+    saveRecentViewedStudies(next);
+  } catch (e) {
+    console.error("removeRecentViewedStudy error:", e);
+  }
+}
+
+// 🔹 전부 초기화 (필요하면 사용)
+export function clearRecentViewedStudies() {
+  if (!isBrowser()) return;
+  try {
+    window.localStorage.removeItem(RECENT_STORAGE_KEY);
+  } catch (e) {
+    console.error("clearRecentViewedStudies error:", e);
+  }
 }

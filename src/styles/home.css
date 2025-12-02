@@ -44,7 +44,7 @@
 .home-section {
   background: #ffffff;
   border-radius: 24px;
-  padding: 32px 24px 40px;
+  padding: 32px 24px;
   margin-bottom: 40px;
 }
 
@@ -123,7 +123,7 @@
 
   /* 최근 조회 카드 수 (폭 기준) */
   .study-card-list--recent .study-card {
-    flex: 0 0 calc((100% - 2 * 16px) / 3); /* 3개 + 간격 */
+    flex: 0 0 calc((100% - 2 * 24px) / 3); /* 3개 + 간격 */
   }
 }
 
@@ -132,7 +132,7 @@
 .home-section--recent .recent-scroller {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 8px; /* 스크롤바랑 카드가 너무 붙지 않게 */
+  padding: 4px 4px 4px;
 }
 
 /* 스크롤바 살짝만 보이게/꾸미고 싶다면 추가로 커스텀 가능 */
@@ -148,7 +148,7 @@
 /* 다른 곳에서 .study-card-list 를 grid 로 설정한 것을 이 규칙으로 덮어쓴다. */
 .home-section--recent .study-card-list {
   display: flex !important; /* grid 덮어쓰기 */
-  gap: 16px;
+  gap: 24px;
   flex-wrap: nowrap !important; /* 줄바꿈 방지 */
 }
 
@@ -169,8 +169,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: solid 1px #ddd;
   background: rgba(255, 255, 255, 0.9);
@@ -184,8 +184,8 @@
 }
 
 .recent-arrow img {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 
 /* 왼쪽 / 오른쪽 위치 */
@@ -205,8 +205,8 @@
 
 /* 비활성화 상태 */
 .recent-arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* 호버 시 약간 강조 (비활성 아닐 때만) */
