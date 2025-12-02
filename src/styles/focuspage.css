@@ -7,11 +7,18 @@
 .title {
   white-space: nowrap;
 }
+
+move-btn-home {
+  margin-bottom: 10px;
+}
 .focus-move-btns {
   display: flex;
   gap: 16px;
 }
-
+.move-buttons {
+  display: flex;
+  gap: 10px;
+}
 .move-btn-hobbies {
   display: flex;
   align-items: center;
@@ -21,6 +28,11 @@
   height: 48px;
   border: 2px solid #dddd;
   border-radius: 15px;
+}
+
+.listcheck-icon {
+  width: 35px;
+  
 }
 
 .point-find {
@@ -62,7 +74,7 @@
   gap: 4px;
   padding: 8px 16px;
   border-radius: 20px;
-  border: solid 1px green;
+  border: solid 1px #99c082;
   cursor: pointer;
   transition: opacity 0.2s;
 }
