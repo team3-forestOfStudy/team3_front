@@ -94,22 +94,22 @@ export default function RecentViewedList() {
     const scroller = containerRef.current;
     if (!scroller) return;
 
-    const firstCard = scroller.querySelector(".study-card");
-    if (!firstCard) return;
+    // 현재 보이는 영역(뷰포트)의 너비
+    const viewportWidth = scroller.clientWidth;
+    if (!viewportWidth) return;
 
-    const cardWidth = firstCard.getBoundingClientRect().width;
-    const gap = 16;
-
-    const width = window.innerWidth;
-    let cardsPerPage = width <= 600 ? 1 : width <= 1200 ? 2 : 3;
-
-    const step = (cardWidth + gap) * cardsPerPage;
     const current = scroller.scrollLeft;
-    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    const maxScroll = scroller.scrollWidth - viewportWidth;
 
-    const rawTarget = direction === "left" ? current - step : current + step;
+    // 왼쪽 / 오른쪽으로 한 페이지씩 이동
+    const delta = direction === "left" ? -viewportWidth : viewportWidth;
+    const rawTarget = current + delta;
 
-    const clamped = Math.max(0, Math.min(rawTarget, maxScroll));
+    // 페이지 단위로 스냅
+    const snapped = Math.round(rawTarget / viewportWidth) * viewportWidth;
+
+    // 0 ~ maxScroll 사이로 고정
+    const clamped = Math.max(0, Math.min(snapped, maxScroll));
 
     scroller.scrollTo({ left: clamped, behavior: "smooth" });
     setTimeout(updateScrollButtons, 300);
