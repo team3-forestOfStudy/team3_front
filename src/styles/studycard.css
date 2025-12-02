@@ -44,6 +44,11 @@
   cursor: pointer;
 }
 
+.study-card:hover {
+  scale: 1.02;
+  opacity: 0.95;
+}
+
 /* 사진 / 단색 배경에 따른 텍스트 컬러 기본값 */
 .study-card--photo {
   /* 기본: 사진 배경에서 쓰이는 텍스트 컬러를 변수로 관리 */
