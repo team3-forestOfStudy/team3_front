@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # workspace layout
 tasks.json
+
+# mac
+.DS_Store

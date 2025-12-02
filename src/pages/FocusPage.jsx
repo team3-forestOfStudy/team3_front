@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
-
+import Plus from "../assets/icons/plus.svg";
 import arrow from "../assets/icons/arrow.svg";
 import Timer from "../components/Timer";
 import PointButton from "../components/Atoms/PointButton.jsx";
-
+import Modal from "../components/Atoms/Modal";
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 // const API_BASE_URL = "http://localhost:4000";
@@ -14,10 +14,17 @@ const FocusPage = () => {
   const [searchParams] = useSearchParams();
   const studyIdFromQuery = searchParams.get("studyId");
   // URL 파라미터 또는 쿼리 파라미터에서 studyId 가져오기
-  const studyId = id ? Number(id) : studyIdFromQuery ? Number(studyIdFromQuery) : null;
+  const studyId = id
+    ? Number(id)
+    : studyIdFromQuery
+      ? Number(studyIdFromQuery)
+      : null;
   const [study, setStudy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalPoints, setTotalPoints] = useState(0);
+  const [timerMinutes, setTimerMinutes] = useState(0);
+  const [isManualModalOpen, setIsManualModalOpen] = useState(false);
+  const [manualMinutesInput, setManualMinutesInput] = useState("0");
 
   // 스터디 상세 정보 API 호출
   useEffect(() => {
@@ -48,6 +55,47 @@ const FocusPage = () => {
     fetchStudyData();
   }, [studyId]);
 
+  // 시간 설정 핸들러
+  const handleTimeSet = minutes => {
+    setTimerMinutes(minutes);
+  };
+
+  const handleQuickTimeClick = minutes => {
+    // 누적 방식으로 시간 추가 (최대 60분)
+    setTimerMinutes(prev => Math.min(prev + minutes, 60));
+  };
+
+  const handleManualInputClick = () => {
+    setIsManualModalOpen(true);
+  };
+
+  const handleManualMinutesChange = e => {
+    const raw = e.target.value;
+    setManualMinutesInput(raw);
+
+    if (raw === "") {
+      return;
+    }
+
+    let value = parseInt(raw, 10);
+    if (Number.isNaN(value) || value < 0) value = 0;
+    if (value > 60) value = 60;
+
+    setManualMinutesInput(String(value));
+  };
+
+  const handleManualModalConfirm = () => {
+    const minutes = parseInt(manualMinutesInput, 10) || 0;
+    if (minutes > 0) {
+      setTimerMinutes(minutes);
+      setIsManualModalOpen(false);
+    }
+  };
+
+  const handleManualModalClose = () => {
+    setIsManualModalOpen(false);
+  };
+
   return (
     <div className="container">
       <div className="contents">
@@ -58,7 +106,7 @@ const FocusPage = () => {
               <div className="skeleton skeleton-title"></div>
             ) : study ? (
               <h3 className="title g_sub_text01 fw_eb">
-                {study.nickname}  {study.title}
+                {study.nickname} {study.title}
               </h3>
             ) : (
               <h3 className="title g_sub_text01 fw_eb">
@@ -68,7 +116,10 @@ const FocusPage = () => {
 
             <div className="focus-move-btns">
               {studyId && !isNaN(studyId) && (
-                <Link to={`/hobbies?studyId=${studyId}`} className="move-btn-hobbies gray_600">
+                <Link
+                  to={`/hobbies?studyId=${studyId}`}
+                  className="move-btn-hobbies gray_600"
+                >
                   오늘의 습관
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
@@ -93,6 +144,79 @@ const FocusPage = () => {
             )}
           </div>
 
+          {/* 타이머 설정  */}
+          <div className="choice-time">
+            <div className="recommend-time ">
+              <button
+                className="one bg_green_300 g_sub_text07 fw_eb white"
+                onClick={() => handleQuickTimeClick(1)}
+              >
+                <img src={Plus} alt="plus" />
+                1분
+              </button>
+              <button
+                className="five bg_green_300 g_sub_text07 fw_eb white"
+                onClick={() => handleQuickTimeClick(5)}
+              >
+                <img src={Plus} alt="plus" />
+                5분
+              </button>
+              <button
+                className="ten bg_green_300 g_sub_text07 fw_eb white"
+                onClick={() => handleQuickTimeClick(10)}
+              >
+                <img src={Plus} alt="plus" className="plus" />
+                10분
+              </button>
+              <button
+                className="maual-mins bg_green_300 g_sub_text07 fw_eb white"
+                onClick={handleManualInputClick}
+              >
+                수동 입력
+              </button>
+            </div>
+          </div>
+
+          {/* 수동 입력 모달 */}
+          <Modal isOpen={isManualModalOpen} onClose={handleManualModalClose}>
+            <div className="timer-modal">
+              <h3 className="timer-modal-title g_sub_text02 fw_eb">
+                집중 시간 설정
+              </h3>
+
+              <div className="timer-modal-inputs">
+                <div className="timer-modal-field g_sub_text03 fw_eb">
+                  <input
+                    type="number"
+                    min="0"
+                    max="60"
+                    value={manualMinutesInput}
+                    onChange={handleManualMinutesChange}
+                    className="timer-modal-input"
+                  />
+                  <span className="timer-modal-input">분</span>
+                </div>
+              </div>
+
+              <div className="timer-modal-buttons">
+                <button
+                  type="button"
+                  className="timer-modal-btn confirm bg_green_300 g_sub_text03 fw_eb white"
+                  onClick={handleManualModalConfirm}
+                >
+                  확인
+                </button>
+                <button
+                  type="button"
+                  className="timer-modal-btn cancel bg_red_200 g_sub_text03 fw_eb white"
+                  onClick={handleManualModalClose}
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </Modal>
+
           {/* 타이머 영역 Skeleton */}
           <div className="focus-watch">
             <h3 className="focus-header g_sub_text02 fw_eb">오늘의 집중</h3>
@@ -103,9 +227,11 @@ const FocusPage = () => {
               <div className="timer">
                 <Timer
                   studyId={Number(studyId)}
+                  initialMinutes={timerMinutes}
+                  onTimeSet={handleTimeSet}
                   onPointEarned={(point, totalAfter) => {
                     if (typeof totalAfter === "number") {
-                      setTotalPoints(totalAfter); 
+                      setTotalPoints(totalAfter);
                     } else if (typeof point === "number") {
                       setTotalPoints(prev => prev + point); // 백업용
                     }
