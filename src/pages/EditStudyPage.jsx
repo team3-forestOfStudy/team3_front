@@ -1,5 +1,5 @@
 // EditStudyPage.jsx (토스트 알림 + 1초 후 상세 페이지 이동)
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import StudyMake from "../components/StudyMake.jsx";
@@ -9,6 +9,11 @@ const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 export default function EditStudyPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ StudyDetailsPage에서 navigate(state)로 넘긴 비밀번호
+  const passwordFromState = location.state?.password || "";
+
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +25,7 @@ export default function EditStudyPage() {
         const data = await res.json();
 
         if (!res.ok || data.result !== "success") {
-          // 조회 실패는 기존 메시지 유지 (토스트로만 변경 가능)
+          // 조회 실패는 기존 메시지 유지 (토스트)
           toast.error(data.message || "😨 서버 오류가 발생했습니다.", {
             className: "toast-base g_sub_text10 fw_m",
             autoClose: 2000,
@@ -51,13 +56,16 @@ export default function EditStudyPage() {
   }, [id]);
 
   const handleUpdate = async formData => {
-    // 비밀번호 / 변경 없음 체크는 그대로 alert 사용 (로컬 검증)
-    if (!formData.password) {
-      alert("수정을 위해 비밀번호를 입력해주세요.");
+    // ✅ 비밀번호는 navigate(state)에서만 받음
+    if (!passwordFromState) {
+      toast.error("🔐 비밀번호 정보가 없습니다. 다시 시도해주세요.", {
+        className: "toast-base g_sub_text10 fw_m bg_pink_100 red_600",
+        autoClose: 2000,
+      });
       return;
     }
 
-    const body = { password: formData.password };
+    const body = { password: passwordFromState };
     let hasChange = false;
 
     if (formData.nickname !== initialData.nickname) {
@@ -81,7 +89,10 @@ export default function EditStudyPage() {
     }
 
     if (!hasChange) {
-      alert("수정할 값이 최소 1개 이상이어야 합니다.");
+      toast.warn("⚠️ 수정할 값이 최소 1개 이상이어야 합니다.", {
+        className: "toast-base g_sub_text10 fw_m",
+        autoClose: 2000,
+      });
       return;
     }
 

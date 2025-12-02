@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
-import Plus from "../assets/icons/plus.svg";
+import Plus from "../assets/icons/plus_gray.svg";
 import arrow from "../assets/icons/arrow.svg";
 import Timer from "../components/Timer";
 import PointButton from "../components/Atoms/PointButton.jsx";
@@ -154,14 +154,14 @@ const FocusPage = () => {
                 className="one gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(1)}
               >
-                <img src={Plus} alt="plus" />
+                <img src={Plus} alt="plus" className="plus"/>
                 1분
               </button>
               <button
                 className="five gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(5)}
               >
-                <img src={Plus} alt="plus" />
+                <img src={Plus} alt="plus" className="plus"/>
                 5분
               </button>
               <button
