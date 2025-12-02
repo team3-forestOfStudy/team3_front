@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
-import Plus from "../assets/icons/plus.svg";
+import Plus from "../assets/icons/plus_gray.svg";
 import arrow from "../assets/icons/arrow.svg";
 import Timer from "../components/Timer";
 import PointButton from "../components/Atoms/PointButton.jsx";
@@ -124,7 +124,10 @@ const FocusPage = () => {
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
               )}
-              <Link to="/" className="move-btn-home gray_600">
+              <Link
+                to={`/Studydetails?studyId=${studyId}`}
+                className="move-btn-home gray_600"
+              >
                 홈
                 <img src={arrow} alt="arrow" className="arrow-icon" />
               </Link>
@@ -148,21 +151,21 @@ const FocusPage = () => {
           <div className="choice-time">
             <div className="recommend-time ">
               <button
-                className="one bg_green_300 g_sub_text07 fw_eb white"
+                className="one gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(1)}
               >
-                <img src={Plus} alt="plus" />
+                <img src={Plus} alt="plus" className="plus"/>
                 1분
               </button>
               <button
-                className="five bg_green_300 g_sub_text07 fw_eb white"
+                className="five gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(5)}
               >
-                <img src={Plus} alt="plus" />
+                <img src={Plus} alt="plus" className="plus"/>
                 5분
               </button>
               <button
-                className="ten bg_green_300 g_sub_text07 fw_eb white"
+                className="ten gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(10)}
               >
                 <img src={Plus} alt="plus" className="plus" />

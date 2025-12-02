@@ -210,7 +210,7 @@ const HobbiesPage = () => {
                   </Link>
                 )}
 
-                <Link to="/" className="move-btn-home gray_600">
+                <Link to={`/Studydetails?studyId=${studyId}`} className="move-btn-home gray_600">
                   홈
                   <img src={arrow} alt="arrow" className="arrow-icon" />
                 </Link>
