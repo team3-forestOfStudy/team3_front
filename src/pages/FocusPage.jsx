@@ -151,21 +151,21 @@ const FocusPage = () => {
           <div className="choice-time">
             <div className="recommend-time ">
               <button
-                className="one bg_green_300 g_sub_text07 fw_eb white"
+                className="one gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(1)}
               >
                 <img src={Plus} alt="plus" />
                 1분
               </button>
               <button
-                className="five bg_green_300 g_sub_text07 fw_eb white"
+                className="five gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(5)}
               >
                 <img src={Plus} alt="plus" />
                 5분
               </button>
               <button
-                className="ten bg_green_300 g_sub_text07 fw_eb white"
+                className="ten gray_600 g_sub_text07 fw_eb"
                 onClick={() => handleQuickTimeClick(10)}
               >
                 <img src={Plus} alt="plus" className="plus" />
