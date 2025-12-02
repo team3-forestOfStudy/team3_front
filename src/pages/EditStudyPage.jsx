@@ -1,4 +1,4 @@
-// EditStudyPage.jsx (토스트 알림 + 1초 후 상세 페이지 이동)
+// EditStudyPage.jsx
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -7,11 +7,12 @@ import StudyMake from "../components/StudyMake.jsx";
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 export default function EditStudyPage() {
+  // ✅ /study/edit/:id 에서 id 받아오기
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ StudyDetailsPage에서 navigate(state)로 넘긴 비밀번호
+  // ✅ PasswordModal에서 navigate(state)로 넘긴 비밀번호 (인증용)
   const passwordFromState = location.state?.password || "";
 
   const [initialData, setInitialData] = useState(null);
@@ -25,7 +26,6 @@ export default function EditStudyPage() {
         const data = await res.json();
 
         if (!res.ok || data.result !== "success") {
-          // 조회 실패는 기존 메시지 유지 (토스트)
           toast.error(data.message || "😨 서버 오류가 발생했습니다.", {
             className: "toast-base g_sub_text10 fw_m",
             autoClose: 2000,
@@ -41,14 +41,15 @@ export default function EditStudyPage() {
           intro: s.description ?? "",
           selectedBg: s.backgroundImage,
         });
-
-        setLoading(false);
       } catch (error) {
         console.error(error);
         toast.error("😨 서버 오류가 발생했습니다.", {
           className: "toast-base g_sub_text10 fw_m",
           autoClose: 2000,
         });
+      } finally {
+        // ✅ 성공/실패 관계없이 로딩 종료
+        setLoading(false);
       }
     };
 
@@ -56,7 +57,7 @@ export default function EditStudyPage() {
   }, [id]);
 
   const handleUpdate = async formData => {
-    // ✅ 비밀번호는 navigate(state)에서만 받음
+    // 비밀번호 수정은 없지만, 인증용 비밀번호는 반드시 필요
     if (!passwordFromState) {
       toast.error("🔐 비밀번호 정보가 없습니다. 다시 시도해주세요.", {
         className: "toast-base g_sub_text10 fw_m bg_pink_100 red_600",
@@ -65,6 +66,7 @@ export default function EditStudyPage() {
       return;
     }
 
+    // PATCH body 기본 구조 (항상 password 포함)
     const body = { password: passwordFromState };
     let hasChange = false;
 
@@ -107,7 +109,7 @@ export default function EditStudyPage() {
 
       // ❌ 수정 실패
       if (!res.ok || data.result !== "success") {
-        toast.error("😨 스터디 수정이 실패했습니다.", {
+        toast.error(data.message || "😨 스터디 수정이 실패했습니다.", {
           className: "toast-base g_sub_text10 fw_m bg_pink_100 red_600",
           autoClose: 2000,
         });
@@ -123,11 +125,11 @@ export default function EditStudyPage() {
 
       // 1초 뒤 상세 페이지로 이동
       setTimeout(() => {
+        // 여기 주소는 팀이 이미 쓰고 있는 패턴 유지
         navigate(`/Studydetails?studyId=${id}`);
       }, 1000);
     } catch (error) {
       console.error(error);
-      // 🔥 서버 오류
       toast.error("😨 서버 오류가 발생했습니다.", {
         className: "toast-base g_sub_text10 fw_m",
         autoClose: 2000,

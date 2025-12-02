@@ -45,7 +45,7 @@ export default function PasswordModal({
       if (result.result === "success") {
         showErrorToast("수정하기");
 
-        navigate(`/EditStudyPage?studyId=${studyId}`, { state: { password } });
+        navigate(`/study/edit/${studyId}`, { state: { password } });
       } else {
         showErrorToast(result.message);
       }
