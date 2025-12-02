@@ -4,10 +4,38 @@
   gap: 24px;
 }
 
+/* -------------- 스터디 카드 ----------------------------------- */
+
+.study-card:hover {
+  scale: 1.02;
+  opacity: 0.95;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* 최근 조회한 스터디 섹션에서는 scale 빼고, 위로만 살짝 띄우기 */
+.home-section--recent .study-card:hover {
+  scale: 1; /* 기본 hover의 1.02를 덮어쓰기 */
+  transform: translateY(-6px);
+  opacity: 0.95;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* active (눌렀을 때) */
+.study-card:active {
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  opacity: 0.9;
+}
+
+/* ------------------- 반응형 ----------------------------------- */
+
 /* 데스크탑: 3열 (1920 ~ 1201) */
 @media (min-width: 1201px) {
   .study-card-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* grid-template-columns: repeat(3, 358px);
+    justify-content: center; */
   }
 }
 
@@ -15,6 +43,8 @@
 @media (max-width: 1200px) and (min-width: 601px) {
   .study-card-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* grid-template-columns: repeat(2, 358px);
+    justify-content: center; */
   }
 }
 
@@ -27,6 +57,7 @@
 
 /* 카드 공통 스타일 */
 .study-card {
+  box-sizing: border-box; /* 패딩 포함해서 243 안에 넣기 */
   position: relative;
   width: 100%;
   min-height: 220px;
@@ -39,7 +70,7 @@
   flex-direction: column;
   /* justify-content: space-between; */
   gap: 24px;
-
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
   cursor: pointer;
 }
 
@@ -320,6 +351,7 @@
   background-color: #f7f7f7;
   border-color: #eeeeee;
   cursor: default;
+  min-height: 243px;
 }
 
 /* 스켈레톤 카드는 클릭/호버 안 되게 */
@@ -364,6 +396,10 @@
 .skeleton-emoji {
   width: 56px;
   height: 28px;
+}
+
+.study-card--skeleton .skeleton-description-line {
+  margin-top: 8px;
 }
 
 /* 최근 조회 캐러셀 안 카드 폭 조정 */

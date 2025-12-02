@@ -17,12 +17,21 @@
 }
 
 .MoreButton:hover {
-  scale: 1.01;
+  scale: 1.02;
   opacity: 0.95;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 .MoreButton .MoreButton_text {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   color: var(--green-700);
   z-index: 1;
+}
+
+/* active (눌렀을 때) */
+.MoreButton:active {
+  transform: translateY(0px) scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  opacity: 0.9;
 }

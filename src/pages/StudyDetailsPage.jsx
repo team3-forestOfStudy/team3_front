@@ -18,8 +18,11 @@ export default function StudyDetailsPage() {
     const studyId = Number(searchParams.get("studyId"));
     return studyId;
   };
+
+  FocusPage();
+
   const studyId = FocusPage();
-  console.log(FocusPage());
+
   // 스터디
 
   // 스터디 상세페이지 가져오기 api
@@ -63,6 +66,7 @@ export default function StudyDetailsPage() {
                 <p>|</p>
                 <PasswordModal
                   title={data.title}
+                  nickname={data.nickname}
                   studyId={studyId}
                   actionType="delete"
                 >
@@ -77,17 +81,35 @@ export default function StudyDetailsPage() {
                   <div className="skeleton skeleton_title"></div>
                 ) : (
                   <h2 className="g_sub_text01 detail_mid_title_left">
-                    <span className="blue_600">{data.nickname}</span>의
+                    <span className="blue_600">{data.nickname}</span>의&nbsp;
                     {data.title}
                   </h2>
                 )}
                 <div className="detail_mid_title_right">
+                  {/* 비빌번호 확인버튼 */}
+                  <ArrowButton
+                    title={data.title}
+                    nickname={data.nickname}
+                    studyId={studyId}
+                    actionType="hobbies"
+                  >
+                    오늘의 습관
+                  </ArrowButton>
+                  <ArrowButton
+                    title={data.title}
+                    nickname={data.nickname}
+                    studyId={studyId}
+                    actionType="focus"
+                  >
+                    오늘의 집중
+                  </ArrowButton>
+                  {/* 
                   <Link to={`/hobbies?studyId=${studyId}`}>
                     <ArrowButton>오늘의 습관</ArrowButton>
                   </Link>
                   <Link to={`/focus?studyId=${studyId}`}>
                     <ArrowButton>오늘의 집중</ArrowButton>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               {/* 스터디 상세내용  */}
@@ -113,7 +135,8 @@ export default function StudyDetailsPage() {
               </div>
               {/*  스케줄 영역 */}
               <div className="detail_bottom">
-                <WeeklyHabitTracker />
+                {}
+                <WeeklyHabitTracker studyId={studyId} />
               </div>
             </div>
           </div>

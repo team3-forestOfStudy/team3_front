@@ -4,6 +4,7 @@
   width: 344px;
   background-color: #fff;
   margin: 0 auto;
+  border-radius: 24px;
 }
 
 /* 태블릿: 601px ~ 1200px */
@@ -60,4 +61,11 @@
   transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
+}
+
+/* disabled일 때 hover 효과 제거 */
+.Button01.shadowGray:hover {
+  scale: 1 !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
 }

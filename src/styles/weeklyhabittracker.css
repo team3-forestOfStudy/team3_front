@@ -32,3 +32,8 @@
     width: 36px;
     height: 36px;
 }
+
+.weekly_habit_tracker_none {
+    text-align: center;
+    padding: 180px;
+}

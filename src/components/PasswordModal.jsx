@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./Atoms/Modal.jsx";
 import eyeInvisible from "../assets/icons/eyes.svg";
 import eyeVisible from "../assets/icons/visible.svg";
-import { deleteStudyList } from "../utils/testapi.js";
+import { deleteStudyList, postVerifyStudyList } from "../utils/testapi.js";
+import { showErrorToast, showPasswordSuccesToast } from "../utils/toastmessage";
 
-const PASSWORD_MIN_LENGTH = 4;
+const PASSWORD_MIN_LENGTH = 6;
 
 export default function PasswordModal({
   children,
@@ -30,18 +31,24 @@ export default function PasswordModal({
     e.preventDefault();
 
     if (!password) {
-      alert("비밀번호를 입력해주세요");
+      showErrorToast("🚨 비밀번호를 입력해주세요");
       return;
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
-      alert("비밀번호4자 이상 입력해주세요");
+      showErrorToast("🚨 비밀번호6자 이상 입력해주세요");
       return;
     }
     try {
-      console.log("수정하기 실행");
+      const result = await postVerifyStudyList(studyId, password);
 
-      navigate(`/EditStudyPage?studyId=${studyId}`);
+      if (result.result === "success") {
+        showPasswordSuccesToast("😀 수정하기");
+
+        navigate(`/study/edit/${studyId}`, { state: { password } });
+      } else {
+        showErrorToast(result.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -53,39 +60,31 @@ export default function PasswordModal({
     e.preventDefault();
 
     if (!password) {
-      alert("비밀번호를 입력해주세요");
+      showErrorToast("🚨 비밀번호를 입력해주세요");
 
       return;
     }
 
     if (password.length < PASSWORD_MIN_LENGTH) {
-      alert("비밀번호4자 이상 입력해주세요");
+      showErrorToast("🚨 비밀번호6자 이상 입력해주세요");
       return;
     }
 
     try {
       console.log("삭제하기 실행");
+
       const result = await deleteStudyList(studyId, password);
 
       if (result.result === "success") {
-        alert("삭제되었습니다.");
+        showPasswordSuccesToast("😀 삭제되었습니다.");
         navigate("/");
       } else {
-        alert(result.message);
+        showErrorToast(result.message);
       }
     } catch (err) {
       console.error(err);
     }
   };
-
-  if (actionType === "edit") {
-    console.log("🎯 수정하기 실행");
-    // 수정 API
-  }
-
-  if (actionType === "delete") {
-    // 삭제 API
-  }
 
   return (
     <>

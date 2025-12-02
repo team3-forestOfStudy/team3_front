@@ -1,6 +1,5 @@
 .emoji_wrap {
     display: flex;
-    gap: 8px;
 
 }
 
@@ -10,6 +9,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-right: 8px;
 }
 
 

@@ -98,12 +98,14 @@ export default function RecentViewedList() {
     if (!firstCard) return;
 
     const cardWidth = firstCard.getBoundingClientRect().width;
-    const gap = 16;
+    const gap = 24; // 실제 CSS gap과 맞추기
 
     const width = window.innerWidth;
-    let cardsPerPage = width <= 600 ? 1 : width <= 1200 ? 2 : 3;
+    const cardsPerPage = width <= 600 ? 1 : width <= 1200 ? 2 : 3;
 
-    const step = (cardWidth + gap) * cardsPerPage;
+    // 카드 n개 + 사이 gap (n-1개) 만큼만 이동
+    const step = cardWidth * cardsPerPage + gap * (cardsPerPage - 1);
+
     const current = scroller.scrollLeft;
     const maxScroll = scroller.scrollWidth - scroller.clientWidth;
 
