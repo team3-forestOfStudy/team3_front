@@ -111,7 +111,6 @@ const HobbiesPage = () => {
               console.log("체크된 습관 응답 예시:", checkedHabitsArray[0]);
             }
             
-            // 체크 상태 필드를 확인하여 실제로 체크된 습관만 필터링
             const checkedIds = checkedHabitsArray
               .filter(habit => {
                 const isChecked = 
@@ -251,9 +250,29 @@ const HobbiesPage = () => {
 
               if (Array.isArray(checkedHabitsArray)) {
                 const checkedIds = checkedHabitsArray
-                  .map(h => h.id || h.habitId)
+                  .filter(habit => {
+                    const isChecked = 
+                      habit.isChecked === true ||
+                      habit.checked === true ||
+                      habit.isCheckedToday === true ||
+                      habit.checkedToday === true ||
+                      habit.todayChecked === true ||
+                      (habit.todayHabitCheck && habit.todayHabitCheck.isChecked === true) ||
+                      (habit.todayHabitCheck && habit.todayHabitCheck.checked === true);
+                    
+                    if (habit.isChecked === false || habit.checked === false || habit.isCheckedToday === false) {
+                      return false;
+                    }
+                    
+                    return isChecked;
+                  })
+                  .map(habit => habit.id || habit.habitId)
                   .filter(id => id !== null && id !== undefined);
+                
+                console.log("수정 완료 후 체크된 습관 ID 목록:", checkedIds);
                 setCheckedHabitIds(checkedIds);
+              } else {
+                setCheckedHabitIds([]);
               }
             }
           } catch (error) {
