@@ -3,12 +3,12 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
 import Plus from "../assets/icons/plus_gray.svg";
 import arrow from "../assets/icons/arrow.svg";
+import back from "../assets/icons/back.svg";
 import Timer from "../components/Timer";
 import PointButton from "../components/Atoms/PointButton.jsx";
 import Modal from "../components/Atoms/Modal";
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
-// const API_BASE_URL = "http://localhost:4000";
 const FocusPage = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
@@ -102,35 +102,38 @@ const FocusPage = () => {
         <div className="g_box">
           {/* 타이틀 영역 Skeleton */}
           <div className="focus-title">
-            {loading ? (
-              <div className="skeleton skeleton-title"></div>
-            ) : study ? (
-              <h3 className="title g_sub_text01 fw_eb">
-                {study.nickname} {study.title}
-              </h3>
-            ) : (
-              <h3 className="title g_sub_text01 fw_eb">
-                스터디를 불러올 수 없습니다
-              </h3>
-            )}
-
-            <div className="focus-move-btns">
-              {studyId && !isNaN(studyId) && (
-                <Link
-                  to={`/hobbies?studyId=${studyId}`}
-                  className="move-btn-hobbies gray_600"
-                >
-                  오늘의 습관
-                  <img src={arrow} alt="arrow" className="arrow-icon" />
-                </Link>
-              )}
+            <div className="focus-main">
               <Link
                 to={`/Studydetails?studyId=${studyId}`}
                 className="move-btn-home gray_600"
               >
-                홈
-                <img src={arrow} alt="arrow" className="arrow-icon" />
+                <img src={back} alt="back" className="back-icon gray_600" />
               </Link>
+              {loading ? (
+                <div className="skeleton skeleton-title"></div>
+              ) : study ? (
+                <h3 className="title g_sub_text01 fw_eb">
+                  {study.nickname}의 {study.title}
+                </h3>
+              ) : (
+                <h3 className="title g_sub_text01 fw_eb">
+                  스터디를 불러올 수 없습니다
+                </h3>
+              )}
+            </div>
+
+            <div className="move-buttons">
+              <div className="focus-move-btns">
+                {studyId && !isNaN(studyId) && (
+                  <Link
+                    to={`/hobbies?studyId=${studyId}`}
+                    className="move-btn-hobbies gray_600"
+                  >
+                    오늘의 습관
+                    <img src={arrow} alt="arrow" className="arrow-icon" />
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
 
@@ -151,28 +154,28 @@ const FocusPage = () => {
           <div className="choice-time">
             <div className="recommend-time ">
               <button
-                className="one gray_600 g_sub_text07 fw_eb"
+                className="one gray_600 g_sub_text07 fw_l"
                 onClick={() => handleQuickTimeClick(1)}
               >
-                <img src={Plus} alt="plus" className="plus"/>
+                <img src={Plus} alt="plus" className="plus" />
                 1분
               </button>
               <button
-                className="five gray_600 g_sub_text07 fw_eb"
+                className="five gray_600 g_sub_text07 fw_l"
                 onClick={() => handleQuickTimeClick(5)}
               >
-                <img src={Plus} alt="plus" className="plus"/>
+                <img src={Plus} alt="plus" className="plus" />
                 5분
               </button>
               <button
-                className="ten gray_600 g_sub_text07 fw_eb"
+                className="ten gray_600 g_sub_text07 fw_l"
                 onClick={() => handleQuickTimeClick(10)}
               >
                 <img src={Plus} alt="plus" className="plus" />
                 10분
               </button>
               <button
-                className="maual-mins bg_green_300 g_sub_text07 fw_eb white"
+                className="maual-mins bg_green_300 g_sub_text07 fw_l white"
                 onClick={handleManualInputClick}
               >
                 수동 입력
