@@ -3,6 +3,7 @@ import Date from "../utils/TodayDate";
 import { Chip } from "../components/Atoms/Chip";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import arrow from "../assets/icons/arrow.svg";
+import {ReactComponent as BackIcon } from "../assets/icons/back.svg";
 import "../styles/hobbiespage.css";
 import { useEffect, useState } from "react";
 import ListModal from "../components/ListModal";
@@ -62,13 +63,13 @@ const HobbiesPage = () => {
     const fetchHabits = async () => {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/api/studies/${studyId}/habits`
+          `${API_BASE_URL}/api/studies/${studyId}/habits`,
         );
         const result = await res.json();
 
         if (res.ok && result.result === "success") {
           let habitsArray = null;
-          
+
           if (Array.isArray(result.data)) {
             habitsArray = result.data;
           } else if (Array.isArray(result.data?.habits)) {
@@ -79,7 +80,7 @@ const HobbiesPage = () => {
 
           if (Array.isArray(habitsArray)) {
             setHabits(habitsArray);
-            
+
             const checkedIds = habitsArray
               .filter(habit => habit.checkedToday || habit.isCheckedToday)
               .map(habit => habit.id || habit.habitId);
@@ -101,12 +102,12 @@ const HobbiesPage = () => {
 
     const habitId = habit.id || habit.habitId;
     const isCurrentlyChecked = checkedHabitIds.includes(habitId);
-    const newCheckedState = !isCurrentlyChecked; 
+    const newCheckedState = !isCurrentlyChecked;
 
     setCheckedHabitIds(prev =>
       isCurrentlyChecked
         ? prev.filter(id => id !== habitId)
-        : [...prev, habitId]
+        : [...prev, habitId],
     );
 
     try {
@@ -120,7 +121,7 @@ const HobbiesPage = () => {
           body: JSON.stringify({
             isChecked: newCheckedState,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -128,7 +129,7 @@ const HobbiesPage = () => {
         setCheckedHabitIds(prev =>
           isCurrentlyChecked
             ? [...prev, habitId]
-            : prev.filter(id => id !== habitId)
+            : prev.filter(id => id !== habitId),
         );
         console.error("습관 체크 업데이트 실패");
       }
@@ -136,7 +137,7 @@ const HobbiesPage = () => {
       setCheckedHabitIds(prev =>
         isCurrentlyChecked
           ? [...prev, habitId]
-          : prev.filter(id => id !== habitId)
+          : prev.filter(id => id !== habitId),
       );
       console.error("네트워크 오류", error);
     }
@@ -151,16 +152,14 @@ const HobbiesPage = () => {
     if (!studyId || isNaN(studyId)) return;
 
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/studies/${studyId}/habits`
-      );
+      const res = await fetch(`${API_BASE_URL}/api/studies/${studyId}/habits`);
       const result = await res.json();
 
-      console.log("습관 목록 재조회 응답:", result); 
+      console.log("습관 목록 재조회 응답:", result);
 
       if (res.ok && result.result === "success") {
         let habitsArray = null;
-        
+
         if (Array.isArray(result.data)) {
           habitsArray = result.data;
         } else if (Array.isArray(result.data?.habits)) {
@@ -170,7 +169,7 @@ const HobbiesPage = () => {
         }
 
         if (Array.isArray(habitsArray)) {
-          console.log("습관 목록 업데이트:", habitsArray); 
+          console.log("습관 목록 업데이트:", habitsArray);
           setHabits(habitsArray);
         } else {
           console.warn("습관 목록이 배열이 아닙니다:", result);
@@ -189,6 +188,14 @@ const HobbiesPage = () => {
         <div className="contents hobbies-box">
           {/* 헤더 */}
           <div className="g_box hobbies-main">
+            <button className="detail-move">
+              <Link
+                to={`/Studydetails?studyId=${studyId}`}
+                className="move-btn-home"
+              >
+                <BackIcon className="back-icon"/>
+              </Link>
+            </button>
             <div className="hobbies-header">
               {loading ? (
                 <div className="skeleton skeleton-title"></div>
@@ -199,21 +206,18 @@ const HobbiesPage = () => {
               ) : (
                 <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
               )}
-              <div className="hobbies-moveButtons g_sub_text10 fw_m">
-                {studyId && (
-                  <Link
-                    to={`/Focus?studyId=${studyId}`}
-                    className="move-btn-focus gray_600"
-                  >
-                    오늘의 집중
-                    <img src={arrow} alt="arrow" className="arrow-icon" />
-                  </Link>
-                )}
-
-                <Link to={`/Studydetails?studyId=${studyId}`} className="move-btn-home gray_600">
-                  홈
-                  <img src={arrow} alt="arrow" className="arrow-icon" />
-                </Link>
+              <div className="move-buttons">
+                <div className="hobbies-moveButtons g_sub_text10 fw_m">
+                  {studyId && (
+                    <Link
+                      to={`/Focus?studyId=${studyId}`}
+                      className="move-btn-focus gray_600"
+                    >
+                      오늘의 집중
+                      <img src={arrow} alt="arrow" className="arrow-icon" />
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -241,7 +245,7 @@ const HobbiesPage = () => {
                   habits.map(habit => {
                     const habitId = habit.id || habit.habitId;
                     const isChecked = checkedHabitIds.includes(habitId);
-                    
+
                     return (
                       <Chip
                         key={habitId}
