@@ -27,6 +27,14 @@ export const showErrorToast = message => {
     className: "toast-password g_sub_text10 fw_m bg_pink_100 red_600",
   });
 };
+// 비밀번호 성공
+export const showPasswordSuccesToast = message => {
+  toast.error(message, {
+    className: "toast-password g_sub_text10 fw_m green_700 bg_mint_100",
+    autoClose: 2000,
+    position: "top-center",
+  });
+};
 
 //컴포넌트에서 사용하는 방법
 //import { showSuccesToast } from "../utils/toastmessage";
