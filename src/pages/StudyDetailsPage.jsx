@@ -135,7 +135,7 @@ export default function StudyDetailsPage() {
               </div>
               {/*  스케줄 영역 */}
               <div className="detail_bottom">
-                <WeeklyHabitTracker />
+                <WeeklyHabitTracker studyId={studyId} />
               </div>
             </div>
           </div>
