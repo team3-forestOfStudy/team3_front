@@ -82,9 +82,11 @@
 
 /* ---- 최근 조회된 스터디 empty ---- */
 
-/* 최근 조회 카드 수 모바일 (폭 기준) */
+/* 최근 조회 카드 - 모바일 폭 고정 */
 .study-card-list--recent .study-card {
-  flex: 0 0 100%; /* 1개 */
+  flex: 0 0 240px;
+  width: 240px;
+  max-width: 240px;
 }
 
 .home-section-empty--recent {
@@ -105,9 +107,11 @@
     height: 627px; /* tablet */
   }
 
-  /* 최근 조회 카드 수 (폭 기준) */
+  /* 최근 조회 카드 수 (폭 기준) - 태블릿 */
   .study-card-list--recent .study-card {
-    flex: 0 0 calc((100% - 1 * 16px) / 2); /* 2개 */
+    flex: 0 0 358px;
+    width: 358px;
+    max-width: 358px;
   }
 }
 
@@ -121,9 +125,11 @@
     height: 822px;
   }
 
-  /* 최근 조회 카드 수 (폭 기준) */
+  /* 최근 조회 카드 수 (폭 기준) - 데스크탑 */
   .study-card-list--recent .study-card {
-    flex: 0 0 calc((100% - 2 * 24px) / 3); /* 3개 + 간격 */
+    flex: 0 0 358px;
+    width: 358px;
+    max-width: 358px;
   }
 }
 
@@ -132,7 +138,7 @@
 .home-section--recent .recent-scroller {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 4px 4px 4px;
+  padding: 8px;
 }
 
 /* 스크롤바 살짝만 보이게/꾸미고 싶다면 추가로 커스텀 가능 */
