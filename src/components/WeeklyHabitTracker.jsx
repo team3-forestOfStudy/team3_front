@@ -31,58 +31,72 @@ export default function WeeklyHabitTracker({ studyId }) {
   useEffect(() => {
     habitsList();
   }, []);
-
+  console.log(tbody);
   return (
     <div className="weekly_habit_tracker">
-      <h2 className="g_sub_text02">습관 기록표 </h2>
+      {tbody.length > 0 ? (
+        <>
+          <h2 className="g_sub_text02">습관 기록표 </h2>
 
-      <table className="weekly_habit_tracker_table">
-        <thead className="weekly_habit_tracker_table_head">
-          <tr>
-            <th></th>
-            <th className="g_sub_text07 gray_600">월</th>
-            <th className="g_sub_text07 gray_600">화</th>
-            <th className="g_sub_text07 gray_600">수</th>
-            <th className="g_sub_text07 gray_600">목</th>
-            <th className="g_sub_text07 gray_600">금</th>
-            <th className="g_sub_text07 gray_600">토</th>
-            <th className="g_sub_text07 gray_600">일</th>
-          </tr>
-        </thead>
-        <tbody className="weekly_habit_tracker_table_body">
-          {tbody.map((item, index) => {
-            // tr 인덱스를 사용해 순서대로 이미지 선택
-            const emptyImages = [
-              empty01,
-              empty02,
-              empty03,
-              empty04,
-              empty05,
-              empty06,
-              empty07,
-              empty08,
-              empty09,
-              empty10,
-              empty11,
-              empty12,
-              empty13,
-            ];
-            // tr 인덱스를 이미지 배열 길이로 나눈 나머지로 순환
-            const emptyImage = emptyImages[index % emptyImages.length];
-
-            return (
-              <tr key={item.habitId}>
-                <th className="g_sub_text06 fw_b ellips">{item.name}</th>
-                {days.map(day => (
-                  <td key={day}>
-                    <StickerImg checked={item[day]} randomEmpty={emptyImage} />
-                  </td>
-                ))}
+          <table className="weekly_habit_tracker_table">
+            <thead className="weekly_habit_tracker_table_head">
+              <tr>
+                <th></th>
+                <th className="g_sub_text07 gray_600">월</th>
+                <th className="g_sub_text07 gray_600">화</th>
+                <th className="g_sub_text07 gray_600">수</th>
+                <th className="g_sub_text07 gray_600">목</th>
+                <th className="g_sub_text07 gray_600">금</th>
+                <th className="g_sub_text07 gray_600">토</th>
+                <th className="g_sub_text07 gray_600">일</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody className="weekly_habit_tracker_table_body">
+              {tbody.map((item, index) => {
+                // tr 인덱스를 사용해 순서대로 이미지 선택
+                const emptyImages = [
+                  empty01,
+                  empty02,
+                  empty03,
+                  empty04,
+                  empty05,
+                  empty06,
+                  empty07,
+                  empty08,
+                  empty09,
+                  empty10,
+                  empty11,
+                  empty12,
+                  empty13,
+                ];
+                // tr 인덱스를 이미지 배열 길이로 나눈 나머지로 순환
+                const emptyImage = emptyImages[index % emptyImages.length];
+
+                return (
+                  <tr key={item.habitId}>
+                    <th className="g_sub_text06 fw_b ellips">{item.name}</th>
+                    {days.map(day => (
+                      <td key={day}>
+                        <StickerImg
+                          checked={item[day]}
+                          randomEmpty={emptyImage}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      ) : (
+        <div className="weekly_habit_tracker_none">
+          <h2 className="g_sub_text09 gray_600 ">
+            아직 습관이 없어요 <br />
+            오늘의 습관에서 습관을 생성해보세요
+          </h2>
+        </div>
+      )}
     </div>
   );
 }

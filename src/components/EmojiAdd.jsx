@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import EmojiPicker from 'emoji-picker-react';
-import SmileButton from '../components/SmileButton.jsx';
-import EmojiTag from '../components/EmojiTag.jsx';
-import { postStudyListEmoji, getStudyListEmoji } from '../utils/testapi.js';
-import '../styles/emoji.css';
+import React, { useState, useRef, useEffect } from "react";
+import EmojiPicker from "emoji-picker-react";
+import SmileButton from "../components/SmileButton.jsx";
+import EmojiTag from "../components/EmojiTag.jsx";
+import { postStudyListEmoji, getStudyListEmoji } from "../utils/testapi.js";
+import "../styles/emoji.css";
 
 export default function EmojiCounterWithImage({ studyId }) {
   const [emojis, setEmojis] = useState([]);
@@ -50,10 +50,10 @@ export default function EmojiCounterWithImage({ studyId }) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
@@ -67,10 +67,10 @@ export default function EmojiCounterWithImage({ studyId }) {
       }
     };
 
-    document.addEventListener('mousedown', emojihandleClickOutside);
+    document.addEventListener("mousedown", emojihandleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', emojihandleClickOutside);
+      document.removeEventListener("mousedown", emojihandleClickOutside);
     };
   }, [EojiOpen]);
 
@@ -82,35 +82,38 @@ export default function EmojiCounterWithImage({ studyId }) {
   return (
     <>
       <div className="emoji_wrap">
-        <ul className="emoji_list">
-          {emojiCodeItems.map((emojis, idx) => (
-            <EmojiTag
-              unified={emojis.emojiCode}
-              key={idx}
-              count={emojis.count}
-            />
-          ))}
+        {emojis.length > 0 && (
+          <ul className="emoji_list">
+            {emojiCodeItems.map((emojis, idx) => (
+              <EmojiTag
+                unified={emojis.emojiCode}
+                key={idx}
+                count={emojis.count}
+              />
+            ))}
 
-          {moreCount > 0 && (
-            <li className="emoji_more white" onClick={() => setIsOpen(true)}>
-              + {moreCount}..
-            </li>
-          )}
-          {/* ⭐ warp만 남기고 외부 클릭 감지 */}
-          {isOpen && (
-            <div className="emoji_more_warp" ref={warpRef}>
-              <ul className="emoji_more_list">
-                {emojis.map((emojis, idx) => (
-                  <EmojiTag
-                    unified={emojis.emojiCode}
-                    key={idx}
-                    count={emojis.count}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-        </ul>
+            {moreCount > 0 && (
+              <li className="emoji_more white" onClick={() => setIsOpen(true)}>
+                + {moreCount}..
+              </li>
+            )}
+            {/* ⭐ warp만 남기고 외부 클릭 감지 */}
+            {isOpen && (
+              <div className="emoji_more_warp" ref={warpRef}>
+                <ul className="emoji_more_list">
+                  {emojis.map((emojis, idx) => (
+                    <EmojiTag
+                      unified={emojis.emojiCode}
+                      key={idx}
+                      count={emojis.count}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
+          </ul>
+        )}
+
         <div className="emoji_add_wrap">
           <SmileButton onClick={() => setEojiOpen(true)} />
           {/* 이모지 피커 */}
