@@ -21,6 +21,9 @@ export default function RecentViewedList() {
   const scrollLeftRef = useRef(0);
   const dragMovedRef = useRef(false);
 
+  // 현재 몇 번째 페이지(0,1,2...)인지 추적
+  const [pageIndex, setPageIndex] = useState(0);
+
   // 🔥 최근 조회 쿠키 → 최신 데이터로 동기화하는 함수
   async function syncRecentViewed() {
     const recent = getRecentViewedStudies();
@@ -42,11 +45,9 @@ export default function RecentViewedList() {
           }
 
           const json = await res.json();
-          // ✅ 최신 데이터로 교체해서 렌더에 사용
-          return json.data;
+          return json.data; // ✅ 최신 데이터
         } catch (error) {
-          // ❌ 삭제되었거나 오류 → 쿠키에서도 제거
-          removeRecentViewedStudy(item.studyId);
+          removeRecentViewedStudy(item.studyId); // ❌ 삭제/오류 시 쿠키에서도 제거
           return null;
         }
       }),
@@ -60,6 +61,7 @@ export default function RecentViewedList() {
   useEffect(() => {
     setLoading(true);
     syncRecentViewed().finally(() => setLoading(false));
+    setPageIndex(0); // 페이지 인덱스도 초기화
   }, [location.pathname]);
 
   // -------------------------------
@@ -73,7 +75,7 @@ export default function RecentViewedList() {
     const el = containerRef.current;
     if (!el) return;
     const { scrollLeft, scrollWidth, clientWidth } = el;
-    const epsilon = 1; // 오차 허용치
+    const epsilon = 1;
 
     setCanScrollLeft(scrollLeft > epsilon);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - epsilon);
@@ -81,7 +83,11 @@ export default function RecentViewedList() {
 
   useEffect(() => {
     updateScrollButtons();
+    setPageIndex(0); // 카드 개수가 바뀌면 첫 페이지로
   }, [studies.length]);
+
+  // 캐러셀 새로 제작
+  const GAP = 24; // CSS gap 값과 반드시 동일해야 함
 
   const scrollByPage = direction => {
     const scroller = containerRef.current;
@@ -91,22 +97,32 @@ export default function RecentViewedList() {
     if (!firstCard) return;
 
     const cardWidth = firstCard.getBoundingClientRect().width;
-    const gap = 24; // CSS gap 값과 맞추기
 
     const width = window.innerWidth;
     const cardsPerPage = width <= 600 ? 1 : width <= 1200 ? 2 : 3;
 
-    // 카드 n개 + 사이 gap (n-1개) 만큼 이동
-    const step = cardWidth * cardsPerPage + gap * (cardsPerPage - 1);
+    // 카드 하나 + gap 하나의 거리
+    const stepPerCard = cardWidth + GAP;
 
-    const current = scroller.scrollLeft;
+    // 한 페이지(묶음) 이동 거리 = (카드 + gap) * 카드 수
+    const step = stepPerCard * cardsPerPage;
+
+    // 전체 페이지 수 (0 ~ maxPage)
+    const maxPage = Math.max(0, Math.ceil(studies.length / cardsPerPage) - 1);
+
+    const nextIndex =
+      direction === "left"
+        ? Math.max(0, pageIndex - 1)
+        : Math.min(maxPage, pageIndex + 1);
+
+    // 🔥 항상 "페이지의 시작 카드" 위치로만 이동
+    const target = nextIndex * step;
+
     const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-
-    const rawTarget = direction === "left" ? current - step : current + step;
-
-    const clamped = Math.max(0, Math.min(rawTarget, maxScroll));
+    const clamped = Math.max(0, Math.min(target, maxScroll));
 
     scroller.scrollTo({ left: clamped, behavior: "smooth" });
+    setPageIndex(nextIndex);
     setTimeout(updateScrollButtons, 300);
   };
 
@@ -175,7 +191,7 @@ export default function RecentViewedList() {
             <img src={arrowIcon} alt="prev" />
           </button>
 
-          {/* 🔹 새로 추가된 뷰포트: 정확히 이 안에서만 카드가 보이도록 마스크 역할 */}
+          {/* 🔹 정확히 이 영역만 보이도록 마스크 */}
           <div className="recent-viewport">
             <div
               className="recent-scroller"
