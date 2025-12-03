@@ -181,6 +181,9 @@ const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
     setDurationMinutes(0);
     setHasStarted(false);
     hasFinishedRef.current = false;
+    if (onTimeSet) {
+      onTimeSet(0);
+    }
   };
 
   const isDanger = hasStarted && remainingTime <= 3 * 60;
