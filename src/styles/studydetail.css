@@ -94,3 +94,56 @@
 .skeleton_desc.short {
     width: 80%;
 }
+
+
+/* 반응형 */
+
+/* Mobile: 375px 이상 ~ 743px 이하 */
+@media (min-width: 375px) and (max-width: 743px) {
+    .detail_mid_title {
+        flex-direction: column;
+
+    }
+
+    .detail_mid_title_right {
+        justify-content: left;
+        margin-top: 16px;
+    }
+
+    .detail_arrow_button {
+        padding: 12px 24px;
+        padding-right: 38px;
+    }
+
+    .detail_mid_title_left {
+        max-width: 100%;
+    }
+
+    .emoji_wrap {
+        margin-top: 16px;
+    }
+
+    .detail_top {
+        flex-direction: column-reverse;
+        align-items: normal
+    }
+
+    .detail_top_right {
+        gap: 12px;
+        justify-content: end;
+    }
+
+    .weekly_habit_tracker_none {
+        padding: 80px 20px;
+    }
+}
+
+/* Tablet: 744px 이상 ~ 1199px 이하 */
+@media (min-width: 743px) and (max-width: 1199px) {}
+
+/* PC: 1200px 이상 */
+@media (min-width: 1200px) {
+    /* PC 스타일 */
+
+
+}
