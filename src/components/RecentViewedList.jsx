@@ -203,7 +203,11 @@ export default function RecentViewedList() {
             >
               <div className="study-card-list study-card-list--recent">
                 {studies.map(study => (
-                  <StudyCard key={study.studyId} study={study} />
+                  <StudyCard
+                    key={study.studyId}
+                    study={study}
+                    hoverVariant="lift"
+                  />
                 ))}
               </div>
             </div>

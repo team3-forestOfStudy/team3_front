@@ -139,7 +139,7 @@ export default function StudyBrowse() {
         // 🔹 실제 카드 렌더링
         <div className="study-card-list">
           {studies.map(study => (
-            <StudyCard key={study._id} study={study} />
+            <StudyCard key={study._id} study={study} hoverVariant="lift" />
           ))}
         </div>
       )}

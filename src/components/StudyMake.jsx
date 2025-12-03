@@ -197,7 +197,9 @@ export default function StudyMake({
           <ButtonType
             buttonText={buttonText}
             buttonClass={
-              isFormValid ? "w100 mt40" : "w100 mt40 bg_gray_300 shadowGray"
+              isFormValid
+                ? "w100 mt40 u-hover-style-01 u-active-press"
+                : "w100 mt40 bg_gray_300 shadowGray"
             }
             disabled={!isFormValid}
           >
