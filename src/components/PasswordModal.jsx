@@ -16,6 +16,7 @@ export default function PasswordModal({
   nickname,
   actionType,
   studyId,
+  className = "",
 }) {
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -90,7 +91,7 @@ export default function PasswordModal({
     <>
       {/* 모달열기 버튼 */}
       <button
-        className="g_sub_text09 green_700"
+        className={`g_sub_text09 ${className}`}
         type="button"
         onClick={() => setOpen(true)}
       >

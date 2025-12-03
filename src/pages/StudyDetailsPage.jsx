@@ -52,7 +52,7 @@ export default function StudyDetailsPage() {
               <EmojiCounterWithImage studyId={studyId} />
               <div className="detail_top_right">
                 <TextButton className="g_sub_text09 green_700">
-                  공유 하기
+                  공유하기
                 </TextButton>
                 <p>|</p>
                 <PasswordModal
@@ -60,6 +60,7 @@ export default function StudyDetailsPage() {
                   nickname={data.nickname}
                   studyId={studyId}
                   actionType="edit"
+                  className="green_700"
                 >
                   수정하기
                 </PasswordModal>
@@ -69,6 +70,7 @@ export default function StudyDetailsPage() {
                   nickname={data.nickname}
                   studyId={studyId}
                   actionType="delete"
+                  className="gray_600"
                 >
                   스터디 삭제하기
                 </PasswordModal>
