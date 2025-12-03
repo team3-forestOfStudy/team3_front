@@ -243,5 +243,5 @@
 .home-section--recent .recent-scroller {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 0;
+  padding: 8px 1px;
 }

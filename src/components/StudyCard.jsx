@@ -16,7 +16,7 @@ function convertEmoji(code) {
 // 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
 const SOLID_BG_KEYS = ["green", "yellow", "blue", "pink"];
 
-export default function StudyCard({ study }) {
+export default function StudyCard({ study, hoverVariant = "scale" }) {
   // 백엔드 / 부모 컴포넌트에서 내려주는 스터디 데이터 형태 예시
   const {
     studyId, // 숫자 ID (상세 페이지로 이동할 때 사용)
@@ -60,9 +60,12 @@ export default function StudyCard({ study }) {
       ? topEmojis.slice(0, 3)
       : [];
 
+  const hoverClass =
+    hoverVariant === "lift" ? "u-hover-style-02" : "u-hover-style-01";
+
   return (
     <article
-      className={`study-card ${variantClass} ${photoClass} ${bgClass}`}
+      className={`study-card ${variantClass} ${photoClass} ${bgClass} ${hoverClass} u-active-press`}
       onClick={handleCardClick}
     >
       {/* 상단 텍스트 영역 */}
