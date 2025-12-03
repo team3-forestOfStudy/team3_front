@@ -16,10 +16,6 @@ export default function Header() {
   const showCreateButton = SHOW_CREATE_BUTTON_PATHS.includes(pathname);
 
   const goToStudyMake = () => navigate("/study/make");
-  const goToGuide = () => navigate("/guide");
-  const goToStudydetails = () => navigate("/Studydetails");
-  const goToFocus = () => navigate("/Focus");
-  const goToHobbies = () => navigate("/Hobbies");
 
   return (
     <header className="header bg_gray_50">
