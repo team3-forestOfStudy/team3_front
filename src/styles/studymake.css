@@ -51,6 +51,16 @@
   height: 150px;
   border-radius: 16px;
   object-fit: cover;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+/* 키보드로 선택했을 때 접근성용 포커스 표시 */
+.bg-item:focus-visible .bg-item__image {
+  outline: 1px solid #455351; /* 팀 컬러에 맞춰 바꿔도 됨 */
+  outline-offset: 3px;
 }
 
 /* 배경 이미지 선택 아이콘 */
