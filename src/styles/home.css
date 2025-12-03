@@ -16,6 +16,11 @@
 
 /* 태블릿: 높이값 (601px 이상) */
 @media (min-width: 601px) and (max-width: 1200px) {
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 24px) / 2); /* 2장 + gap 24px */
+    max-width: calc((100% - 24px) / 2);
+  }
+
   .recent_box {
     width: 697px;
     height: 338px;
@@ -29,6 +34,11 @@
 
 /* 데스크탑: 높이값 (1201px 이상) */
 @media (min-width: 1201px) {
+  .study-card-list--recent .study-card {
+    flex: 0 0 calc((100% - 48px) / 3); /* 3장 + gap 24px*2 */
+    max-width: calc((100% - 48px) / 3);
+  }
+
   .recent_box {
     width: 1200px;
     height: 382px;
@@ -82,11 +92,10 @@
 
 /* ---- 최근 조회된 스터디 empty ---- */
 
-/* 최근 조회 카드 - 모바일 폭 고정 */
+/* 최근 조회 캐러셀 카드 폭 - 화면별로 1/2/3장 꽉 채우기 */
 .study-card-list--recent .study-card {
-  flex: 0 0 240px;
-  width: 240px;
-  max-width: 240px;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 .home-section-empty--recent {
@@ -109,9 +118,8 @@
 
   /* 최근 조회 카드 수 (폭 기준) - 태블릿 */
   .study-card-list--recent .study-card {
-    flex: 0 0 358px;
-    width: 358px;
-    max-width: 358px;
+    flex: 0 0 calc((100% - 24px) / 2);
+    max-width: calc((100% - 24px) / 2);
   }
 }
 
@@ -127,18 +135,17 @@
 
   /* 최근 조회 카드 수 (폭 기준) - 데스크탑 */
   .study-card-list--recent .study-card {
-    flex: 0 0 358px;
-    width: 358px;
-    max-width: 358px;
+    flex: 0 0 calc((100% - 48px) / 3);
+    max-width: calc((100% - 48px) / 3);
   }
 }
 
 /* -------------------------------------------------------------------- */
-/* 최근 조회 섹션용 가로 스크롤 래퍼 */
+/* 최근 스크롤러는 여백 X */
 .home-section--recent .recent-scroller {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 8px;
+  padding: 0;
 }
 
 /* 스크롤바 살짝만 보이게/꾸미고 싶다면 추가로 커스텀 가능 */
@@ -225,4 +232,16 @@
   .recent-arrow {
     display: none;
   }
+}
+
+/* 마스크 박스 */
+.recent-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.home-section--recent .recent-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
 }

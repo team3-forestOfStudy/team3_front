@@ -1,3 +1,4 @@
+// src/components/header/Header.jsx
 import logo from "../../assets/logo.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
@@ -27,18 +28,20 @@ export default function Header() {
 
   return (
     <header className="header bg_gray_50">
-      {/* 왼쪽: 로고 */}
-      <a href="/" className="header-left">
-        <img src={logo} alt="공부의 숲" className="header-logo" />
-      </a>
+      <div className="header-inner">
+        {/* 왼쪽: 로고 */}
+        <a href="/" className="header-left">
+          <img src={logo} alt="공부의 숲" className="header-logo" />
+        </a>
 
-      {/* 오른쪽: 임시 버튼들 + 스터디 만들기 */}
-      <div className="header-right">
-        {showCreateButton && (
-          <HeaderButton buttonClass="make_study_btn" onClick={goToStudyMake}>
-            스터디 만들기
-          </HeaderButton>
-        )}
+        {/* 오른쪽: 스터디 만들기 버튼 */}
+        <div className="header-right">
+          {showCreateButton && (
+            <HeaderButton buttonClass="make_study_btn" onClick={goToStudyMake}>
+              스터디 만들기
+            </HeaderButton>
+          )}
+        </div>
       </div>
     </header>
   );
