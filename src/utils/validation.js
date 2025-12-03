@@ -27,7 +27,8 @@ export const ALLOWED_BACKGROUND_IMAGES = [
   "leaf",
 ];
 
-// 공통 길이 체크
+// 공통 길이 체크 (다른 곳에서 쓸 수 있는 기본 함수)
+// 닉네임/스터디명/소개는 아래 개별 함수에서 따로 처리함
 export function validateLength(value, min, max) {
   if (!value || value.trim().length === 0) return "empty";
   const len = value.trim().length;
@@ -36,24 +37,47 @@ export function validateLength(value, min, max) {
 }
 
 // 닉네임
+// 에러 코드: "empty" | "nicknameTooShort" | "nicknameTooLong"
 export function validateNickname(value) {
-  return validateLength(value, NICKNAME_MIN, NICKNAME_MAX);
+  if (!value || value.trim().length === 0) return "empty";
+
+  const len = value.trim().length;
+  if (len < NICKNAME_MIN) return "nicknameTooShort";
+  if (len > NICKNAME_MAX) return "nicknameTooLong";
+
+  return "";
 }
 
 // 스터디 이름(title)
+// 에러 코드: "empty" | "studyNameTooShort" | "studyNameTooLong"
 export function validateStudyName(value) {
-  return validateLength(value, STUDY_NAME_MIN, STUDY_NAME_MAX);
+  if (!value || value.trim().length === 0) return "empty";
+
+  const len = value.trim().length;
+  if (len < STUDY_NAME_MIN) return "studyNameTooShort";
+  if (len > STUDY_NAME_MAX) return "studyNameTooLong";
+
+  return "";
 }
 
 // 소개(description)
+// 에러 코드: "empty" | "introTooShort" | "introTooLong"
 export function validateIntro(value) {
-  return validateLength(value, INTRO_MIN, INTRO_MAX);
+  if (!value || value.trim().length === 0) return "empty";
+
+  const len = value.trim().length;
+  if (len < INTRO_MIN) return "introTooShort";
+  if (len > INTRO_MAX) return "introTooLong";
+
+  return "";
 }
 
 // 비밀번호: 길이 + 숫자 + 특수문자
+// 에러 코드: "empty" | "passwordTooShort" | "noNumber" | "noSpecial"
 export function validatePassword(value) {
   if (!value || value.trim().length === 0) return "empty";
-  if (value.length < PASSWORD_MIN) return "invalid";
+
+  if (value.length < PASSWORD_MIN) return "passwordTooShort";
 
   const hasNumber = /[0-9]/.test(value);
   const hasSpecial = /[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]/.test(value);

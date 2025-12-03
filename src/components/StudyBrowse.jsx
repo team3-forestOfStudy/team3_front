@@ -17,8 +17,9 @@ const SKELETON_COUNT = PAGE_SIZE; // 🔥 스켈레톤 6개(2행 x 3열)
 export default function StudyBrowse() {
   const [studies, setStudies] = useState([]);
   const [page, setPage] = useState(1);
-  const [keyword, setKeyword] = useState("");
-  const [sort, setSort] = useState("recent"); // recent | oldest | points_desc | points_asc
+  const [keyword, setKeyword] = useState(""); // 실제 API 검색에 쓰는 값
+  const [searchText, setSearchText] = useState(""); // 인풋에 바로 바인딩되는 값
+  const [sort, setSort] = useState("recent");
   const [hasNextPage, setHasNextPage] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -78,9 +79,32 @@ export default function StudyBrowse() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, sort]);
 
+  // 검색어 디바운스: searchText가 멈추면 keyword를 늦게 반영
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const next = searchText.trim();
+      setKeyword(prev => (prev === next ? prev : next));
+    }, 500); // 500ms 동안 입력이 없으면 검색 실행
+
+    return () => clearTimeout(handler);
+  }, [searchText]);
+
   const handleMore = () => {
     if (!hasNextPage || loading) return;
     loadStudies(page + 1, { append: true });
+  };
+
+  const handleSearchChange = e => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearchKeyDown = e => {
+    if (e.key === "Enter") {
+      const next = searchText.trim();
+      setKeyword(prev => (prev === next ? prev : next));
+      // 필요하면 여기서 page도 1로 초기화 가능
+      // setPage(1);
+    }
   };
 
   const isInitialLoading = loading && studies.length === 0; // 🔥 첫 로딩 + 데이터 없음
@@ -92,8 +116,9 @@ export default function StudyBrowse() {
       {/* 검색 + 정렬 한 줄 */}
       <div className="study-filter-bar">
         <SearchInput
-          value={keyword}
-          onChange={e => setKeyword(e.target.value)}
+          value={searchText}
+          onChange={handleSearchChange}
+          onKeyDown={handleSearchKeyDown}
         />
 
         <SortDropdown value={sort} onChange={setSort} />
