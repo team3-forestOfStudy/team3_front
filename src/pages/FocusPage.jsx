@@ -109,7 +109,7 @@ const FocusPage = () => {
                 <img src={back} alt="back" className="back-icon gray_600" />
               </Link>
               {loading ? (
-                <div className="skeleton skeleton-title"></div>
+                <div className="skeleton skeleton-titles"></div>
               ) : study ? (
                 <h3 className="title g_sub_text01 fw_eb">
                   {study.nickname}의 {study.title}

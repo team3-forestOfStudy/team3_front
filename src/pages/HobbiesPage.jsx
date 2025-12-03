@@ -3,7 +3,7 @@ import Date from "../utils/TodayDate";
 import { Chip } from "../components/Atoms/Chip";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import arrow from "../assets/icons/arrow.svg";
-import {ReactComponent as BackIcon } from "../assets/icons/back.svg";
+import { ReactComponent as BackIcon } from "../assets/icons/back.svg";
 import "../styles/hobbiespage.css";
 import { useEffect, useState } from "react";
 import ListModal from "../components/ListModal";
@@ -110,27 +110,33 @@ const HobbiesPage = () => {
             if (checkedHabitsArray.length > 0) {
               console.log("체크된 습관 응답 예시:", checkedHabitsArray[0]);
             }
-            
+
             const checkedIds = checkedHabitsArray
               .filter(habit => {
-                const isChecked = 
+                const isChecked =
                   habit.isChecked === true ||
                   habit.checked === true ||
                   habit.isCheckedToday === true ||
                   habit.checkedToday === true ||
                   habit.todayChecked === true ||
-                  (habit.todayHabitCheck && habit.todayHabitCheck.isChecked === true) ||
-                  (habit.todayHabitCheck && habit.todayHabitCheck.checked === true);
-                
-                if (habit.isChecked === false || habit.checked === false || habit.isCheckedToday === false) {
+                  (habit.todayHabitCheck &&
+                    habit.todayHabitCheck.isChecked === true) ||
+                  (habit.todayHabitCheck &&
+                    habit.todayHabitCheck.checked === true);
+
+                if (
+                  habit.isChecked === false ||
+                  habit.checked === false ||
+                  habit.isCheckedToday === false
+                ) {
                   return false;
                 }
-                
+
                 return isChecked;
               })
               .map(habit => habit.id || habit.habitId)
               .filter(id => id !== null && id !== undefined);
-            
+
             setCheckedHabitIds(checkedIds);
             console.log("오늘 체크된 습관 ID 목록:", checkedIds);
           } else {
@@ -156,7 +162,9 @@ const HobbiesPage = () => {
     const isCurrentlyChecked = checkedHabitIds.includes(habitId);
     const newCheckedState = !isCurrentlyChecked;
 
-    console.log(`습관 ${habitId} 체크 상태 변경: ${isCurrentlyChecked} -> ${newCheckedState}`);
+    console.log(
+      `습관 ${habitId} 체크 상태 변경: ${isCurrentlyChecked} -> ${newCheckedState}`,
+    );
 
     setCheckedHabitIds(prev =>
       isCurrentlyChecked
@@ -229,7 +237,7 @@ const HobbiesPage = () => {
         if (Array.isArray(habitsArray)) {
           console.log("습관 목록 업데이트:", habitsArray);
           setHabits(habitsArray);
-          
+
           // 체크된 습관 목록도 다시 불러오기
           try {
             const todayRes = await fetch(
@@ -251,24 +259,30 @@ const HobbiesPage = () => {
               if (Array.isArray(checkedHabitsArray)) {
                 const checkedIds = checkedHabitsArray
                   .filter(habit => {
-                    const isChecked = 
+                    const isChecked =
                       habit.isChecked === true ||
                       habit.checked === true ||
                       habit.isCheckedToday === true ||
                       habit.checkedToday === true ||
                       habit.todayChecked === true ||
-                      (habit.todayHabitCheck && habit.todayHabitCheck.isChecked === true) ||
-                      (habit.todayHabitCheck && habit.todayHabitCheck.checked === true);
-                    
-                    if (habit.isChecked === false || habit.checked === false || habit.isCheckedToday === false) {
+                      (habit.todayHabitCheck &&
+                        habit.todayHabitCheck.isChecked === true) ||
+                      (habit.todayHabitCheck &&
+                        habit.todayHabitCheck.checked === true);
+
+                    if (
+                      habit.isChecked === false ||
+                      habit.checked === false ||
+                      habit.isCheckedToday === false
+                    ) {
                       return false;
                     }
-                    
+
                     return isChecked;
                   })
                   .map(habit => habit.id || habit.habitId)
                   .filter(id => id !== null && id !== undefined);
-                
+
                 console.log("수정 완료 후 체크된 습관 ID 목록:", checkedIds);
                 setCheckedHabitIds(checkedIds);
               } else {
@@ -295,36 +309,40 @@ const HobbiesPage = () => {
         <div className="contents hobbies-box">
           {/* 헤더 */}
           <div className="g_box hobbies-main">
-            <button className="detail-move">
-              <Link
-                to={`/Studydetails?studyId=${studyId}`}
-                className="move-btn-home"
-              >
-                <BackIcon className="back-icon"/>
-              </Link>
-            </button>
             <div className="hobbies-header">
-              {loading ? (
-                <div className="skeleton skeleton-title"></div>
-              ) : study ? (
-                <h3 className="title g_sub_text01 fw_eb">
-                  {study.nickname}의 {study.title}
-                </h3>
-              ) : (
-                <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
-              )}
-              <div className="move-buttons">
-                <div className="hobbies-moveButtons g_sub_text10 fw_m">
-                  {studyId && (
-                    <Link
-                      to={`/Focus?studyId=${studyId}`}
-                      className="move-btn-focus gray_600"
-                    >
-                      오늘의 집중
-                      <img src={arrow} alt="arrow" className="arrow-icon" />
-                    </Link>
-                  )}
-                </div>
+              <div className="hobbies-header-left">
+                <button className="detail-move">
+                  <Link
+                    to={`/Studydetails?studyId=${studyId}`}
+                    className="move-btn-home"
+                  >
+                    <BackIcon className="back-icon" />
+                  </Link>
+                </button>
+                {loading ? (
+                  <div className="skeleton skeleton-title"></div>
+                ) : study ? (
+                  <h3 className="title g_sub_text01 fw_eb">
+                    {study.nickname}의 {study.title}
+                  </h3>
+                ) : (
+                  <h3 className="title g_sub_text01 fw_eb">{Title}</h3>
+                )}
+              </div>
+            </div>
+
+            {/* 오늘의 집중 버튼 */}
+            <div className="move-buttons">
+              <div className="hobbies-moveButtons g_sub_text10 fw_m">
+                {studyId && (
+                  <Link
+                    to={`/Focus?studyId=${studyId}`}
+                    className="move-btn-focus gray_600"
+                  >
+                    오늘의 집중
+                    <img src={arrow} alt="arrow" className="arrow-icon" />
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -357,8 +375,8 @@ const HobbiesPage = () => {
                       <Chip
                         key={habitId}
                         onClick={() => handleClickHabit(habit)}
-                        className={`fw_b gray_600 habbit-chip ${
-                          isChecked ? "habbit-chip--selected" : ""
+                        className={`fw_b gray_600 habit-chip ${
+                          isChecked ? "habit-chip--selected" : ""
                         }`}
                       >
                         {habit.title || habit.name}

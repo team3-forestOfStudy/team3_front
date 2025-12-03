@@ -18,16 +18,31 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
   }, [isOpen, habits]);
 
   const handleDelete = async (id) => {
-    if (!studyId || isNaN(studyId)) {
+    const habitId = id;
+    
+    if (String(habitId).startsWith("temp-")) {
       setLocalHabits(prev => prev.filter(habit => {
-        const habitId = habit.id || habit.habitId;
-        return habitId !== id;
+        const hId = habit.id || habit.habitId;
+        return hId !== habitId;
       }));
+      setEditingHabitIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(habitId);
+        return newSet;
+      });
       return;
     }
 
-    const habitId = id;
+    // studyId가 없으면 로컬에서만 삭제
+    if (!studyId || isNaN(studyId)) {
+      setLocalHabits(prev => prev.filter(habit => {
+        const hId = habit.id || habit.habitId;
+        return hId !== habitId;
+      }));
+      return;
+    }
     
+    // 서버에 저장된 습관은 API로 삭제
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/studies/${studyId}/habits/${habitId}`,
@@ -223,16 +238,17 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
         })}
       </ul>
 
-      <div className="listModal-item">
-        <button
-          type="button"
-          className="addHabitButton fw_l"
-          onClick={handleAddHabit}
-        >
-          +
-        </button>
-        <div style={{ width: '40px', flexShrink: 0 }}></div>
-      </div>
+      {localHabits.length < 13 && (
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <button
+            type="button"
+            className="addHabitButton fw_l"
+            onClick={handleAddHabit}
+          >
+            +
+          </button>
+        </div>
+      )}
 
       <div className="buttonBox">
         <button
