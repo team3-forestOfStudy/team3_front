@@ -21,9 +21,8 @@ export default function RecentViewedList() {
   const scrollLeftRef = useRef(0);
   const dragMovedRef = useRef(false);
 
-  // 🔥🔥 최근 조회 쿠키 → 최신 데이터로 동기화하는 함수
+  // 🔥 최근 조회 쿠키 → 최신 데이터로 동기화하는 함수
   async function syncRecentViewed() {
-    // 1. 쿠키에 저장된 최근 조회 리스트
     const recent = getRecentViewedStudies();
 
     if (!recent || recent.length === 0) {
@@ -31,7 +30,6 @@ export default function RecentViewedList() {
       return;
     }
 
-    // 2. 각 studyId에 대해 최신 데이터 조회
     const results = await Promise.all(
       recent.map(async item => {
         try {
@@ -44,8 +42,7 @@ export default function RecentViewedList() {
           }
 
           const json = await res.json();
-
-          // ✅ 최신 데이터로 교체해서 렌더에는 사용
+          // ✅ 최신 데이터로 교체해서 렌더에 사용
           return json.data;
         } catch (error) {
           // ❌ 삭제되었거나 오류 → 쿠키에서도 제거
@@ -55,30 +52,22 @@ export default function RecentViewedList() {
       }),
     );
 
-    // 3. 살아있는 스터디만 상태에 반영
     const alive = results.filter(Boolean);
     setStudies(alive);
-
-    // ❗ 여기서 더 이상 쿠키를 덮어쓰지 않는다
-    //    (새로 클릭해서 추가된 항목은 recentViewed.js가 관리)
   }
 
-  // 첫 로딩 시 동기화 실행
+  // 첫 로딩 + 경로 변경 시 동기화 실행
   useEffect(() => {
     setLoading(true);
     syncRecentViewed().finally(() => setLoading(false));
   }, [location.pathname]);
 
   // -------------------------------
-  // (아래는 기존 드래그, 화살표 로직 그대로)
+  // 스크롤 / 화살표 / 드래그 관련
   // -------------------------------
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    updateScrollButtons();
-  }, [studies.length]);
 
   const updateScrollButtons = () => {
     const el = containerRef.current;
@@ -90,6 +79,10 @@ export default function RecentViewedList() {
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - epsilon);
   };
 
+  useEffect(() => {
+    updateScrollButtons();
+  }, [studies.length]);
+
   const scrollByPage = direction => {
     const scroller = containerRef.current;
     if (!scroller) return;
@@ -98,12 +91,12 @@ export default function RecentViewedList() {
     if (!firstCard) return;
 
     const cardWidth = firstCard.getBoundingClientRect().width;
-    const gap = 24; // 실제 CSS gap과 맞추기
+    const gap = 24; // CSS gap 값과 맞추기
 
     const width = window.innerWidth;
     const cardsPerPage = width <= 600 ? 1 : width <= 1200 ? 2 : 3;
 
-    // 카드 n개 + 사이 gap (n-1개) 만큼만 이동
+    // 카드 n개 + 사이 gap (n-1개) 만큼 이동
     const step = cardWidth * cardsPerPage + gap * (cardsPerPage - 1);
 
     const current = scroller.scrollLeft;
@@ -119,17 +112,22 @@ export default function RecentViewedList() {
 
   // 드래그 스크롤
   const handleMouseDown = e => {
+    if (!containerRef.current) return;
     isDraggingRef.current = true;
     dragMovedRef.current = false;
     startXRef.current = e.pageX - containerRef.current.offsetLeft;
     scrollLeftRef.current = containerRef.current.scrollLeft;
-    window.addEventListener("mouseup", () => {
+
+    const handleMouseUp = () => {
       isDraggingRef.current = false;
-    });
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseMove = e => {
-    if (!isDraggingRef.current) return;
+    if (!isDraggingRef.current || !containerRef.current) return;
     e.preventDefault();
     const x = e.pageX - containerRef.current.offsetLeft;
     const walk = x - startXRef.current;
@@ -156,11 +154,13 @@ export default function RecentViewedList() {
 
       {loading ? (
         <div className="recent-scroller-wrapper">
-          <div className="recent-scroller">
-            <div className="study-card-list study-card-list--recent">
-              {Array.from({ length: RECENT_SKELETON_COUNT }).map((_, i) => (
-                <StudyCardSkeleton key={i} />
-              ))}
+          <div className="recent-viewport">
+            <div className="recent-scroller">
+              <div className="study-card-list study-card-list--recent">
+                {Array.from({ length: RECENT_SKELETON_COUNT }).map((_, i) => (
+                  <StudyCardSkeleton key={i} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -175,18 +175,21 @@ export default function RecentViewedList() {
             <img src={arrowIcon} alt="prev" />
           </button>
 
-          <div
-            className="recent-scroller"
-            ref={containerRef}
-            onScroll={handleScroll}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onClickCapture={handleClickCapture}
-          >
-            <div className="study-card-list study-card-list--recent">
-              {studies.map(study => (
-                <StudyCard key={study.studyId} study={study} />
-              ))}
+          {/* 🔹 새로 추가된 뷰포트: 정확히 이 안에서만 카드가 보이도록 마스크 역할 */}
+          <div className="recent-viewport">
+            <div
+              className="recent-scroller"
+              ref={containerRef}
+              onScroll={handleScroll}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onClickCapture={handleClickCapture}
+            >
+              <div className="study-card-list study-card-list--recent">
+                {studies.map(study => (
+                  <StudyCard key={study.studyId} study={study} />
+                ))}
+              </div>
             </div>
           </div>
 

@@ -226,3 +226,9 @@
     display: none;
   }
 }
+
+/* 새로 추가하는 정밀 마스크(슬라이드 뷰포트) */
+.recent-viewport {
+  overflow: hidden;
+  width: 100%;
+}
