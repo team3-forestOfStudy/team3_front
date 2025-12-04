@@ -18,9 +18,28 @@
   text-align: center;
 }
 
+.toast-habits-update {
+  min-width: 300px;
+  max-width: 450px;
+  border-radius: 12px;
+  padding: 0;
+  display: block;
+}
+
+.toast-habits-update .Toastify__toast-body {
+  text-align: left;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 @media (max-width: 600px) {
   .toast-base {
     width: 202px;
     height: 45px;
+  }
+  
+  .toast-habits-update {
+    min-width: 280px;
+    max-width: 90%;
   }
 }
