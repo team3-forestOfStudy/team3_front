@@ -45,7 +45,28 @@
   cursor: pointer;
 }
 
-/* 컬러형 div는 g_boxs가 크기/라운드 담당 */
+/* 스켈레톤 레이어 */
+.bg-skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px; /* 배경 모양과 동일하게 */
+  background: linear-gradient(90deg, #e9ecef 0%, #f4f5f7 50%, #e9ecef 100%);
+  background-size: 200% 100%;
+  animation: bg-skeleton-shimmer 1.2s ease-in-out infinite;
+  pointer-events: none; /* hover/클릭 방해하지 않도록 */
+  z-index: 0;
+}
+
+@keyframes bg-skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 배경 이미지 */
 .bg-item__image {
   width: 150px;
   height: 150px;
@@ -63,6 +84,11 @@
   outline-offset: 3px;
 }
 
+/* 로딩 완료 후 부드럽게 나타남 */
+.bg-item__image.is-loaded {
+  opacity: 1;
+}
+
 /* 배경 이미지 선택 아이콘 */
 .bg-item__selected-icon {
   position: absolute;
@@ -71,6 +97,7 @@
   transform: translate(-50%, -50%);
   width: 32px;
   height: 32px;
+  z-index: 2;
 }
 
 /* disabled일 때 hover 효과 제거 */
