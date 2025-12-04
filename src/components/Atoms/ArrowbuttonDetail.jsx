@@ -5,7 +5,10 @@ import Modal from "./Modal.jsx";
 import eyeInvisible from "../../assets/icons/eyes.svg";
 import eyeVisible from "../../assets/icons/visible.svg";
 import { deleteStudyList, postVerifyStudyList } from "../../utils/testapi.js";
-import { showErrorToast } from "../../utils/toastmessage";
+import {
+  showErrorToast,
+  showPasswordSuccesToast,
+} from "../../utils/toastmessage";
 import "./arrowbutton.css";
 import ArrowRight from "../../assets/icons/arrow.svg";
 
@@ -42,11 +45,10 @@ export default function PasswordModal({
       return;
     }
     try {
-      console.log("수정하기 실행");
       const result = await postVerifyStudyList(studyId, password);
 
       if (result.result === "success") {
-        showErrorToast("일치");
+        showPasswordSuccesToast("😀 오늘의 습관");
         navigate(`/hobbies?studyId=${studyId}`);
       } else {
         showErrorToast(result.message);
@@ -73,7 +75,7 @@ export default function PasswordModal({
       const result = await postVerifyStudyList(studyId, password);
 
       if (result.result === "success") {
-        showErrorToast("일치");
+        showPasswordSuccesToast("😀 오늘의 집중");
         navigate(`/focus?studyId=${studyId}`);
       } else {
         showErrorToast(result.message);

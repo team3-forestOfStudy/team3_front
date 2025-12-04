@@ -55,13 +55,12 @@ const FocusPage = () => {
     fetchStudyData();
   }, [studyId]);
 
-  // 시간 설정 핸들러
+  // 시간 설정
   const handleTimeSet = minutes => {
     setTimerMinutes(minutes);
   };
 
   const handleQuickTimeClick = minutes => {
-    // 누적 방식으로 시간 추가 (최대 60분)
     setTimerMinutes(prev => Math.min(prev + minutes, 60));
   };
 
@@ -112,7 +111,7 @@ const FocusPage = () => {
                 <img src={back} alt="back" className="back-icon gray_600" />
               </Link>
               {loading ? (
-                <div className="skeleton skeleton-title"></div>
+                <div className="skeleton skeleton-titles"></div>
               ) : study ? (
                 <h3 className="title g_sub_text01 fw_eb">
                   {study.nickname}의 {study.title}

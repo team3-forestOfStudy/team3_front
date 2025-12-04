@@ -1,34 +1,38 @@
 /* ---------------- 헤더 레이아웃 ---------------- */
 
 .header {
-  /* position: sticky; */
-  /* top: 0; */
   position: static;
   z-index: 1000;
 
+  width: 100%;
+  height: 70px;
+
+  /* 기본 패딩 (모바일 포함) */
+  padding: 20px 16px;
+
+  /* header-inner에서 flex 처리 */
+}
+
+/* 내부 컨테이너 */
+.header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   width: 100%;
-  height: 70px;
-
-  /* Mobile 기본: 상하 20, 좌우 16 */
-  padding: 20px 16px;
 }
 
 /* 왼쪽 로고 영역 */
 .header-left {
   display: inline-flex;
   align-items: center;
-  flex-shrink: 0; /* 로고 쪽은 절대 줄어들지 않게 */
+  flex-shrink: 0;
 }
 
 /* 로고 이미지 */
 .header-logo {
   display: block;
-  flex-shrink: 0; /* 로고 크기 줄어드는 것 방지 */
-  /* min-width / min-height 는 레임이 이미 준 값 그대로 두면 됨 */
+  flex-shrink: 0;
 }
 
 /* 오른쪽 버튼 영역 */
@@ -36,19 +40,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0; /* 오른쪽 덩어리도 줄어들지 않게 */
+  flex-shrink: 0;
 }
 
 /* 임시 버튼 묶음 */
 .temp_button_div {
   display: flex;
   gap: 8px;
-  flex-wrap: wrap; /* 폭 부족하면 임시 버튼만 줄바꿈 */
+  flex-wrap: wrap;
 }
 
 /* ---------------- 스터디 만들기 버튼 ---------------- */
 
-/* 공통 헤더 버튼 베이스 */
 .header-button {
   display: inline-flex;
   justify-content: center;
@@ -58,14 +61,14 @@
   height: 56px;
 
   border: none;
-  border-radius: 28px;
+  border-radius: 8px;
 
   font-family:
-    'JejuStoneWall',
+    "JejuStoneWall",
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
+    "Segoe UI",
     sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -79,7 +82,6 @@
     opacity 0.12s ease-out;
 }
 
-/* 초록색 “스터디 만들기” 버튼 */
 .make_study_btn {
   background-color: var(--green-300);
   color: #ffffff;
@@ -87,29 +89,27 @@
   box-shadow: 0px 4px 0px var(--green-500);
 }
 
-.make_study_btn:active {
-  transform: translateY(2px);
-  box-shadow: 0px 2px 0px var(--green-500);
-}
-
 /* ---------------- 반응형 (팀 기준) ---------------- */
 
-/* xoqmfTablet: 1200px ~ 601px */
+/* Tablet: 1200px ~ 601px */
 @media (min-width: 601px) and (max-width: 1200px) {
   .header {
     padding: 20px 24px;
   }
+
+  .header-button {
+    border-radius: 14px;
+  }
 }
 
-/* Desktop 1: 1201px ~ 1659px
-content box 보다 좁아지지 않도록 padding 유지 */
+/* Desktop 1: 1201px~ */
 @media (min-width: 601px) {
   .header {
     padding: 20px 24px;
   }
 }
 
-/* Desktop 2: 1660+px 이상 */
+/* Desktop 2: 1600px~ */
 @media (min-width: 1600px) {
   .header {
     padding: 20px 220px;
@@ -119,36 +119,67 @@ content box 보다 좁아지지 않도록 padding 유지 */
     width: 252px;
     height: 58px;
     font-size: 18px;
+    border-radius: 16px;
   }
 }
 
-/* 헤더 테스트 버튼용 CSS (임
-시 버튼 – 나중에 삭제 예정) */
-.temp_button {
-  display: inline-flex !important;
-  padding: 2px 8px !important;
-  font-size: 12px !important;
-  min-width: auto !important;
-  width: auto !important;
-  max-width: max-content !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  align-items: center !important;
-  margin: 0 !important;
-  background-color: #fff !important;
-  border: solid 1px #ddd !important;
-  color: #414141 !important;
-  font-family: Pretendard !important;
-  text-shadow: none !important;
-  border-radius: 16px !important;
-  min-width: 72px !important;
-  white-space: nowrap;
+/* ---------------- Mobile: 600px 이하 ---------------- */
+
+@media (max-width: 600px) {
+  .header {
+    padding: 30px 24px;
+  }
+
+  /* 로고: 왼쪽에 붙은 상태에서 크기만 0.8배 */
+  .header-left {
+    transform: scale(0.8);
+    transform-origin: left center;
+  }
+
+  /* 버튼: 오른쪽에 붙은 상태에서 크기만 0.8배 */
+  .header-right {
+    transform: scale(0.8);
+    transform-origin: right center;
+  }
+
+  /* 필요하면 헤더 높이도 살짝 줄이고 싶을 때만 켜기
+    .header {
+      height: 60px;
+    }
+    */
 }
 
-.temp_button_div {
-  display: grid;
-  grid-template-columns: repeat(2, auto); /* 2열 */
-  gap: 2px 10px; /* 행/열 간격 */
-  flex-shrink: 0; /* 줄어들지 않도록 */
+/* ================================
+   Logo Hover / Active Effects
+   (drop-shadow 기반)
+   ================================ */
+
+/* Hover: 로고가 살짝 떠오르는 효과 */
+.u-hover-logo {
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.u-hover-logo:hover {
+  transform: scale(1.02) translateY(-2px);
+  opacity: 0.98;
+  /* 로고 경계(투명 영역 포함)에 맞춤 */
+  filter: drop-shadow(0 4px 4px rgba(108, 51, 122, 0.3));
+}
+
+/* Active: 로고를 살짝 누르는 효과 */
+.u-active-logo {
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease,
+    opacity 0.12s ease;
+}
+
+.u-active-logo:active {
+  transform: scale(0.96) translateY(1px);
+  opacity: 0.9;
+  /* 눌렸을 때 더 진한 그림자 */
+  filter: drop-shadow(0 2px 4px rgba(108, 51, 122, 0.35));
 }

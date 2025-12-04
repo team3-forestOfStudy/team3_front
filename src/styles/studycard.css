@@ -4,10 +4,14 @@
   gap: 24px;
 }
 
+/* ------------------- 반응형 ----------------------------------- */
+
 /* 데스크탑: 3열 (1920 ~ 1201) */
 @media (min-width: 1201px) {
   .study-card-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* grid-template-columns: repeat(3, 358px);
+    justify-content: center; */
   }
 }
 
@@ -15,6 +19,8 @@
 @media (max-width: 1200px) and (min-width: 601px) {
   .study-card-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* grid-template-columns: repeat(2, 358px);
+    justify-content: center; */
   }
 }
 
@@ -40,7 +46,7 @@
   flex-direction: column;
   /* justify-content: space-between; */
   gap: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
+  box-shadow: 0 2px 8px rgba(108, 51, 122, 0.2); /* 카드 그림자 */
   cursor: pointer;
 }
 
@@ -235,7 +241,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
 
   font-size: 12px;
   cursor: pointer;
@@ -251,10 +257,16 @@
 
 /* 이모지 아이콘 / 숫자 */
 .study-card__emoji-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   font-size: 16px;
 }
 
 .study-card__emoji-count {
+  display: inline-flex;
+  align-items: center;
   font-size: 14px;
   color: #fff;
 }

@@ -16,13 +16,8 @@
   background-color: #fff;
 }
 
-.MoreButton:hover {
-  scale: 1.01;
-  opacity: 0.95;
-}
-
 .MoreButton .MoreButton_text {
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   color: var(--green-700);
   z-index: 1;
 }

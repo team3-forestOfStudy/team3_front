@@ -2,54 +2,65 @@ import Modal from "./Atoms/Modal";
 import { useEffect, useState } from "react";
 import "../styles/listmodal.css";
 import Trash from "../assets/icons/trash.svg";
+import { showHabitsUpdateToast } from "../utils/toastmessage";
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
   const [localHabits, setLocalHabits] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [editingHabitIds, setEditingHabitIds] = useState(new Set()); 
+  const [editingHabitIds, setEditingHabitIds] = useState(new Set());
+  const [deletedHabitIds, setDeletedHabitIds] = useState(new Set()); // 삭제된 습관 ID 추적
+  const [deletedHabitNames, setDeletedHabitNames] = useState([]); // 삭제된 습관 이름 추적
 
   useEffect(() => {
     if (isOpen) {
       setLocalHabits(Array.isArray(habits) ? [...habits] : []);
-      setEditingHabitIds(new Set()); 
+      setEditingHabitIds(new Set());
+      setDeletedHabitIds(new Set()); // 모달 열릴 때 삭제 목록 초기화
+      setDeletedHabitNames([]); // 삭제된 습관 이름 초기화
     }
   }, [isOpen, habits]);
 
-  const handleDelete = async (id) => {
-    if (!studyId || isNaN(studyId)) {
+  const handleDelete = (id) => {
+    const habitId = id;
+    
+    // temp-로 시작하는 임시 습관은 바로 삭제 (서버에 없음)
+    if (String(habitId).startsWith("temp-")) {
       setLocalHabits(prev => prev.filter(habit => {
-        const habitId = habit.id || habit.habitId;
-        return habitId !== id;
+        const hId = habit.id || habit.habitId;
+        return hId !== habitId;
       }));
+      setEditingHabitIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(habitId);
+        return newSet;
+      });
       return;
     }
 
-    const habitId = id;
-    
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/studies/${studyId}/habits/${habitId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // 삭제할 습관의 이름 찾기
+    const habitToDelete = localHabits.find(habit => {
+      const hId = habit.id || habit.habitId;
+      return hId === habitId;
+    });
+    const habitName = habitToDelete?.title || habitToDelete?.name || "";
 
-      if (response.ok) {
-        setLocalHabits(prev => prev.filter(habit => {
-          const hId = habit.id || habit.habitId;
-          return hId !== habitId;
-        }));
-      } else {
-        console.error("습관 삭제 실패");
-      }
-    } catch (error) {
-      console.error("습관 삭제 중 네트워크 오류", error);
+    // 서버에 저장된 습관은 삭제 목록에 추가하고 로컬에서만 제거
+    // 실제 API 삭제는 "수정 완료" 버튼을 눌렀을 때 수행
+    setDeletedHabitIds(prev => new Set([...prev, habitId]));
+    if (habitName) {
+      setDeletedHabitNames(prev => [...prev, habitName]);
     }
+    setLocalHabits(prev => prev.filter(habit => {
+      const hId = habit.id || habit.habitId;
+      return hId !== habitId;
+    }));
+    setEditingHabitIds(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(habitId);
+      return newSet;
+    });
   };
 
   const handleAddHabit = () => {
@@ -76,6 +87,11 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
   };
 
   const handleCancel = () => {
+    // 취소 시 모든 변경사항 초기화
+    setLocalHabits(Array.isArray(habits) ? [...habits] : []);
+    setEditingHabitIds(new Set());
+    setDeletedHabitIds(new Set());
+    setDeletedHabitNames([]);
     onClose();
   };
 
@@ -88,6 +104,33 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
     setIsSaving(true);
 
     try {
+      // 1. 먼저 삭제된 습관들을 API로 삭제
+      const deletePromises = Array.from(deletedHabitIds).map(async (habitId) => {
+        try {
+          const response = await fetch(
+            `${API_BASE_URL}/api/studies/${studyId}/habits/${habitId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            console.error(`습관 삭제 실패: ${habitId}`);
+            return false;
+          }
+          return true;
+        } catch (error) {
+          console.error(`습관 삭제 중 오류: ${habitId}`, error);
+          return false;
+        }
+      });
+
+      await Promise.all(deletePromises);
+
+      // 2. 수정/추가할 습관들 처리
       const habitsToSave = localHabits.filter(habit => {
         const habitId = habit.id || habit.habitId;
         return editingHabitIds.has(habitId);
@@ -108,6 +151,7 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
         return !String(habitId).startsWith("temp-");
       });
 
+      // 3. 새 습관 생성
       const createPromises = newHabits.map(async (habit) => {
         try {
           const title = habit.title || habit.name || "";
@@ -135,6 +179,7 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
         }
       });
 
+      // 4. 기존 습관 수정
       const updatePromises = existingHabits.map(async (habit) => {
         try {
           const habitId = habit.id || habit.habitId;
@@ -166,10 +211,23 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
 
       await Promise.all([...createPromises, ...updatePromises]);
 
+      // 5. 추가된 습관 이름 수집
+      const addedHabitNames = newHabits
+        .map(habit => habit.title || habit.name || "")
+        .filter(name => name.trim() !== "");
+
+      // 6. Toast로 변경사항 표시
+      showHabitsUpdateToast(deletedHabitNames, addedHabitNames);
+
+      // 7. 모든 작업 완료 후 습관 목록 재조회
       if (onHabitsUpdated) {
         await onHabitsUpdated();
       }
-      setEditingHabitIds(new Set()); 
+      
+      // 8. 상태 초기화
+      setEditingHabitIds(new Set());
+      setDeletedHabitIds(new Set());
+      setDeletedHabitNames([]);
       onClose();
     } catch (error) {
       console.error("습관 저장 중 오류", error);
@@ -223,13 +281,17 @@ const ListModal = ({ isOpen, onClose, habits, studyId, onHabitsUpdated }) => {
         })}
       </ul>
 
-      <button
-        type="button"
-        className="addHabitButton fw_l"
-        onClick={handleAddHabit}
-      >
-        +
-      </button>
+      {localHabits.length < 13 && (
+        <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <button
+            type="button"
+            className="addHabitButton fw_l"
+            onClick={handleAddHabit}
+          >
+            +
+          </button>
+        </div>
+      )}
 
       <div className="buttonBox">
         <button

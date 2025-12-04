@@ -79,10 +79,18 @@
 
 /* hover */
 .sort-dropdown__item:hover {
-  background-color: #f8f8f8;
+  background-color: rgba(103, 163, 163, 0.8);
+  color: #fff;
 }
 
 /* 선택된 항목 */
 .sort-dropdown__item--active {
+  color: var(--green-300);
   font-weight: 600;
+}
+
+/* 활성화된 항목을 hover했을 때의 스타일 */
+.sort-dropdown__item--active:hover {
+  background-color: rgba(103, 163, 163, 0.5); /* 예: 부드러운 연녹색 */
+  color: #fff;
 }

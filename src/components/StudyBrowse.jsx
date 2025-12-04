@@ -1,5 +1,6 @@
 // src/components/StudyBrowse.jsx
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import StudyCard from "../components/StudyCard";
 import StudyCardSkeleton from "../components/StudyCardSkeleton"; // 🔥 추가
 import SearchInput from "./SearchInput";
@@ -16,16 +17,17 @@ const SKELETON_COUNT = PAGE_SIZE; // 🔥 스켈레톤 6개(2행 x 3열)
 export default function StudyBrowse() {
   const [studies, setStudies] = useState([]);
   const [page, setPage] = useState(1);
-  const [keyword, setKeyword] = useState("");
-  const [sort, setSort] = useState("recent"); // recent | oldest | points_desc | points_asc
+  const [keyword, setKeyword] = useState(""); // 실제 API 검색에 쓰는 값
+  const [searchText, setSearchText] = useState(""); // 인풋에 바로 바인딩되는 값
+  const [sort, setSort] = useState("recent");
   const [hasNextPage, setHasNextPage] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // 공통으로 쓰는 목록 호출 함수
   const loadStudies = async (pageToLoad, { append } = { append: false }) => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
+    try {
       const params = new URLSearchParams();
       params.set("page", pageToLoad);
       params.set("pageSize", PAGE_SIZE);
@@ -35,10 +37,20 @@ export default function StudyBrowse() {
       const res = await fetch(
         `${API_BASE_URL}/api/studies?${params.toString()}`,
       );
+
+      // HTTP 상태 코드가 200대가 아니면 에러 처리
+      if (!res.ok) {
+        toast.error(
+          "스터디 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.",
+        );
+        return;
+      }
+
       const json = await res.json();
 
-      if (!res.ok || json.result !== "success") {
-        alert(json.message || "스터디 목록을 불러오지 못했습니다.");
+      // 서버에서 result로 실패를 알려줄 때
+      if (json.result !== "success") {
+        toast.error(json.message || "스터디 목록을 불러오지 못했습니다.");
         return;
       }
 
@@ -48,12 +60,18 @@ export default function StudyBrowse() {
       setHasNextPage(Boolean(pagination?.hasNextPage));
       setPage(pageToLoad);
     } catch (error) {
-      console.error(error);
-      alert("서버 오류가 발생했습니다.");
+      console.error("loadStudies error:", error);
+      toast.error("서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.");
     } finally {
       setLoading(false);
     }
   };
+
+  // 첫 로딩 시 1페이지 호출
+  useEffect(() => {
+    loadStudies(1, { append: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 검색어 / 정렬 기준이 바뀔 때마다 1페이지부터 다시 로드
   useEffect(() => {
@@ -61,9 +79,32 @@ export default function StudyBrowse() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, sort]);
 
+  // 검색어 디바운스: searchText가 멈추면 keyword를 늦게 반영
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const next = searchText.trim();
+      setKeyword(prev => (prev === next ? prev : next));
+    }, 500); // 500ms 동안 입력이 없으면 검색 실행
+
+    return () => clearTimeout(handler);
+  }, [searchText]);
+
   const handleMore = () => {
     if (!hasNextPage || loading) return;
     loadStudies(page + 1, { append: true });
+  };
+
+  const handleSearchChange = e => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearchKeyDown = e => {
+    if (e.key === "Enter") {
+      const next = searchText.trim();
+      setKeyword(prev => (prev === next ? prev : next));
+      // 필요하면 여기서 page도 1로 초기화 가능
+      // setPage(1);
+    }
   };
 
   const isInitialLoading = loading && studies.length === 0; // 🔥 첫 로딩 + 데이터 없음
@@ -75,8 +116,9 @@ export default function StudyBrowse() {
       {/* 검색 + 정렬 한 줄 */}
       <div className="study-filter-bar">
         <SearchInput
-          value={keyword}
-          onChange={e => setKeyword(e.target.value)}
+          value={searchText}
+          onChange={handleSearchChange}
+          onKeyDown={handleSearchKeyDown}
         />
 
         <SortDropdown value={sort} onChange={setSort} />
@@ -90,16 +132,14 @@ export default function StudyBrowse() {
             <StudyCardSkeleton key={index} />
           ))}
         </div>
-      ) : !loading && studies.length === 0 ? (
-        // 🔹 로딩 끝났는데 스터디 0개
-        <div className="home-section-empty home-section-empty--browse">
-          <p>아직 둘러 볼 스터디가 없어요</p>
-        </div>
+      ) : studies.length === 0 ? (
+        // 🔹 데이터가 없을 때 표시할 내용
+        <div className="study-empty">등록된 스터디가 없습니다.</div>
       ) : (
-        // 🔹 실제 데이터
+        // 🔹 실제 카드 렌더링
         <div className="study-card-list">
           {studies.map(study => (
-            <StudyCard key={study.studyId} study={study} />
+            <StudyCard key={study._id} study={study} hoverVariant="lift" />
           ))}
         </div>
       )}

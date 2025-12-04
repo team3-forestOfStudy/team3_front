@@ -52,7 +52,7 @@ export default function StudyDetailsPage() {
               <EmojiCounterWithImage studyId={studyId} />
               <div className="detail_top_right">
                 <TextButton className="g_sub_text09 green_700">
-                  공유 하기
+                  공유하기
                 </TextButton>
                 <p>|</p>
                 <PasswordModal
@@ -60,6 +60,7 @@ export default function StudyDetailsPage() {
                   nickname={data.nickname}
                   studyId={studyId}
                   actionType="edit"
+                  className="green_700"
                 >
                   수정하기
                 </PasswordModal>
@@ -69,6 +70,7 @@ export default function StudyDetailsPage() {
                   nickname={data.nickname}
                   studyId={studyId}
                   actionType="delete"
+                  className="gray_600"
                 >
                   스터디 삭제하기
                 </PasswordModal>
@@ -87,7 +89,7 @@ export default function StudyDetailsPage() {
                 )}
                 <div className="detail_mid_title_right">
                   {/* 비빌번호 확인버튼 */}
-                  {/* <ArrowButton
+                  <ArrowButton
                     title={data.title}
                     nickname={data.nickname}
                     studyId={studyId}
@@ -102,14 +104,14 @@ export default function StudyDetailsPage() {
                     actionType="focus"
                   >
                     오늘의 집중
-                  </ArrowButton> */}
-
+                  </ArrowButton>
+                  {/* 
                   <Link to={`/hobbies?studyId=${studyId}`}>
                     <ArrowButton>오늘의 습관</ArrowButton>
                   </Link>
                   <Link to={`/focus?studyId=${studyId}`}>
                     <ArrowButton>오늘의 집중</ArrowButton>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               {/* 스터디 상세내용  */}
@@ -135,7 +137,8 @@ export default function StudyDetailsPage() {
               </div>
               {/*  스케줄 영역 */}
               <div className="detail_bottom">
-                <WeeklyHabitTracker />
+                {}
+                <WeeklyHabitTracker studyId={studyId} />
               </div>
             </div>
           </div>
