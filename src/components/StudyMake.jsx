@@ -10,6 +10,10 @@ import {
   validateIntro,
   validatePassword,
   validatePasswordCheck,
+  NICKNAME_MAX,
+  STUDY_NAME_MAX,
+  INTRO_MAX,
+  PASSWORD_MAX,
 } from "../utils/validation.js";
 
 export default function StudyMake({
@@ -147,6 +151,7 @@ export default function StudyMake({
             value={form.nickname}
             onChange={handleChange("nickname")}
             errorType={errors.nickname}
+            maxLength={NICKNAME_MAX}
           />
 
           <LabelInput
@@ -155,6 +160,7 @@ export default function StudyMake({
             value={form.studyName}
             onChange={handleChange("studyName")}
             errorType={errors.studyName}
+            maxLength={STUDY_NAME_MAX}
           />
 
           <LabelInput
@@ -163,6 +169,7 @@ export default function StudyMake({
             value={form.intro}
             onChange={handleChange("intro")}
             errorType={errors.intro}
+            maxLength={INTRO_MAX}
           />
 
           <h3 className="g_sub_tit mt20">배경을 선택해주세요</h3>
@@ -181,6 +188,7 @@ export default function StudyMake({
                 value={form.password}
                 onChange={handleChange("password")}
                 errorType={errors.password}
+                maxLength={PASSWORD_MAX}
               />
 
               <LabelInput
@@ -190,6 +198,7 @@ export default function StudyMake({
                 value={form.passwordCheck}
                 onChange={handleChange("passwordCheck")}
                 errorType={errors.passwordCheck}
+                maxLength={PASSWORD_MAX}
               />
             </>
           )}
