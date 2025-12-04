@@ -26,6 +26,7 @@ export default function LabelInput({
   onChange,
   errorType, // "", "empty", "nicknameTooShort" ...
   icon, // "search" | undefined
+  showCount = false,
   ...rest
 }) {
   const [visible, setVisible] = useState(false);
@@ -71,7 +72,16 @@ export default function LabelInput({
 
   return (
     <div className="input-group">
-      {label && <h3 className="g_sub_tit">{label}</h3>}
+      <div className="label-row">
+        {label && <h3 className="g_sub_tit">{label}</h3>}
+
+        {/* 글자 수 카운트 ( ) 형식 */}
+        {showCount && typeof rest.maxLength === "number" && (
+          <span className="label-char-count g_sub_text13 gray_500">
+            ( {(value ?? "").length} / {rest.maxLength} )
+          </span>
+        )}
+      </div>
 
       <div className={wrapperClassName}>
         {/* 검색 아이콘 (왼쪽) */}
