@@ -54,7 +54,7 @@
 .home-section {
   background: #ffffff;
   border-radius: 24px;
-  padding: 32px 24px;
+  padding: 40px 24px;
   margin-bottom: 40px;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .home-section-empty--recent {
-  height: 247px; /* mobile */
+  height: 180px; /* mobile */
 }
 
 .home-section-empty--browse {
@@ -109,7 +109,7 @@
 /* 빈 여백 - 태블릿 반응형 */
 @media (max-width: 1200px) and (min-width: 601px) {
   .home-section-empty--recent {
-    height: 338px; /* tablet */
+    height: 243px; /* tablet */
   }
 
   .home-section-empty--browse {
@@ -126,7 +126,7 @@
 /* 빈 여백 - 데스크탑 반응형 */
 @media (min-width: 1201px) {
   .home-section-empty--recent {
-    height: 382px;
+    height: 243px;
   }
 
   .home-section-empty--browse {
