@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import StudyCard from "../components/StudyCard";
 import StudyCardSkeleton from "../components/StudyCardSkeleton";
+import NoticeBanner from "../components/NoticeBanner";
 import {
   getRecentViewedStudies,
   removeRecentViewedStudy,
@@ -166,7 +167,11 @@ export default function RecentViewedList() {
 
   return (
     <section className="home-section home-section--recent">
-      <h2 className="g_tit">최근 조회한 스터디</h2>
+      <div className="home-section-header home-section-header--recent">
+        <h2 className="g_tit">최근 조회한 스터디</h2>
+        {/* 🔔 오른쪽 공지 배너 */}
+        <NoticeBanner studies={studies} loading={loading} />
+      </div>
 
       {loading ? (
         <div className="recent-scroller-wrapper">
