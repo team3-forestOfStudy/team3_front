@@ -2,14 +2,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import StudyCard from "../components/StudyCard";
-import StudyCardSkeleton from "../components/StudyCardSkeleton"; // 🔥 추가
+import StudyCardSkeleton from "../components/StudyCardSkeleton";
 import SearchInput from "./SearchInput";
 import SortDropdown from "./SortDropdown";
 import MoreButton from "./MoreButton";
 import "../styles/studycard.css";
 
 // 🔄 Render 배포 후 API URL 변경 필요
-// 변경: const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 const PAGE_SIZE = 6;
 const SKELETON_COUNT = PAGE_SIZE; // 🔥 스켈레톤 6개(2행 x 3열)
@@ -22,6 +21,8 @@ export default function StudyBrowse() {
   const [sort, setSort] = useState("recent");
   const [hasNextPage, setHasNextPage] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const hasKeyword = keyword.trim().length > 0;
 
   // 공통으로 쓰는 목록 호출 함수
   const loadStudies = async (pageToLoad, { append } = { append: false }) => {
@@ -134,7 +135,12 @@ export default function StudyBrowse() {
         </div>
       ) : studies.length === 0 ? (
         // 🔹 데이터가 없을 때 표시할 내용
-        <div className="study-empty">등록된 스터디가 없습니다.</div>
+        //    - 등록된 스터디가 아예 없을 때
+        //    - 검색 결과가 없을 때
+        //    둘 다 같은 레이아웃 + 다른 메시지
+        <div className="home-section-empty home-section-empty--browse fs18">
+          {hasKeyword ? "검색 결과가 없습니다." : "아직 둘러볼 스터디가 없어요"}
+        </div>
       ) : (
         // 🔹 실제 카드 렌더링
         <div className="study-card-list">

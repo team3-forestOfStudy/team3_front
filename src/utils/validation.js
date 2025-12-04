@@ -12,8 +12,9 @@ export const STUDY_NAME_MAX = 16;
 export const INTRO_MIN = 2;
 export const INTRO_MAX = 200;
 
-// 비밀번호 최소 글자 수
+// 비밀번호 최소/최대 글자 수 + 특수문자 최소 1개 포함
 export const PASSWORD_MIN = 6;
+export const PASSWORD_MAX = 20;
 
 // 백엔드가 허용하는 backgroundImage 목록
 export const ALLOWED_BACKGROUND_IMAGES = [
@@ -78,6 +79,7 @@ export function validatePassword(value) {
   if (!value || value.trim().length === 0) return "empty";
 
   if (value.length < PASSWORD_MIN) return "passwordTooShort";
+  if (value.length > PASSWORD_MAX) return "passwordTooLong";
 
   const hasNumber = /[0-9]/.test(value);
   const hasSpecial = /[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]/.test(value);

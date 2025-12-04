@@ -5,7 +5,7 @@ import StopIcon from "../assets/icons/pause.svg";
 import Stoptogglebtn from "../assets/icons/stoptogglebtn.svg";
 import ResetIcon from "../assets/icons/reset.svg";
 import Clock from "../assets/icons/clock.svg";
-import { showSuccesToast, showStopToast } from "../utils/toastmessage";
+import { showSuccesToast, showStopToast, showTimeNotSetToast } from "../utils/toastmessage";
 
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
@@ -112,6 +112,9 @@ const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
       if (onTimeSet) {
         onTimeSet(durationMinutes);
       }
+    } else {
+      // 시간이 설정되지 않았을 때 토스트 메시지 표시
+      showTimeNotSetToast();
     }
   };
 
@@ -221,7 +224,6 @@ const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
           <button
             type="button"
             onClick={handleFirstStartClick}
-            disabled={durationMinutes <= 0}
             className="start-button bg_green_300 fw_eb white g_sub_text01"
           >
             <img

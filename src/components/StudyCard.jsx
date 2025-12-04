@@ -1,4 +1,3 @@
-// src/components/StudyCard.jsx
 import { useNavigate } from "react-router-dom";
 import "../styles/studycard.css";
 import pointIcon from "../assets/icons/ic_point.svg";
@@ -16,7 +15,11 @@ function convertEmoji(code) {
 // 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
 const SOLID_BG_KEYS = ["green", "yellow", "blue", "pink"];
 
-export default function StudyCard({ study, hoverVariant = "scale" }) {
+export default function StudyCard({
+  study,
+  hoverVariant = "scale",
+  isPreview = false, // ⬅ 프리뷰 모드 여부 추가
+}) {
   // 백엔드 / 부모 컴포넌트에서 내려주는 스터디 데이터 형태 예시
   const {
     studyId, // 숫자 ID (상세 페이지로 이동할 때 사용)
@@ -47,7 +50,9 @@ export default function StudyCard({ study, hoverVariant = "scale" }) {
   const bgClass = backgroundImage ? `bg-${backgroundImage}` : "";
 
   const handleCardClick = () => {
-    if (!studyId) return;
+    // ⬇ 프리뷰 모드이거나 studyId 없으면 아무 동작 안 함
+    if (isPreview || !studyId) return;
+
     // 최근 조회 쿠키에 저장
     addRecentViewedStudy(study);
     // 클릭하면 상세 페이지로 이동

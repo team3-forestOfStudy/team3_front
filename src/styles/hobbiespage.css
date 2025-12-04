@@ -171,12 +171,27 @@
   justify-content: center;
   transition:
     background-color 0.2s ease,
-    color 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.habit-chip:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* 선택된 칩 상태 */
 .habit-chip--selected {
   background-color: #99c08e !important;
   color: #FFF !important;
+}
+
+.habit-chip--selected:hover {
+  background-color: #8ab37d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(153, 192, 142, 0.3);
 }
 
 /* 습관 없을 때 안내 문구 */
