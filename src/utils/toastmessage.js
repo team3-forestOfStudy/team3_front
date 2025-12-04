@@ -5,6 +5,7 @@ export const toastmessage = {
   // LOGIN_ERROR: "🚨 비밀번호가 일치하지 않습니다. 다시 입력해주세요.",
   SUCCES_FOCUS: point => `🎉 ${point}포인트를 획득했습니다!`,
   FOCUS_STOP: "🚨 집중이 중단되었습니다.",
+  TIME_NOT_SET: "🚨 시간을 입력해주세요!",
 };
 
 // 집중 성공
@@ -25,6 +26,13 @@ export const showStopToast = () => {
 export const showErrorToast = message => {
   toast.error(message, {
     className: "toast-password g_sub_text10 fw_m bg_pink_100 red_600",
+  });
+};
+
+// 시간 미설정 오류
+export const showTimeNotSetToast = () => {
+  toast.error(toastmessage.TIME_NOT_SET, {
+    className: "toast-base g_sub_text10 fw_m bg_pink_100 red_600",
   });
 };
 

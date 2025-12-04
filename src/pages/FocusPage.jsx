@@ -66,6 +66,8 @@ const FocusPage = () => {
   };
 
   const handleManualInputClick = () => {
+    // 모달을 열 때 현재 설정된 시간을 input에 반영
+    setManualMinutesInput(String(timerMinutes));
     setIsManualModalOpen(true);
   };
 
