@@ -12,7 +12,7 @@ export const STUDY_NAME_MAX = 16;
 export const INTRO_MIN = 2;
 export const INTRO_MAX = 200;
 
-// 비밀번호 최소 글자 수
+// 비밀번호 최소/최대 글자 수 + 특수문자 최소 1개 포함
 export const PASSWORD_MIN = 6;
 export const PASSWORD_MAX = 20;
 

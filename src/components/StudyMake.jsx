@@ -1,9 +1,9 @@
-// StudyMake.jsx
 import "../styles/studymake.css";
 import { useState } from "react";
 import ButtonType from "../components/ButtonType.jsx";
 import StudyBackgroundSelector from "../components/StudyBackgroundSelector.jsx";
 import LabelInput from "../components/LabelInput.jsx";
+import StudyCard from "../components/StudyCard.jsx"; // ⬅ 프리뷰용 카드 추가
 import {
   validateNickname,
   validateStudyName,
@@ -40,6 +40,9 @@ export default function StudyMake({
     password: "",
     passwordCheck: "",
   });
+
+  // ⬇ 썸네일 프리뷰 on/off 상태
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleChange = field => e => {
     const value = e.target.value;
@@ -139,6 +142,28 @@ export default function StudyMake({
   const titleText = isEditMode ? "스터디 수정하기" : "스터디 만들기";
   const buttonText = isEditMode ? "수정 완료" : "스터디 생성";
 
+  // ⬇ 프리뷰에 넘길 가짜 스터디 데이터 (홈 카드와 동일 형태로 맞추기)
+  const previewStudy = {
+    studyId: null,
+    nickname: form.nickname || "닉네임",
+    title: form.studyName || "스터디 이름",
+    description: form.intro || "스터디 소개 텍스트가 여기에 표시됩니다.",
+    status: null,
+    createdAt: new Date().toISOString(),
+    updatedAt: null,
+    backgroundImage: form.selectedBg || "green",
+    totalPoints: 0,
+    topEmojis: [],
+  };
+
+  const handleTogglePreview = () => {
+    setIsPreviewOpen(prev => !prev);
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false);
+  };
+
   return (
     <div className="container" id="container">
       <div className="contents">
@@ -203,19 +228,57 @@ export default function StudyMake({
             </>
           )}
 
-          <ButtonType
-            buttonText={buttonText}
-            buttonClass={
-              isFormValid
-                ? "w100 mt40 u-hover-style-01 u-active-press"
-                : "w100 mt40 bg_gray_300 shadowGray"
-            }
-            disabled={!isFormValid}
-          >
-            {buttonText}
-          </ButtonType>
+          {/* ✅ 하단 버튼 영역: 미리 보기 + 기존 생성/수정 버튼 */}
+          <div className="studymake-actions mt40">
+            <ButtonType
+              type="button"
+              buttonText={isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
+              buttonClass="studymake-preview-button u-hover-style-01 u-active-press"
+              onClick={handleTogglePreview}
+            />
+
+            <ButtonType
+              buttonText={buttonText}
+              buttonClass={
+                isFormValid
+                  ? "w100 u-hover-style-01 u-active-press"
+                  : "w100 bg_gray_300 shadowGray"
+              }
+              disabled={!isFormValid}
+            >
+              {buttonText}
+            </ButtonType>
+          </div>
         </form>
       </div>
+
+      {/* ✅ 썸네일 프리뷰 바텀시트 + 딤 */}
+      {isPreviewOpen && (
+        <>
+          <div className="studymake-preview-dim" onClick={handleClosePreview} />
+          <div className="studymake-preview-sheet">
+            <button
+              type="button"
+              className="studymake-preview-close"
+              onClick={handleClosePreview}
+            >
+              ✕
+            </button>
+
+            <div className="studymake-preview-title">
+              💠 홈에서 보이는 스터디 카드 💠
+            </div>
+
+            <div className="studymake-preview-card-wrapper">
+              <StudyCard
+                study={previewStudy}
+                isPreview={true}
+                hoverVariant="scale"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

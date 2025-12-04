@@ -106,3 +106,173 @@
   opacity: 1 !important;
   cursor: not-allowed;
 }
+
+/* ==================== 스터디 만들기: 하단 버튼 레이아웃 ==================== */
+
+.studymake-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 태블릿 이상에서는 가로 배치 */
+@media (min-width: 601px) {
+  .studymake-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.studymake-preview-button {
+  min-width: 140px;
+}
+
+/* 미리 보기 버튼 hover 효과 (기존 스타일과 자연스럽게) */
+.studymake-preview-button:hover {
+  border-color: #888888;
+  opacity: 0.95;
+}
+
+/* 생성/수정 버튼이 이 영역 안에서는 w100을 강제로 자동 폭으로 변경 */
+.studymake-actions .Button01.w100 {
+  width: auto;
+  flex: 1;
+}
+
+/* ==================== 썸네일 프리뷰: 딤 + 바텀시트 ==================== */
+
+/* 딤 영역 */
+.studymake-preview-dim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 900;
+  backdrop-filter: blur(2px);
+}
+
+/* 바텀시트 박스 */
+.studymake-preview-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 20px 16px 24px;
+  z-index: 901;
+
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
+
+  transform: translateY(100%);
+  animation: studymake-preview-slide-up 0.28s ease-out forwards;
+}
+
+@keyframes studymake-preview-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* 데스크탑: 화면 하단 중앙에서 올라오는 프리뷰 */
+@media (min-width: 1201px) {
+  .studymake-preview-sheet {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: 0;
+
+    width: 400px;
+    max-height: 70vh;
+
+    padding: 5px 5px;
+    border-radius: 24px 24px 0 0;
+
+    /* 시작 상태: 아래에 숨겨진 채로 가운데 정렬 */
+    transform: translate(-50%, 100%);
+    animation: studymake-preview-slide-up-desktop 0.28s ease-out forwards;
+  }
+}
+
+/* 태블릿(601~1200px): 바텀시트 폭을 줄이고 가운데로 */
+@media (min-width: 601px) and (max-width: 1200px) {
+  .studymake-preview-sheet {
+    left: 50%;
+    right: auto;
+    bottom: 0;
+
+    width: 400px; /* 데스크탑이랑 같은 폭 */
+    max-width: calc(100% - 32px); /* 양옆 16px 정도 여백 확보용 */
+    max-height: 70vh;
+
+    padding: 5px 5px;
+    border-radius: 24px 24px 0 0;
+
+    transform: translate(-50%, 100%);
+    animation: studymake-preview-slide-up-desktop 0.28s ease-out forwards;
+  }
+}
+
+/* 데스크탑 전용 슬라이드 업 애니메이션 */
+@keyframes studymake-preview-slide-up-desktop {
+  from {
+    transform: translate(-50%, 100%);
+  }
+  to {
+    transform: translate(-50%, 0);
+  }
+}
+
+/* 닫기 버튼 */
+.studymake-preview-close {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* 프리뷰 타이틀 텍스트 */
+.studymake-preview-title {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+}
+
+/* 프리뷰 카드 래퍼 */
+.studymake-preview-card-wrapper {
+  margin-top: 12px;
+}
+
+/* 모바일 기본: 꽉 차게 (원래 의도 그대로) */
+.studymake-preview-card-wrapper .study-card {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 태블릿 이상부터 카드 폭 제한 (홈에서 보이는 카드와 동일 크기) */
+@media (min-width: 601px) {
+  .studymake-preview-card-wrapper .study-card {
+    width: 360px; /* 너비 고정 */
+    max-width: 360px;
+  }
+}
+
+/* 데스크탑은 동일하게 유지 */
+@media (min-width: 1201px) {
+  .studymake-preview-card-wrapper .study-card {
+    width: 360px;
+    max-width: 360px;
+  }
+}

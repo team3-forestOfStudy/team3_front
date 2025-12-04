@@ -224,7 +224,7 @@ export default function RecentViewedList() {
         </div>
       ) : (
         // 🔹 최근 조회 스터디가 없을 때: 공통 empty 레이아웃 사용
-        <div className="home-section-empty home-section-empty--recent">
+        <div className="home-section-empty home-section-empty--recent fs18">
           아직 조회한 스터디가 없어요
         </div>
       )}

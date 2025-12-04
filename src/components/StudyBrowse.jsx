@@ -138,7 +138,7 @@ export default function StudyBrowse() {
         //    - 등록된 스터디가 아예 없을 때
         //    - 검색 결과가 없을 때
         //    둘 다 같은 레이아웃 + 다른 메시지
-        <div className="home-section-empty home-section-empty--browse">
+        <div className="home-section-empty home-section-empty--browse fs18">
           {hasKeyword ? "검색 결과가 없습니다." : "아직 둘러볼 스터디가 없어요"}
         </div>
       ) : (
