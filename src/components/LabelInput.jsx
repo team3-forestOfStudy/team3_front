@@ -14,6 +14,7 @@ import {
   INTRO_MIN,
   INTRO_MAX,
   PASSWORD_MIN,
+  PASSWORD_MAX,
 } from "../utils/validation.js";
 
 export default function LabelInput({
@@ -25,6 +26,7 @@ export default function LabelInput({
   onChange,
   errorType, // "", "empty", "nicknameTooShort" ...
   icon, // "search" | undefined
+  ...rest
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -46,6 +48,7 @@ export default function LabelInput({
 
     // 비밀번호
     passwordTooShort: `비밀번호는 최소 ${PASSWORD_MIN}글자 이상 입력해야 합니다.`,
+    passwordTooLong: `비밀번호는 최대 ${PASSWORD_MAX}글자 이하로 입력해야 합니다.`,
     noNumber: "최소 1개의 숫자가 포함되어야 합니다.",
     noSpecial: "최소 1개의 특수 문자가 포함되어야 합니다.",
     notMatch: "비밀번호가 일치하지 않습니다.",
@@ -87,9 +90,11 @@ export default function LabelInput({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
+            {...rest} // ⬅ 여기 추가
           />
         ) : (
           <input
+            {...rest} // ⬅ 여기 추가
             type={isPassword && !visible ? "password" : "text"}
             className={`input-basic ${errorType ? "input-basic--error" : ""}`}
             placeholder={placeholder}
