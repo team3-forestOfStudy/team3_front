@@ -159,8 +159,8 @@
 
   max-height: 80vh;
   background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  padding: 20px 16px 24px;
+  padding: 16px;
+  border-radius: 24px;
   z-index: 901;
 
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.2);
@@ -189,8 +189,8 @@
     width: 400px;
     max-height: 70vh;
 
-    padding: 5px 5px;
-    border-radius: 24px 24px 0 0;
+    padding: 16px;
+    border-radius: 24px;
 
     /* 시작 상태: 아래에 숨겨진 채로 가운데 정렬 */
     transform: translate(-50%, 100%);
@@ -209,8 +209,8 @@
     max-width: calc(100% - 32px); /* 양옆 16px 정도 여백 확보용 */
     max-height: 70vh;
 
-    padding: 5px 5px;
-    border-radius: 24px 24px 0 0;
+    padding: 16px;
+    border-radius: 24px;
 
     transform: translate(-50%, 100%);
     animation: studymake-preview-slide-up-desktop 0.28s ease-out forwards;

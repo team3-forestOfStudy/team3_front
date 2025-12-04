@@ -156,7 +156,10 @@ export default function StudyMake({
     topEmojis: [],
   };
 
-  const handleTogglePreview = () => {
+  const handleTogglePreview = e => {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault(); // ✅ 폼 submit 막기
+    }
     setIsPreviewOpen(prev => !prev);
   };
 
@@ -177,6 +180,7 @@ export default function StudyMake({
             onChange={handleChange("nickname")}
             errorType={errors.nickname}
             maxLength={NICKNAME_MAX}
+            showCount
           />
 
           <LabelInput
@@ -186,6 +190,7 @@ export default function StudyMake({
             onChange={handleChange("studyName")}
             errorType={errors.studyName}
             maxLength={STUDY_NAME_MAX}
+            showCount
           />
 
           <LabelInput
@@ -195,6 +200,7 @@ export default function StudyMake({
             onChange={handleChange("intro")}
             errorType={errors.intro}
             maxLength={INTRO_MAX}
+            showCount
           />
 
           <h3 className="g_sub_tit mt20">배경을 선택해주세요</h3>
@@ -228,14 +234,16 @@ export default function StudyMake({
             </>
           )}
 
-          {/* ✅ 하단 버튼 영역: 미리 보기 + 기존 생성/수정 버튼 */}
           <div className="studymake-actions mt40">
+            {/* 미리 보기 버튼 */}
             <ButtonType
               type="button"
               buttonText={isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
               buttonClass="studymake-preview-button u-hover-style-01 u-active-press"
               onClick={handleTogglePreview}
-            />
+            >
+              {isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
+            </ButtonType>
 
             <ButtonType
               buttonText={buttonText}
