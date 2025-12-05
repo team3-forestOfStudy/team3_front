@@ -3,15 +3,8 @@ import "../styles/studycard.css";
 import pointIcon from "../assets/icons/ic_point.svg";
 import { addRecentViewedStudy } from "../utils/recentViewed"; // 최근 조회
 import { getDaysInProgress } from "../utils/date";
+import { Emoji } from "emoji-picker-react";
 
-// emojiCode("1f431") → 실제 이모지로 변환
-function convertEmoji(code) {
-  try {
-    return String.fromCodePoint(parseInt(code, 16));
-  } catch {
-    return code; // 혹시 오류나면 원래 문자 표시
-  }
-}
 // 단색 배경 키 값 (backgroundImage 값과 맞춰서 사용)
 const SOLID_BG_KEYS = ["green", "yellow", "blue", "pink"];
 
@@ -87,7 +80,7 @@ export default function StudyCard({
           <button
             type="button"
             className="study-card__point-badge"
-            onClick={e => e.stopPropagation()} // 카드 클릭과 분리
+            // onClick={e => e.stopPropagation()} 포인트 버튼으로 이동되는걸 막는 코드
           >
             <img
               src={pointIcon}
@@ -109,7 +102,7 @@ export default function StudyCard({
       {/* 소개 텍스트 */}
       <p className="study-card__description">{description}</p>
 
-      {/* 하단 이모지 영역 (API 붙으면 자동 표시) */}
+      {/* 하단 이모지 영역 */}
       {visibleEmojis.length > 0 && (
         <footer className="study-card__footer">
           <div className="study-card__emojis">
@@ -118,10 +111,13 @@ export default function StudyCard({
                 key={emoji.emojiId}
                 type="button"
                 className="study-card__emoji"
-                onClick={e => e.stopPropagation()}
               >
                 <span className="study-card__emoji-icon">
-                  {convertEmoji(emoji.emojiCode)}
+                  <Emoji
+                    unified={emoji.emojiCode}
+                    emojiStyle="apple" // ✅ 상세 페이지와 동일 스타일
+                    size={16} // 필요하면 18 등으로 조정 가능
+                  />
                 </span>
                 <span className="study-card__emoji-count">{emoji.count}</span>
               </button>
