@@ -8,15 +8,19 @@
 
 /* 🎨 파스텔 계열 “공부의 숲” 브랜드 그림자 컬러 */
 :root {
-  --u-shadow-hover: rgba(108, 51, 122, 0.2); /* hover 기본 그림자 */
-  --u-shadow-active: rgba(108, 51, 122, 0.25); /* active 눌림 그림자 */
+  --u-shadow-hover: rgba(108, 51, 122, 0.2);
+  /* hover 기본 그림자 */
+  --u-shadow-active: rgba(108, 51, 122, 0.25);
+  /* active 눌림 그림자 */
 
   --u-hover-opacity: 0.95;
 
   /* hover 이동/scale 값 */
   --u-hover-scale: 1.02;
-  --u-hover-vertical-sm: -2px; /* hover-style-01 */
-  --u-hover-vertical-lg: -6px; /* hover-style-02 */
+  --u-hover-vertical-sm: -2px;
+  /* hover-style-01 */
+  --u-hover-vertical-lg: -6px;
+  /* hover-style-02 */
 }
 
 .blind {
@@ -920,17 +924,19 @@ textarea {
 
 /* Mobile: 375px 이상 ~ 743px 이하 */
 @media (min-width: 375px) and (max-width: 743px) {
+
   /* 모바일 스타일 */
   html {
     font-size: 14px;
   }
+
   .container {
     padding: 0 16px;
     padding-top: 40px;
   }
 
   .g_box {
-    padding: 16px;
+    padding: 16px !important;
   }
 }
 
@@ -990,13 +996,11 @@ textarea {
 
 /* Tablet: 744px 이상 ~ 1199px 이하 */
 @media (min-width: 743px) and (max-width: 1199px) {
+
   /* 태블릿 스타일 */
-  .contents {
-    padding-top: 16px;
-  }
 
   .g_box {
-    padding: 24px;
+    padding: 24px !important;
   }
 }
 

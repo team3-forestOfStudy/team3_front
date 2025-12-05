@@ -77,6 +77,11 @@
   gap: 8px;
 }
 
+.start-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .start-button-icon {
   display: block;
   width: 52px;

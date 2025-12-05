@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import "../styles/focuspage.css";
 import Plus from "../assets/icons/plus_gray.svg";
@@ -25,6 +25,7 @@ const FocusPage = () => {
   const [timerMinutes, setTimerMinutes] = useState(0);
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [manualMinutesInput, setManualMinutesInput] = useState("0");
+  const manualInputRef = useRef(null);
 
   // 스터디 상세 정보 API 호출
   useEffect(() => {
@@ -96,6 +97,17 @@ const FocusPage = () => {
   const handleManualModalClose = () => {
     setIsManualModalOpen(false);
   };
+
+  // 모달이 열릴 때 input에 자동 포커스
+  useEffect(() => {
+    if (isManualModalOpen && manualInputRef.current) {
+      // 모달이 완전히 렌더링된 후 포커스
+      setTimeout(() => {
+        manualInputRef.current?.focus();
+        manualInputRef.current?.select(); // 입력된 텍스트 선택
+      }, 100);
+    }
+  }, [isManualModalOpen]);
 
   return (
     <div className="container">
@@ -194,11 +206,18 @@ const FocusPage = () => {
               <div className="timer-modal-inputs">
                 <div className="timer-modal-field g_sub_text03 fw_eb">
                   <input
+                    ref={manualInputRef}
                     type="number"
                     min="0"
                     max="60"
                     value={manualMinutesInput}
                     onChange={handleManualMinutesChange}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleManualModalConfirm();
+                      }
+                    }}
                     className="timer-modal-input"
                   />
                   <span className="timer-modal-input">분</span>
