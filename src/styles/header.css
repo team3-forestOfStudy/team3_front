@@ -18,7 +18,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   width: 100%;
 }
 
@@ -126,27 +125,23 @@
 /* ---------------- Mobile: 600px 이하 ---------------- */
 
 @media (max-width: 600px) {
+  /* 헤더 전체 좌우 여백 조금 늘리기 */
   .header {
-    padding: 30px 24px;
+    padding: 24px 20px; /* 기존 30px 24px 에서 살짝 조정 */
   }
 
-  /* 로고: 왼쪽에 붙은 상태에서 크기만 0.8배 */
+  /* 로고: 약간만 축소 */
   .header-left {
-    transform: scale(0.8);
+    transform: scale(0.85);
     transform-origin: left center;
   }
 
-  /* 버튼: 오른쪽에 붙은 상태에서 크기만 0.8배 */
+  /* 버튼: 축소 + 오른쪽에 여백 추가 */
   .header-right {
-    transform: scale(0.8);
+    transform: scale(0.85);
     transform-origin: right center;
+    margin-right: 8px; /* 🔥 버튼과 화면 오른쪽 사이에 추가로 8px 띄우기 */
   }
-
-  /* 필요하면 헤더 높이도 살짝 줄이고 싶을 때만 켜기
-    .header {
-      height: 60px;
-    }
-    */
 }
 
 /* ================================

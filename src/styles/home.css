@@ -335,8 +335,8 @@
   line-height: 1.3; /* 필요하면 살짝만 조절 (선택) */
 }
 
-/* ---------------------- 홈 TOP 버튼 ------------------------- */
-/* 홈 - TOP 버튼 */
+/* ---------------------- 공통 TOP 버튼 ------------------------- */
+/* 공통 TOP 버튼 */
 .home-top-button {
   position: fixed;
   right: 24px;
@@ -351,17 +351,17 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 100;
+  z-index: 1000;
   padding: 0;
 }
 
 .home-top-button__icon {
   width: 24px;
   height: 24px;
-  transform: rotate(-90deg); /* ➡️ 를 위쪽 화살표처럼 보이게 */
+  transform: rotate(-90deg); /* 오른쪽 화살표를 위쪽 화살표처럼 */
 }
 
-/* 살짝 떠오르는 느낌 */
+/* hover 시 살짝 띄우기 */
 .home-top-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);

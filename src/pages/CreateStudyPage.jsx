@@ -1,41 +1,13 @@
-// CreateStudyPage.jsx (토스트 알림 + 1초 후 상세 페이지 이동)
+// src/pages/CreateStudyPage.jsx
 import StudyMake from "../components/StudyMake.jsx";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import arrowIcon from "../assets/icons/arrow.svg";
 
 // 🔄 Render 배포 후 API URL 변경 필요
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
 export default function CreateStudyPage() {
   const navigate = useNavigate();
-  const [showTopButton, setShowTopButton] = useState(false);
-
-  // ✅ 스크롤 감지 (컴포넌트 최상단)
-  useEffect(() => {
-    const container = document.querySelector(".container");
-    if (!container) return;
-
-    const handleScroll = () => {
-      setShowTopButton(container.scrollTop > 50);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    handleScroll(); // 처음에도 한 번 실행해서 현재 스크롤 상태 반영
-
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // ✅ TOP 버튼 클릭 시 맨 위로
-  const handleScrollTop = () => {
-    const container = document.querySelector(".container");
-    if (container) {
-      container.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   // ✅ 스터디 생성 API
   const handleCreate = async formData => {
@@ -86,20 +58,5 @@ export default function CreateStudyPage() {
     }
   };
 
-  return (
-    <>
-      <StudyMake mode="create" onSubmit={handleCreate} />
-
-      {showTopButton && (
-        <button
-          type="button"
-          className="home-top-button"
-          onClick={handleScrollTop}
-          aria-label="맨 위로 이동"
-        >
-          <img src={arrowIcon} alt="" className="home-top-button__icon" />
-        </button>
-      )}
-    </>
-  );
+  return <StudyMake mode="create" onSubmit={handleCreate} />;
 }
