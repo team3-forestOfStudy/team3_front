@@ -224,15 +224,23 @@
   gap: 16px;
 }
 
+.start-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .start-button-icon {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
 }
 .circle-btn {
   width: 64px;
   height: 64px;
   padding: 2px;
   border-radius: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-controls {
@@ -244,8 +252,8 @@
 
 .stop-botton,
 .reset-botton {
-  width: 35px;
-  height: 35px;
+  width: 42px;
+  height: 42px;
 }
 
 .skeleton {
