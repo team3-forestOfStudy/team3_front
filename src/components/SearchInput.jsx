@@ -9,7 +9,7 @@ export default function SearchInput({ value, onChange, onKeyDown }) {
       <input
         type="text"
         className="search-input_field"
-        placeholder="스터디 이름을 검색해보세요"
+        placeholder="검색"
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}

@@ -30,6 +30,10 @@
     width: 697px;
     height: 627px;
   }
+
+  .notice-banner {
+    justify-content: flex-end;
+  }
 }
 
 /* 데스크탑: 높이값 (1201px 이상) */
@@ -227,13 +231,6 @@
   transform: translateY(-50%) scale(1.05);
 }
 
-/* 모바일(600px 이하)에서는 화살표 숨김 */
-@media (max-width: 600px) {
-  .recent-arrow {
-    display: none;
-  }
-}
-
 /* 마스크 박스 */
 .recent-viewport {
   overflow: hidden;
@@ -267,13 +264,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-
-/* 데스크탑에서 오른쪽 정렬하고 싶으면 */
-@media (min-width: 601px) {
-  .notice-banner {
-    justify-content: flex-end;
-  }
 }
 
 /* 흰색 알약 모양 공지 박스 */
@@ -379,5 +369,27 @@
   .home-top-button__icon {
     width: 20px;
     height: 20px;
+  }
+
+  .recent-arrow {
+    display: none;
+  }
+
+  .study-filter-bar {
+    flex-direction: column;
+    align-items: stretch; /* 양쪽 꽉 차게 */
+    gap: 8px;
+  }
+
+  /* SearchInput 쪽 너비 제한 풀기 */
+  .study-filter-bar .search-input-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* 정렬 드롭다운도 한 줄 전체 쓰게 */
+  .study-filter-bar .sort-dropdown-wrapper {
+    width: 100%;
+    justify-content: flex-end; /* 오른쪽 정렬 유지하고 싶으면 */
   }
 }
