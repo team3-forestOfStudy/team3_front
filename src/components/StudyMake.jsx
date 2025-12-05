@@ -195,11 +195,14 @@ export default function StudyMake({
 
           <LabelInput
             label="소개"
-            placeholder="소개 멘트를 작성해 주세요"
+            as="textarea"
+            className="intro-textarea"
+            placeholder="스터디 소개 멘트를 입력해 주세요"
             value={form.intro}
             onChange={handleChange("intro")}
             errorType={errors.intro}
             maxLength={INTRO_MAX}
+            autoResize
             showCount
           />
 
@@ -235,17 +238,9 @@ export default function StudyMake({
           )}
 
           <div className="studymake-actions mt40">
-            {/* 미리 보기 버튼 */}
+            {/* 1. 생성 / 수정 버튼 (먼저) */}
             <ButtonType
-              type="button"
-              buttonText={isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
-              buttonClass="studymake-preview-button u-hover-style-01 u-active-press"
-              onClick={handleTogglePreview}
-            >
-              {isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
-            </ButtonType>
-
-            <ButtonType
+              type="submit"
               buttonText={buttonText}
               buttonClass={
                 isFormValid
@@ -255,6 +250,16 @@ export default function StudyMake({
               disabled={!isFormValid}
             >
               {buttonText}
+            </ButtonType>
+
+            {/* 2. 미리 보기 버튼 (그 다음) */}
+            <ButtonType
+              type="button"
+              buttonText={isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
+              buttonClass="studymake-preview-button u-hover-style-01 u-active-press"
+              onClick={handleTogglePreview}
+            >
+              {isPreviewOpen ? "미리 보기 닫기" : "미리 보기"}
             </ButtonType>
           </div>
         </form>

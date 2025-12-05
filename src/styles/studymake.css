@@ -276,3 +276,9 @@
     max-width: 360px;
   }
 }
+
+/* 스터디 카드 소개 textarea 높이 확장 */
+.intro-textarea {
+  min-height: 120px; /* 대략 4줄 정도 표시됨 */
+  resize: vertical; /* 유저가 드래그해서 늘릴 수 있음 (원하면 제거 가능) */
+}
