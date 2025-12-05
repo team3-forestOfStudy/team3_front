@@ -1,30 +1,27 @@
-/* ---------------- 헤더 레이아웃 ---------------- */
+/* ---------------- 헤더 레이아웃 기본 ---------------- */
 
 .header {
   position: static;
   z-index: 1000;
 
   width: 100%;
-  height: 70px;
-
-  /* 기본 패딩 (모바일 포함) */
-  padding: 20px 16px;
-
-  /* header-inner에서 flex 처리 */
+  padding: 20px 24px; /* .container 기본 padding 과 맞춤 */
+  background-color: transparent;
 }
 
-/* 내부 컨테이너 */
+/* 내부 컨테이너: contents와 같은 최대 너비 정렬 */
 .header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* 왼쪽 로고 영역 */
 .header-left {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   flex-shrink: 0;
 }
@@ -32,36 +29,35 @@
 /* 로고 이미지 */
 .header-logo {
   display: block;
-  flex-shrink: 0;
+  height: 52px; /* 기본 데스크탑 크기 */
 }
 
 /* 오른쪽 버튼 영역 */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
   flex-shrink: 0;
 }
 
-/* 임시 버튼 묶음 */
+/* 여러 버튼 묶음이 있을 경우를 대비 */
 .temp_button_div {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-/* ---------------- 스터디 만들기 버튼 ---------------- */
+/* ---------------- 버튼 기본 스타일 ---------------- */
 
 .header-button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
 
-  padding: 0 32px;
   height: 56px;
+  padding: 0 32px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: 16px;
 
   font-family:
     "JejuStoneWall",
@@ -72,9 +68,9 @@
     sans-serif;
   font-size: 18px;
   font-weight: 400;
+  white-space: nowrap;
 
   cursor: pointer;
-  white-space: nowrap;
 
   transition:
     transform 0.12s ease-out,
@@ -89,27 +85,18 @@
   box-shadow: 0px 4px 0px var(--green-500);
 }
 
-/* ---------------- 반응형 (팀 기준) ---------------- */
+/* hover / active 은 ButtonType 쪽 공통 규칙 따라감 */
 
-/* Tablet: 1200px ~ 601px */
-@media (min-width: 601px) and (max-width: 1200px) {
+/* ---------------- 반응형: 팀 기준 Desktop / Tablet / Mobile ---------------- */
+
+/* Tablet & 작은 Desktop: 1200px 이하 */
+@media (max-width: 1200px) {
   .header {
-    padding: 20px 24px;
-  }
-
-  .header-button {
-    border-radius: 14px;
+    padding: 20px 24px; /* 홈 섹션 카드와 동일한 좌우 여백 */
   }
 }
 
-/* Desktop 1: 1201px~ */
-@media (min-width: 601px) {
-  .header {
-    padding: 20px 24px;
-  }
-}
-
-/* Desktop 2: 1600px~ */
+/* 큰 Desktop: 1600px 이상 - 좌우 여백 넓게 */
 @media (min-width: 1600px) {
   .header {
     padding: 20px 220px;
@@ -123,30 +110,60 @@
   }
 }
 
-/* ---------------- Mobile: 600px 이하 ---------------- */
+/* ---------------- Mobile 공통: 743px 이하 ---------------- */
+/* global.css 의 .container(0 16px) 와 맞추기 */
 
-@media (max-width: 600px) {
+@media (max-width: 743px) {
   .header {
-    padding: 30px 24px;
+    padding: 20px 16px;
   }
 
-  /* 로고: 왼쪽에 붙은 상태에서 크기만 0.8배 */
-  .header-left {
-    transform: scale(0.8);
-    transform-origin: left center;
+  .header-inner {
+    gap: 8px;
   }
 
-  /* 버튼: 오른쪽에 붙은 상태에서 크기만 0.8배 */
-  .header-right {
-    transform: scale(0.8);
-    transform-origin: right center;
+  .header-logo {
+    height: 44px; /* 로고 조금 줄이기 */
   }
 
-  /* 필요하면 헤더 높이도 살짝 줄이고 싶을 때만 켜기
-    .header {
-      height: 60px;
-    }
-    */
+  .header-button {
+    height: 48px;
+    padding: 0 24px;
+    font-size: 16px;
+    border-radius: 14px;
+  }
+}
+
+/* ---------------- 더 좁은 Mobile: 375px 이하 (iPhone SE 포함) ---------------- */
+
+@media (max-width: 375px) {
+  .header-logo {
+    height: 40px;
+  }
+
+  .header-button {
+    height: 46px;
+    padding: 0 20px;
+    font-size: 15px;
+  }
+}
+
+/* ---------------- 초소형 Mobile: 344px 이하 (Galaxy Z Fold 5, 더 좁은 기기) ---------------- */
+
+@media (max-width: 344px) {
+  .header-inner {
+    gap: 4px;
+  }
+
+  .header-logo {
+    height: 36px;
+  }
+
+  .header-button {
+    height: 44px;
+    padding: 0 16px; /* 버튼 폭 더 줄이기 */
+    font-size: 14px;
+  }
 }
 
 /* ================================

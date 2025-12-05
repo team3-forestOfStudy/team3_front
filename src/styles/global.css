@@ -922,9 +922,8 @@ textarea {
 
 /* 반응형 */
 
-/* Mobile: 375px 이상 ~ 743px 이하 */
-@media (min-width: 375px) and (max-width: 743px) {
-
+/* Mobile: 375px 이상 ~ 600px 이하 */
+@media (min-width: 375px) and (max-width: 600px) {
   /* 모바일 스타일 */
   html {
     font-size: 14px;
@@ -932,11 +931,18 @@ textarea {
 
   .container {
     padding: 0 16px;
-    padding-top: 40px;
+    padding-top: 20px;
   }
 
   .g_box {
     padding: 16px !important;
+  }
+}
+
+/* 태블릿: 601px 이상 ~ 1201px 이하 */
+@media (min-width: 601px) and (max-width: 1201px) {
+  .container {
+    padding-top: 20px;
   }
 }
 
@@ -996,7 +1002,6 @@ textarea {
 
 /* Tablet: 744px 이상 ~ 1199px 이하 */
 @media (min-width: 743px) and (max-width: 1199px) {
-
   /* 태블릿 스타일 */
 
   .g_box {

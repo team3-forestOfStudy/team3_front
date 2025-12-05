@@ -3,6 +3,7 @@ import logo from "../../assets/logo.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 import HeaderButton from "./HeaderButton.jsx";
+import TopButton from "./TopButton.jsx";
 
 // 버튼을 "보여줄" 페이지 목록 (그 외는 모두 숨김 처리)
 const SHOW_CREATE_BUTTON_PATHS = ["/"];
@@ -38,6 +39,8 @@ export default function Header() {
           )}
         </div>
       </div>
+      {/* 모든 페이지 공통 TOP 버튼 */}
+      <TopButton />
     </header>
   );
 }

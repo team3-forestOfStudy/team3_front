@@ -1,9 +1,8 @@
-// EditStudyPage.jsx
+// src/pages/EditStudyPage.jsx
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import StudyMake from "../components/StudyMake.jsx";
-import arrowIcon from "../assets/icons/arrow.svg";
 
 const API_BASE_URL = "https://team3-forest-study-backend.onrender.com";
 
@@ -18,7 +17,6 @@ export default function EditStudyPage() {
 
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showTopButton, setShowTopButton] = useState(false);
 
   // 스터디 기본 정보 불러오기
   useEffect(() => {
@@ -57,29 +55,6 @@ export default function EditStudyPage() {
 
     loadStudy();
   }, [id]);
-
-  useEffect(() => {
-    const container = document.querySelector(".container");
-    if (!container) return;
-
-    const handleScroll = () => {
-      setShowTopButton(container.scrollTop > 50);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScrollTop = () => {
-    const container = document.querySelector(".container");
-    if (container) {
-      container.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   const handleUpdate = async formData => {
     // 비밀번호 수정은 없지만, 인증용 비밀번호는 반드시 필요

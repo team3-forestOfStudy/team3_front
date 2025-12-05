@@ -36,8 +36,25 @@ export default function LabelInput({
   useEffect(() => {
     if (as === "textarea" && autoResize && textareaRef.current) {
       const el = textareaRef.current;
-      el.style.height = "auto"; // 높이 초기화
-      el.style.height = `${el.scrollHeight}px`; // 내용만큼 다시 설정
+
+      // 1) 일단 높이 리셋
+      el.style.height = "auto";
+
+      // 2) line-height 기준으로 10줄 높이 계산
+      const computed = window.getComputedStyle(el);
+      const lineHeight = parseFloat(computed.lineHeight) || 20; // fallback 20px
+      const maxHeight = lineHeight * 10; // 🔟 10줄까지
+
+      // 3) 실제 콘텐츠 높이와 10줄 높이 중 더 작은 값을 선택
+      const nextHeight = Math.min(el.scrollHeight, maxHeight);
+      el.style.height = `${nextHeight}px`;
+
+      // 4) 10줄 넘으면 내부 스크롤, 아니면 숨김
+      if (el.scrollHeight > maxHeight) {
+        el.style.overflowY = "auto";
+      } else {
+        el.style.overflowY = "hidden";
+      }
     }
   }, [value, as, autoResize]);
 
