@@ -1,5 +1,5 @@
 // src/components/LabelInput.jsx
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import icSearch from "../assets/icons/search.svg";
 import icVisibleOn from "../assets/icons/visible.svg";
 import icVisibleOff from "../assets/icons/eyes.svg";
@@ -27,9 +27,19 @@ export default function LabelInput({
   errorType, // "", "empty", "nicknameTooShort" ...
   icon, // "search" | undefined
   showCount = false,
+  autoResize = false,
   ...rest
 }) {
   const [visible, setVisible] = useState(false);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (as === "textarea" && autoResize && textareaRef.current) {
+      const el = textareaRef.current;
+      el.style.height = "auto"; // 높이 초기화
+      el.style.height = `${el.scrollHeight}px`; // 내용만큼 다시 설정
+    }
+  }, [value, as, autoResize]);
 
   const errorMessage = {
     // 공통
@@ -93,18 +103,22 @@ export default function LabelInput({
           />
         )}
 
-        {/* input / textarea */}
+        {/* 소개 input / textarea */}
         {as === "textarea" ? (
           <textarea
-            className={`input-basic ${errorType ? "input-basic--error" : ""}`}
+            ref={autoResize ? textareaRef : null}
+            className={`textarea-basic ${errorType ? "input-basic--error" : ""}`}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            {...rest} // ⬅ 여기 추가
+            style={
+              autoResize ? { minHeight: "120px", resize: "none" } : undefined
+            }
+            {...rest}
           />
         ) : (
           <input
-            {...rest} // ⬅ 여기 추가
+            {...rest}
             type={isPassword && !visible ? "password" : "text"}
             className={`input-basic ${errorType ? "input-basic--error" : ""}`}
             placeholder={placeholder}
