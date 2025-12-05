@@ -245,3 +245,92 @@
   -webkit-overflow-scrolling: touch;
   padding: 8px 1px;
 }
+
+/* ----------------------------- 공지 사항 --------------------- */
+
+/* 최근 조회 헤더(제목 + 공지 배너 한 줄) */
+.home-section-header {
+  display: flex;
+  flex-direction: row; /* ✅ 항상 가로 */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 16px; /* 카드와 간격 살짝만 */
+  flex-wrap: wrap; /* 화면 좁으면 배너가 다음 줄로 부드럽게 내려감 */
+}
+
+/* 공지 배너 전체 래퍼 */
+.notice-banner {
+  position: relative;
+  overflow: hidden;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* 데스크탑에서 오른쪽 정렬하고 싶으면 */
+@media (min-width: 601px) {
+  .notice-banner {
+    justify-content: flex-end;
+  }
+}
+
+/* 흰색 알약 모양 공지 박스 */
+.notice-banner__pill {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* 닉네임 색상 4종 */
+.notice-nickname--green {
+  color: var(--green_700, #578246);
+  font-weight: 600;
+}
+
+.notice-nickname--yellow {
+  color: var(--yellow_700, #c18e1b);
+  font-weight: 600;
+}
+
+.notice-nickname--pink {
+  color: var(--red_200, #ffa3a5);
+  font-weight: 600;
+}
+
+.notice-nickname--blue {
+  color: var(--blue_600, #418099);
+  font-weight: 600;
+}
+
+/* ✅ 메시지 하나의 10초 라이프 사이클: 아래에서 등장 → 유지 → 위로 사라짐 */
+.notice-banner__message {
+  animation: notice-message-cycle 10s ease-in-out forwards;
+}
+
+@keyframes notice-message-cycle {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* 최근 조회한 스터디 헤더 안에서는 제목 마진 제거 + 중앙 정렬 */
+.home-section-header .g_tit {
+  margin: 0; /* 🔥 가장 중요 */
+  line-height: 1.3; /* 필요하면 살짝만 조절 (선택) */
+}

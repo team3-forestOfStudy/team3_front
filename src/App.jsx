@@ -1,7 +1,8 @@
 import "../src/styles/global.css";
 import "react-toastify/dist/ReactToastify.css";
 import "../src/styles/toast.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { Bounce, ToastContainer } from "react-toastify";
 import Header from "./components/Ui/Header.jsx";
 
@@ -13,9 +14,24 @@ import HobbiesPage from "./pages/HobbiesPage.jsx";
 import FocusPage from "./pages/FocusPage.jsx";
 import StudyDetailsPage from "./pages/StudyDetailsPage.jsx";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", 
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <>
+      <ScrollToTop />
       <ToastContainer
         position="bottom-center"
         autoClose={1000}

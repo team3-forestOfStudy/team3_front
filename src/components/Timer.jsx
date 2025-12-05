@@ -224,6 +224,7 @@ const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
           <button
             type="button"
             onClick={handleFirstStartClick}
+            disabled={isRunning}
             className="start-button bg_green_300 fw_eb white g_sub_text01"
           >
             <img
@@ -268,6 +269,7 @@ const Timer = ({ studyId, onPointEarned, initialMinutes = 0, onTimeSet }) => {
             <button
               type="button"
               onClick={handleResumeStart}
+              disabled={isRunning}
               className="start-button bg_gray_600 fw_eb white g_sub_text01"
             >
               <img
