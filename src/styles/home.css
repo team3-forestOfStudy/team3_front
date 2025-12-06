@@ -371,9 +371,10 @@
     height: 20px;
   }
 
-  .recent-arrow {
+  /* 모바일에서 화살표 버튼 숨김 */
+  /* .recent-arrow {
     display: none;
-  }
+  } */
 
   .study-filter-bar {
     flex-direction: column;

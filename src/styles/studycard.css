@@ -29,6 +29,10 @@
   .study-card-list {
     grid-template-columns: 1fr;
   }
+
+  /* .study-card {
+    width: 240px;
+  } */
 }
 
 /* 카드 공통 스타일 */
