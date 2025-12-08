@@ -238,7 +238,7 @@
 .study-card__emoji {
   width: 56px;
   height: 28px;
-  padding: 6px 12px;
+  /* padding: 6px 12px; */
   border-radius: 999px;
   border: none;
 
